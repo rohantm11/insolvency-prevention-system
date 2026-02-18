@@ -1,0 +1,178 @@
+================================================================================
+COMPREHENSIVE MODEL COMPARISON ANALYSIS
+Insolvency Prediction: XGBoost V2 vs Random Forest vs Logistic Regression
+================================================================================
+
+================================================================================
+1. PERFORMANCE SUMMARY
+================================================================================
+
+┌────────────────────────────────────────────────────────────────────────────┐
+│ Model                       Accuracy  Precision     Recall         F1    ROC-AUC │
+├────────────────────────────────────────────────────────────────────────────┤
+│ XGBoost V2                    0.9115     0.9301     0.8777     0.9031     0.9797 │
+│ Random Forest                 0.9055     0.9351     0.8585     0.8952     0.9760 │
+│ Logistic Regression           0.9015     0.9142     0.8723     0.8928     0.9730 │
+└────────────────────────────────────────────────────────────────────────────┘
+
+** BEST MODEL BY METRIC **
+  ACCURACY    : XGBoost V2 (0.9115)
+  PRECISION   : Random Forest (0.9351)
+  RECALL      : XGBoost V2 (0.8777)
+  F1          : XGBoost V2 (0.9031)
+  ROC_AUC     : XGBoost V2 (0.9797)
+
+================================================================================
+2. CROSS-VALIDATION ANALYSIS (5-Fold)
+================================================================================
+
+XGBoost V2:
+  Scores: ['0.9807', '0.9815', '0.9797', '0.9803', '0.9847']
+  Mean:   0.9814
+  Std:    0.0017
+  95% CI: [0.9780, 0.9848]
+
+Random Forest:
+  Scores: ['0.9753', '0.9759', '0.9746', '0.9734', '0.9816']
+  Mean:   0.9761
+  Std:    0.0028
+  95% CI: [0.9706, 0.9817]
+
+Logistic Regression:
+  Scores: ['0.9733', '0.9715', '0.9707', '0.9721', '0.9783']
+  Mean:   0.9732
+  Std:    0.0027
+  95% CI: [0.9679, 0.9785]
+
+================================================================================
+3. WHY XGBoost V2 IS THE BEST CHOICE
+================================================================================
+
+┌─────────────────────────────────────────────────────────────────────────────┐
+│ ADVANTAGE 1: HIGHEST PREDICTIVE PERFORMANCE                                  │
+├─────────────────────────────────────────────────────────────────────────────┤
+│ • XGBoost V2 ROC-AUC: 0.9797                                            │
+│ • vs Random Forest:   +0.38% improvement                              │
+│ • vs Logistic Reg:    +0.68% improvement                              │
+│                                                                              │
+│ ROC-AUC measures the model's ability to distinguish between healthy and      │
+│ distressed companies across ALL classification thresholds.                   │
+└─────────────────────────────────────────────────────────────────────────────┘
+
+┌─────────────────────────────────────────────────────────────────────────────┐
+│ ADVANTAGE 2: FEATURE ENGINEERING + GRADIENT BOOSTING                         │
+├─────────────────────────────────────────────────────────────────────────────┤
+│ • 41 engineered features capture complex financial relationships             │
+│ • Composite scores (financial_distress_score, profitability_score)          │
+│ • Interaction terms (z_score × leverage, profit × leverage)                 │
+│ • Zone indicators (Z-Score safe/grey/distress zones)                        │
+│                                                                              │
+│ XGBoost's sequential boosting learns from errors, while Random Forest       │
+│ averages independent trees (bagging). Boosting is better for nuanced        │
+│ patterns in financial data.                                                  │
+└─────────────────────────────────────────────────────────────────────────────┘
+
+┌─────────────────────────────────────────────────────────────────────────────┐
+│ ADVANTAGE 3: BUILT-IN REGULARIZATION                                         │
+├─────────────────────────────────────────────────────────────────────────────┤
+│ • L1 (reg_alpha=0.5): Encourages sparse features, reduces overfitting       │
+│ • L2 (reg_lambda=2.0): Prevents any single feature from dominating          │
+│ • gamma=0.1: Minimum loss reduction required for splits                     │
+│ • Early stopping: Automatically finds optimal number of trees               │
+│                                                                              │
+│ This prevents overfitting while capturing complex patterns - critical for   │
+│ financial data where spurious correlations are common.                      │
+└─────────────────────────────────────────────────────────────────────────────┘
+
+┌─────────────────────────────────────────────────────────────────────────────┐
+│ ADVANTAGE 4: HANDLES NON-LINEAR RELATIONSHIPS                                │
+├─────────────────────────────────────────────────────────────────────────────┤
+│ Financial distress often follows non-linear patterns:                        │
+│ • A company with debt_to_equity < 2.0 may be fine                           │
+│ • But debt_to_equity > 3.0 becomes dangerous exponentially                  │
+│                                                                              │
+│ Logistic Regression assumes linear relationships and misses these patterns. │
+│ XGBoost's decision trees naturally capture thresholds and interactions.     │
+└─────────────────────────────────────────────────────────────────────────────┘
+
+┌─────────────────────────────────────────────────────────────────────────────┐
+│ ADVANTAGE 5: EXPLAINABILITY WITH SHAP                                        │
+├─────────────────────────────────────────────────────────────────────────────┤
+│ • SHAP (SHapley Additive exPlanations) values explain each prediction       │
+│ • Shows which features increase/decrease risk for EACH company              │
+│ • TreeExplainer is optimized for XGBoost - fast and accurate                │
+│ • Critical for financial applications requiring audit trails                │
+└─────────────────────────────────────────────────────────────────────────────┘
+
+
+================================================================================
+4. DETAILED MODEL COMPARISON
+================================================================================
+
+┌──────────────────────────┬──────────────────┬──────────────────┬──────────────────┐
+│ Characteristic           │ XGBoost V2       │ Random Forest    │ Logistic Reg     │
+├──────────────────────────┼──────────────────┼──────────────────┼──────────────────┤
+│ Algorithm Type           │ Gradient Boosting│ Bagging Ensemble │ Linear Model     │
+│ Handles Non-linearity    │ ✓ Excellent      │ ✓ Good           │ ✗ Limited        │
+│ Feature Interactions     │ ✓ Automatic      │ ✓ Automatic      │ ✗ Manual only    │
+│ Regularization           │ ✓ L1 + L2 + γ    │ ✓ Tree constraints│ ✓ L2 only       │
+│ Handles Imbalanced Data  │ ✓ scale_pos_wt   │ ✓ class_weight   │ ✓ class_weight   │
+│ Training Speed           │ Fast             │ Fast             │ Very Fast        │
+│ Prediction Speed         │ Fast             │ Fast             │ Very Fast        │
+│ SHAP Explanations        │ ✓ Native support │ ✓ Supported      │ ✓ Coefficients   │
+│ Probability Calibration  │ Good             │ Moderate         │ Good             │
+│ Overfitting Risk         │ Low (regularized)│ Moderate         │ Low              │
+└──────────────────────────┴──────────────────┴──────────────────┴──────────────────┘
+
+
+================================================================================
+5. ERROR ANALYSIS
+================================================================================
+
+XGBoost V2:
+  True Negatives (Healthy correctly identified):  998
+  False Positives (Healthy misclassified):        62
+  False Negatives (Distressed missed):            115
+  True Positives (Distressed correctly identified): 825
+  Specificity (True Negative Rate): 0.9415
+  Sensitivity (True Positive Rate): 0.8777
+
+Random Forest:
+  True Negatives (Healthy correctly identified):  1004
+  False Positives (Healthy misclassified):        56
+  False Negatives (Distressed missed):            133
+  True Positives (Distressed correctly identified): 807
+  Specificity (True Negative Rate): 0.9472
+  Sensitivity (True Positive Rate): 0.8585
+
+Logistic Regression:
+  True Negatives (Healthy correctly identified):  983
+  False Positives (Healthy misclassified):        77
+  False Negatives (Distressed missed):            120
+  True Positives (Distressed correctly identified): 820
+  Specificity (True Negative Rate): 0.9274
+  Sensitivity (True Positive Rate): 0.8723
+
+================================================================================
+6. CONCLUSION
+================================================================================
+
+Based on comprehensive evaluation on 10,000 companies:
+
+1. XGBoost V2 achieves the HIGHEST ROC-AUC (0.9797), indicating
+   superior ability to rank companies by insolvency risk.
+
+2. The 41 engineered features (including Altman Z-Score, composite risk scores,
+   and interaction terms) capture nuanced financial patterns that simpler
+   models miss.
+
+3. Cross-validation confirms STABLE performance (CV ROC-AUC: 0.9814 ± 0.0017),
+   meaning the model generalizes well to unseen data.
+
+4. Built-in regularization and early stopping prevent overfitting while
+   maintaining high predictive power.
+
+5. SHAP integration provides EXPLAINABLE predictions - critical for financial
+   applications where stakeholders need to understand WHY a company is flagged.
+
+RECOMMENDATION: Use XGBoost V2 with feature engineering for production deployment.

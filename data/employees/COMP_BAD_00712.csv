@@ -1,0 +1,688 @@
+employee_id,name,gender,age,department,job_role,job_level,performance_rating,job_satisfaction,job_involvement,environment_satisfaction,monthly_income,percent_salary_hike,stock_option_level,years_at_company,years_in_current_role,total_working_years,distance_from_home,business_travel,over_time
+EMP_COMP_BAD_00712_00001,Richard Wilson,Male,54,Support,IT Administrator,2,3,4,3,1,7532,19,1,8,0,17,15,Travel_Frequently,No
+EMP_COMP_BAD_00712_00002,Mark Smith,Female,43,Sales,Financial Analyst,2,1,3,2,2,3823,12,2,6,1,14,16,Travel_Frequently,Yes
+EMP_COMP_BAD_00712_00003,Kevin Lee,Female,56,Engineering,HR Manager,5,4,4,1,3,8329,18,1,3,3,7,18,Travel_Frequently,Yes
+EMP_COMP_BAD_00712_00004,Linda Jones,Male,53,Human Resources,Software Engineer,4,2,4,2,4,6899,20,1,15,6,16,25,Travel_Frequently,Yes
+EMP_COMP_BAD_00712_00005,Joseph Anderson,Female,50,Operations,Research Scientist,3,1,4,3,2,9649,17,2,14,0,19,3,Travel_Rarely,No
+EMP_COMP_BAD_00712_00006,Elizabeth Martinez,Male,58,Research and Development,IT Administrator,1,1,3,4,2,6528,11,1,6,5,11,10,Travel_Frequently,Yes
+EMP_COMP_BAD_00712_00007,Betty Thomas,Male,22,Finance,Support Specialist,1,1,4,2,1,10399,24,1,12,10,19,27,Non-Travel,Yes
+EMP_COMP_BAD_00712_00008,Nancy Lopez,Female,38,Marketing,Accountant,1,3,3,1,2,6557,15,0,3,3,6,5,Travel_Frequently,No
+EMP_COMP_BAD_00712_00009,Michelle Walker,Male,31,Support,Legal Counsel,2,1,4,1,1,7255,23,3,7,2,16,15,Non-Travel,No
+EMP_COMP_BAD_00712_00010,Margaret Davis,Male,43,Legal,HR Manager,5,1,4,1,3,9626,17,0,8,8,11,6,Travel_Frequently,Yes
+EMP_COMP_BAD_00712_00011,Kevin Robinson,Female,42,Engineering,HR Manager,2,1,2,2,2,15838,16,2,14,10,15,10,Non-Travel,Yes
+EMP_COMP_BAD_00712_00012,Patricia Smith,Female,58,Legal,Operations Manager,5,1,3,1,1,13493,21,2,8,8,8,20,Non-Travel,Yes
+EMP_COMP_BAD_00712_00013,Thomas Rodriguez,Female,46,Research and Development,IT Administrator,1,4,1,4,1,8217,11,3,15,1,22,3,Travel_Frequently,Yes
+EMP_COMP_BAD_00712_00014,Patricia Hernandez,Female,54,Engineering,Sales Representative,4,4,2,2,2,13289,12,3,9,3,14,4,Travel_Frequently,Yes
+EMP_COMP_BAD_00712_00015,Carol Harris,Female,51,Engineering,Software Engineer,1,2,3,4,4,15657,25,1,5,5,7,4,Travel_Frequently,No
+EMP_COMP_BAD_00712_00016,Charles Johnson,Female,24,Marketing,Financial Analyst,4,3,1,1,2,11674,11,3,4,4,8,18,Non-Travel,No
+EMP_COMP_BAD_00712_00017,Charles Hernandez,Female,40,Support,Software Engineer,4,1,4,1,4,5383,14,3,14,10,18,28,Travel_Rarely,Yes
+EMP_COMP_BAD_00712_00018,George Garcia,Female,37,Research and Development,Business Analyst,1,3,3,4,1,13052,18,1,14,2,20,15,Non-Travel,Yes
+EMP_COMP_BAD_00712_00019,Karen Lopez,Female,35,Sales,Support Specialist,5,3,3,3,4,10629,23,0,14,0,15,28,Non-Travel,Yes
+EMP_COMP_BAD_00712_00020,George Taylor,Female,58,Operations,Legal Counsel,4,4,2,4,3,15559,21,1,11,4,14,1,Travel_Rarely,Yes
+EMP_COMP_BAD_00712_00021,Andrew Davis,Male,45,Finance,Accountant,2,3,4,1,1,7323,24,1,1,1,1,8,Non-Travel,Yes
+EMP_COMP_BAD_00712_00022,Emily Robinson,Female,27,Legal,Data Scientist,4,3,1,3,3,7851,11,1,7,0,13,7,Travel_Rarely,No
+EMP_COMP_BAD_00712_00023,Karen Perez,Male,52,Finance,Product Manager,3,1,3,3,4,12514,20,1,1,1,3,22,Non-Travel,Yes
+EMP_COMP_BAD_00712_00024,Anthony White,Female,51,Finance,Support Specialist,5,1,3,1,1,7561,18,0,3,3,9,10,Travel_Frequently,No
+EMP_COMP_BAD_00712_00025,Kevin Lopez,Female,50,Operations,Business Analyst,1,2,4,4,3,8869,24,2,12,4,19,9,Travel_Rarely,Yes
+EMP_COMP_BAD_00712_00026,Jennifer Ramirez,Male,52,Legal,HR Manager,5,1,1,3,4,4510,15,1,13,3,13,26,Non-Travel,Yes
+EMP_COMP_BAD_00712_00027,Michael Martin,Female,56,Legal,Business Analyst,3,4,4,1,1,10249,15,1,11,7,13,15,Non-Travel,Yes
+EMP_COMP_BAD_00712_00028,Robert Smith,Female,29,Engineering,Research Scientist,2,2,1,3,2,4477,18,2,10,3,11,8,Travel_Frequently,Yes
+EMP_COMP_BAD_00712_00029,Richard Martin,Male,27,Operations,Business Analyst,1,1,3,4,1,14654,15,3,5,1,5,16,Travel_Frequently,Yes
+EMP_COMP_BAD_00712_00030,Matthew Gonzalez,Male,56,Support,Product Manager,2,3,1,2,3,12255,13,3,11,0,13,10,Travel_Frequently,No
+EMP_COMP_BAD_00712_00031,Donald Wilson,Male,34,Legal,Accountant,5,2,3,4,3,3578,20,3,0,0,2,12,Travel_Rarely,No
+EMP_COMP_BAD_00712_00032,Donna Davis,Female,46,Finance,Marketing Manager,4,2,1,4,3,3528,21,0,4,4,6,5,Travel_Rarely,No
+EMP_COMP_BAD_00712_00033,Joshua Perez,Female,48,Legal,Software Engineer,5,3,3,4,1,5942,15,1,4,4,13,15,Travel_Frequently,No
+EMP_COMP_BAD_00712_00034,Christopher Thomas,Female,31,Human Resources,Financial Analyst,4,3,2,3,3,12321,22,0,10,5,14,21,Travel_Rarely,No
+EMP_COMP_BAD_00712_00035,John Wilson,Male,49,Operations,Data Scientist,1,1,3,2,2,11319,16,1,9,3,16,1,Travel_Rarely,Yes
+EMP_COMP_BAD_00712_00036,Matthew Williams,Male,32,Support,Data Scientist,5,2,1,3,4,11684,21,3,12,1,21,26,Travel_Frequently,Yes
+EMP_COMP_BAD_00712_00037,Daniel Anderson,Male,55,Research and Development,Marketing Manager,5,3,1,4,2,13411,18,0,4,4,5,5,Travel_Rarely,Yes
+EMP_COMP_BAD_00712_00038,Mark Moore,Female,50,Support,Research Scientist,1,3,1,2,2,12991,22,2,0,0,3,14,Non-Travel,Yes
+EMP_COMP_BAD_00712_00039,Linda Johnson,Female,27,Research and Development,Research Scientist,1,1,1,4,4,5193,22,3,9,9,16,16,Travel_Frequently,Yes
+EMP_COMP_BAD_00712_00040,Betty Williams,Female,32,Human Resources,Business Analyst,5,2,3,1,4,6669,14,2,12,2,15,8,Non-Travel,No
+EMP_COMP_BAD_00712_00041,Richard Jackson,Male,22,Legal,Product Manager,4,1,1,3,4,9635,20,1,6,6,11,5,Travel_Frequently,No
+EMP_COMP_BAD_00712_00042,Ashley Lee,Male,45,Operations,Sales Representative,3,4,1,4,3,5767,16,2,8,0,8,4,Non-Travel,No
+EMP_COMP_BAD_00712_00043,Thomas Gonzalez,Male,31,Research and Development,Sales Representative,3,3,4,2,4,14996,11,3,12,4,19,25,Non-Travel,No
+EMP_COMP_BAD_00712_00044,George Miller,Female,27,Marketing,IT Administrator,4,1,4,4,4,13109,12,0,13,1,23,25,Non-Travel,Yes
+EMP_COMP_BAD_00712_00045,Steven Miller,Male,39,Finance,Business Analyst,3,1,4,3,1,12574,19,0,9,9,13,8,Travel_Rarely,Yes
+EMP_COMP_BAD_00712_00046,Melissa Jones,Male,46,Finance,Sales Representative,1,4,3,4,2,10153,23,1,6,6,7,26,Non-Travel,Yes
+EMP_COMP_BAD_00712_00047,Ashley Smith,Female,22,Marketing,Research Scientist,3,1,1,1,4,9730,24,2,9,3,11,24,Travel_Rarely,No
+EMP_COMP_BAD_00712_00048,Michael Perez,Female,45,Legal,Operations Manager,4,2,4,3,1,4123,15,2,2,1,9,18,Travel_Frequently,Yes
+EMP_COMP_BAD_00712_00049,Charles Martinez,Female,54,Legal,Research Scientist,5,4,3,2,3,5249,12,0,11,1,15,1,Travel_Frequently,No
+EMP_COMP_BAD_00712_00050,Karen Sanchez,Female,49,Finance,Sales Representative,5,2,4,4,2,11898,15,1,10,9,14,8,Non-Travel,Yes
+EMP_COMP_BAD_00712_00051,Nancy Jones,Female,50,Human Resources,IT Administrator,5,2,1,3,3,4517,12,3,14,4,17,5,Travel_Frequently,Yes
+EMP_COMP_BAD_00712_00052,Linda Gonzalez,Male,54,Sales,Accountant,4,4,1,4,4,9156,18,0,15,3,17,1,Travel_Rarely,Yes
+EMP_COMP_BAD_00712_00053,Robert Martinez,Female,39,IT,Data Scientist,1,1,1,3,2,9372,16,3,11,7,20,22,Travel_Frequently,No
+EMP_COMP_BAD_00712_00054,Melissa Thomas,Female,56,Finance,Support Specialist,1,2,4,2,3,4255,19,0,15,9,24,25,Travel_Frequently,Yes
+EMP_COMP_BAD_00712_00055,Carol Thompson,Male,32,IT,Research Scientist,3,4,1,2,1,6574,20,2,14,7,22,8,Travel_Frequently,Yes
+EMP_COMP_BAD_00712_00056,Andrew Wilson,Female,58,Sales,Support Specialist,2,4,2,3,4,4659,23,1,3,3,5,21,Travel_Rarely,Yes
+EMP_COMP_BAD_00712_00057,Daniel Lopez,Female,34,Support,Product Manager,4,2,1,4,3,15018,21,1,9,2,18,26,Travel_Rarely,No
+EMP_COMP_BAD_00712_00058,Margaret Gonzalez,Male,31,IT,Marketing Manager,4,1,4,4,2,10647,19,0,0,0,3,1,Travel_Rarely,No
+EMP_COMP_BAD_00712_00059,Kimberly Walker,Female,32,Engineering,Legal Counsel,5,4,2,3,2,5516,23,3,5,0,13,9,Non-Travel,Yes
+EMP_COMP_BAD_00712_00060,Amanda Rodriguez,Female,28,Support,Software Engineer,4,4,4,4,4,7917,14,3,1,1,1,13,Travel_Frequently,No
+EMP_COMP_BAD_00712_00061,Emily Rodriguez,Female,31,Sales,Support Specialist,5,4,1,4,4,13267,24,3,2,2,12,27,Travel_Rarely,Yes
+EMP_COMP_BAD_00712_00062,Carol Hernandez,Female,39,Sales,Operations Manager,2,3,1,3,3,8652,15,1,5,0,8,7,Travel_Rarely,No
+EMP_COMP_BAD_00712_00063,Karen Harris,Female,32,Research and Development,Research Scientist,5,1,3,3,2,15035,22,3,7,2,15,1,Travel_Rarely,Yes
+EMP_COMP_BAD_00712_00064,Melissa Williams,Male,45,IT,HR Manager,5,3,2,1,1,7233,16,2,2,1,8,21,Travel_Frequently,No
+EMP_COMP_BAD_00712_00065,Patricia Walker,Female,37,Operations,HR Manager,3,4,1,1,2,7204,18,1,1,1,11,15,Non-Travel,No
+EMP_COMP_BAD_00712_00066,Mary Wilson,Female,57,Legal,Legal Counsel,5,4,1,4,1,6546,22,1,2,2,12,12,Non-Travel,No
+EMP_COMP_BAD_00712_00067,Jessica Williams,Male,38,Marketing,Business Analyst,1,1,1,4,4,6301,12,3,4,4,8,22,Non-Travel,No
+EMP_COMP_BAD_00712_00068,Andrew Williams,Female,56,Engineering,Data Scientist,5,2,2,1,4,16285,22,2,3,1,9,21,Non-Travel,Yes
+EMP_COMP_BAD_00712_00069,Donna Lee,Female,33,Sales,Financial Analyst,1,2,2,1,4,16198,12,1,11,5,15,9,Travel_Frequently,No
+EMP_COMP_BAD_00712_00070,Kenneth Anderson,Male,57,Legal,Financial Analyst,2,2,3,3,4,15890,15,2,4,4,6,19,Travel_Frequently,Yes
+EMP_COMP_BAD_00712_00071,Ashley Anderson,Female,47,Support,HR Manager,5,2,2,4,4,9282,25,0,9,9,14,25,Travel_Frequently,No
+EMP_COMP_BAD_00712_00072,Donna Martinez,Male,27,Support,Operations Manager,5,4,2,2,4,5394,23,2,15,0,22,14,Travel_Frequently,Yes
+EMP_COMP_BAD_00712_00073,Kevin Ramirez,Female,25,Engineering,Software Engineer,2,1,4,3,1,6063,16,0,14,4,15,27,Travel_Frequently,No
+EMP_COMP_BAD_00712_00074,Richard Martinez,Male,40,Support,Research Scientist,1,2,1,2,1,5479,13,3,11,0,19,9,Non-Travel,Yes
+EMP_COMP_BAD_00712_00075,Lisa Miller,Male,31,Sales,Support Specialist,1,3,4,4,1,10464,19,0,5,0,9,5,Travel_Rarely,Yes
+EMP_COMP_BAD_00712_00076,Matthew Smith,Female,23,Support,Support Specialist,3,2,4,4,4,7413,21,1,0,0,7,1,Travel_Rarely,No
+EMP_COMP_BAD_00712_00077,John Davis,Female,33,Marketing,HR Manager,5,1,4,4,1,15760,15,0,4,4,11,4,Non-Travel,Yes
+EMP_COMP_BAD_00712_00078,David Perez,Male,44,Finance,HR Manager,1,1,3,4,2,5408,25,1,4,4,6,3,Travel_Rarely,No
+EMP_COMP_BAD_00712_00079,Matthew Johnson,Female,52,Support,Support Specialist,4,3,4,4,4,14974,24,0,3,2,5,22,Travel_Rarely,No
+EMP_COMP_BAD_00712_00080,Anthony Martin,Female,22,Operations,Software Engineer,3,1,1,4,3,4280,17,1,3,3,11,15,Non-Travel,No
+EMP_COMP_BAD_00712_00081,Donald Lewis,Male,29,Engineering,Research Scientist,4,4,2,2,4,12071,20,2,9,8,12,21,Travel_Rarely,Yes
+EMP_COMP_BAD_00712_00082,Dorothy Rodriguez,Male,34,Research and Development,Research Scientist,2,2,1,2,4,8819,25,0,11,8,12,8,Travel_Frequently,Yes
+EMP_COMP_BAD_00712_00083,Michelle Smith,Male,54,IT,Software Engineer,5,3,4,4,2,7953,22,3,5,4,6,14,Travel_Frequently,Yes
+EMP_COMP_BAD_00712_00084,Robert Clark,Male,30,Support,Financial Analyst,5,3,4,1,1,9646,18,0,5,0,6,11,Non-Travel,No
+EMP_COMP_BAD_00712_00085,Elizabeth Perez,Male,22,Finance,Business Analyst,5,3,1,1,1,16257,15,0,10,10,16,7,Travel_Rarely,No
+EMP_COMP_BAD_00712_00086,Linda Taylor,Female,57,Marketing,Research Scientist,5,3,2,1,4,8579,19,0,12,3,13,4,Travel_Frequently,No
+EMP_COMP_BAD_00712_00087,George Lopez,Male,56,Legal,IT Administrator,4,1,2,2,3,8112,12,1,2,1,11,8,Non-Travel,Yes
+EMP_COMP_BAD_00712_00088,Lisa Brown,Female,55,Support,Sales Representative,3,2,4,2,3,14584,13,0,9,0,15,28,Non-Travel,Yes
+EMP_COMP_BAD_00712_00089,Sandra Walker,Female,37,Operations,Data Scientist,1,1,3,1,4,10054,15,2,13,1,16,26,Travel_Rarely,Yes
+EMP_COMP_BAD_00712_00090,Susan Jackson,Female,47,Sales,Software Engineer,2,3,2,4,2,5226,12,3,8,8,14,13,Travel_Frequently,No
+EMP_COMP_BAD_00712_00091,Jennifer Garcia,Female,44,Research and Development,Product Manager,3,2,3,2,2,7020,22,0,13,1,18,21,Travel_Frequently,No
+EMP_COMP_BAD_00712_00092,Dorothy White,Male,55,Sales,IT Administrator,4,4,3,2,2,10225,14,1,14,5,22,15,Travel_Frequently,Yes
+EMP_COMP_BAD_00712_00093,John Garcia,Female,37,Sales,Legal Counsel,3,1,2,3,3,4610,20,3,15,8,17,19,Travel_Rarely,No
+EMP_COMP_BAD_00712_00094,Paul White,Male,44,Sales,Marketing Manager,4,3,1,3,1,6823,22,1,7,7,12,28,Non-Travel,No
+EMP_COMP_BAD_00712_00095,Kimberly Robinson,Female,56,Support,Data Scientist,5,1,3,2,3,12991,21,0,4,1,8,15,Travel_Frequently,No
+EMP_COMP_BAD_00712_00096,Elizabeth Harris,Female,42,Human Resources,Data Scientist,3,4,3,1,2,12385,12,3,1,1,7,19,Travel_Frequently,No
+EMP_COMP_BAD_00712_00097,Andrew Wilson,Female,57,IT,Accountant,1,2,3,2,2,13250,16,1,11,7,17,18,Travel_Frequently,No
+EMP_COMP_BAD_00712_00098,Sandra Thompson,Male,29,IT,Marketing Manager,3,1,1,4,3,11909,24,2,4,0,7,15,Travel_Frequently,No
+EMP_COMP_BAD_00712_00099,Emily Clark,Male,57,Sales,Legal Counsel,2,2,3,2,3,5375,16,1,13,8,17,8,Travel_Rarely,No
+EMP_COMP_BAD_00712_00100,James Clark,Male,50,Research and Development,Product Manager,2,2,2,4,1,10746,20,1,1,1,5,8,Travel_Frequently,No
+EMP_COMP_BAD_00712_00101,Patricia Johnson,Female,29,Finance,Business Analyst,4,1,2,2,1,11760,12,2,2,2,2,6,Non-Travel,Yes
+EMP_COMP_BAD_00712_00102,Kenneth Jackson,Female,28,Finance,Operations Manager,1,2,3,4,1,15960,20,1,12,3,19,1,Non-Travel,Yes
+EMP_COMP_BAD_00712_00103,Christopher Moore,Male,24,Finance,Support Specialist,3,3,1,4,3,9595,18,3,3,2,12,11,Non-Travel,No
+EMP_COMP_BAD_00712_00104,Richard Lewis,Female,26,Sales,IT Administrator,2,2,1,2,4,14928,16,1,14,5,16,16,Travel_Rarely,No
+EMP_COMP_BAD_00712_00105,Mary Martinez,Male,52,Operations,Product Manager,4,4,4,1,1,5478,13,3,15,0,20,3,Non-Travel,Yes
+EMP_COMP_BAD_00712_00106,Sandra Robinson,Male,40,Marketing,Software Engineer,5,1,3,1,1,14551,19,0,10,8,17,24,Travel_Frequently,No
+EMP_COMP_BAD_00712_00107,James Clark,Male,48,Research and Development,Financial Analyst,4,2,4,3,2,15822,17,3,14,6,18,1,Travel_Rarely,Yes
+EMP_COMP_BAD_00712_00108,David Sanchez,Male,56,Support,Data Scientist,4,3,2,3,2,8376,22,1,5,1,11,11,Non-Travel,No
+EMP_COMP_BAD_00712_00109,Dorothy Lopez,Male,49,Support,Research Scientist,1,1,2,2,2,15033,17,1,15,4,17,11,Travel_Rarely,No
+EMP_COMP_BAD_00712_00110,Barbara Jones,Male,39,Sales,Business Analyst,2,2,1,2,4,11146,11,3,10,1,13,16,Travel_Frequently,Yes
+EMP_COMP_BAD_00712_00111,Sandra Wilson,Female,49,Sales,Legal Counsel,1,1,1,1,4,8202,19,3,15,3,15,23,Non-Travel,No
+EMP_COMP_BAD_00712_00112,Sandra Williams,Male,36,Human Resources,Software Engineer,5,2,3,1,1,6418,18,1,7,1,10,10,Non-Travel,Yes
+EMP_COMP_BAD_00712_00113,Kevin Martinez,Male,26,Sales,Accountant,5,3,4,4,2,10953,14,1,6,5,16,29,Travel_Frequently,No
+EMP_COMP_BAD_00712_00114,Thomas Robinson,Male,24,Marketing,Business Analyst,1,4,4,4,1,6240,15,2,2,2,7,18,Non-Travel,Yes
+EMP_COMP_BAD_00712_00115,Margaret Smith,Female,53,Finance,HR Manager,1,4,4,4,4,12255,20,2,6,6,7,1,Travel_Frequently,No
+EMP_COMP_BAD_00712_00116,John Wilson,Male,39,Engineering,Marketing Manager,4,2,4,2,4,11207,16,3,4,4,14,20,Travel_Rarely,Yes
+EMP_COMP_BAD_00712_00117,William White,Male,36,Finance,Sales Representative,2,1,1,1,4,10049,24,2,0,0,8,2,Non-Travel,Yes
+EMP_COMP_BAD_00712_00118,Michelle Walker,Male,42,Research and Development,HR Manager,4,1,4,1,4,7057,19,2,15,6,17,18,Travel_Rarely,Yes
+EMP_COMP_BAD_00712_00119,Barbara Brown,Male,31,Support,Sales Representative,2,1,1,3,4,12145,20,3,2,2,2,28,Travel_Rarely,No
+EMP_COMP_BAD_00712_00120,John Brown,Male,37,Human Resources,Accountant,1,3,2,4,4,16027,19,2,1,1,2,20,Travel_Rarely,No
+EMP_COMP_BAD_00712_00121,Mark Taylor,Male,35,IT,Product Manager,3,3,2,3,2,9626,20,0,1,0,5,4,Travel_Frequently,Yes
+EMP_COMP_BAD_00712_00122,Sarah Davis,Female,57,Human Resources,Financial Analyst,3,1,3,1,1,7252,15,2,10,1,15,7,Travel_Rarely,Yes
+EMP_COMP_BAD_00712_00123,Betty Lopez,Male,55,Marketing,Legal Counsel,2,4,1,3,4,16481,14,1,7,7,9,27,Travel_Frequently,No
+EMP_COMP_BAD_00712_00124,Mark Williams,Male,47,Marketing,Software Engineer,4,3,2,2,3,11036,25,3,3,0,6,8,Travel_Frequently,No
+EMP_COMP_BAD_00712_00125,Michael Jones,Male,36,Human Resources,Research Scientist,2,3,4,1,2,10298,13,2,12,5,15,14,Travel_Frequently,Yes
+EMP_COMP_BAD_00712_00126,Christopher Harris,Female,51,Engineering,Financial Analyst,4,1,1,2,3,10167,23,2,9,0,18,21,Travel_Frequently,No
+EMP_COMP_BAD_00712_00127,Paul Gonzalez,Female,40,Legal,Business Analyst,2,2,2,4,4,6259,24,2,12,7,18,14,Travel_Frequently,Yes
+EMP_COMP_BAD_00712_00128,Michael Ramirez,Female,54,Finance,Data Scientist,1,1,3,4,2,7373,11,1,14,0,24,2,Travel_Rarely,Yes
+EMP_COMP_BAD_00712_00129,Thomas Rodriguez,Female,32,Marketing,Legal Counsel,4,4,4,1,1,5217,16,0,15,9,15,5,Travel_Frequently,No
+EMP_COMP_BAD_00712_00130,William Rodriguez,Female,55,Marketing,Marketing Manager,2,2,3,1,1,7919,23,1,13,8,18,26,Non-Travel,No
+EMP_COMP_BAD_00712_00131,Michelle Garcia,Female,55,Finance,Data Scientist,4,3,4,4,2,5835,20,3,1,1,11,17,Travel_Frequently,No
+EMP_COMP_BAD_00712_00132,Michelle Lopez,Female,53,Engineering,Support Specialist,2,2,4,2,1,8610,25,0,1,1,4,29,Travel_Rarely,Yes
+EMP_COMP_BAD_00712_00133,Michelle Robinson,Male,22,Sales,Software Engineer,1,3,3,2,2,12718,20,2,14,8,14,5,Travel_Rarely,Yes
+EMP_COMP_BAD_00712_00134,Brian Williams,Male,43,Human Resources,Support Specialist,2,1,4,4,4,9419,14,0,10,5,17,10,Travel_Frequently,Yes
+EMP_COMP_BAD_00712_00135,Kevin Jackson,Male,53,Research and Development,Research Scientist,5,2,2,2,1,16090,22,0,0,0,5,28,Travel_Rarely,No
+EMP_COMP_BAD_00712_00136,Donald Davis,Male,50,IT,IT Administrator,1,4,2,3,4,6442,11,1,13,6,18,1,Non-Travel,Yes
+EMP_COMP_BAD_00712_00137,Kenneth Jones,Male,23,Sales,Financial Analyst,3,3,2,1,1,9558,12,0,6,4,7,23,Travel_Rarely,No
+EMP_COMP_BAD_00712_00138,Karen Sanchez,Male,56,Human Resources,Marketing Manager,1,4,3,1,2,8933,17,1,9,9,13,5,Travel_Frequently,Yes
+EMP_COMP_BAD_00712_00139,Kimberly Ramirez,Male,58,IT,Support Specialist,5,4,4,4,2,15287,14,3,12,2,15,12,Travel_Rarely,No
+EMP_COMP_BAD_00712_00140,Paul Wilson,Female,58,IT,Marketing Manager,4,2,2,1,3,9034,17,3,12,1,17,23,Non-Travel,No
+EMP_COMP_BAD_00712_00141,Betty Walker,Female,32,IT,IT Administrator,4,4,3,2,2,6488,18,0,1,0,2,12,Travel_Rarely,Yes
+EMP_COMP_BAD_00712_00142,Elizabeth Davis,Female,24,Human Resources,Research Scientist,1,3,2,4,3,13223,24,0,6,6,11,3,Travel_Frequently,No
+EMP_COMP_BAD_00712_00143,Emily Lee,Female,28,Operations,Business Analyst,4,1,1,4,3,8141,24,0,1,1,10,19,Non-Travel,No
+EMP_COMP_BAD_00712_00144,Steven Wilson,Female,55,Legal,Legal Counsel,1,4,4,4,4,12281,22,0,7,4,14,16,Travel_Frequently,Yes
+EMP_COMP_BAD_00712_00145,David White,Female,27,Finance,Support Specialist,4,1,2,4,4,15940,12,0,1,1,9,5,Travel_Frequently,Yes
+EMP_COMP_BAD_00712_00146,Andrew Anderson,Female,51,Human Resources,Legal Counsel,2,4,1,3,4,7471,21,0,7,7,15,15,Non-Travel,Yes
+EMP_COMP_BAD_00712_00147,Jessica Garcia,Male,25,Finance,Accountant,1,4,2,2,2,3708,19,2,12,4,17,12,Non-Travel,No
+EMP_COMP_BAD_00712_00148,Christopher Davis,Female,40,Legal,Product Manager,4,2,1,4,1,11697,13,3,6,5,16,5,Travel_Frequently,Yes
+EMP_COMP_BAD_00712_00149,Donna Sanchez,Male,36,Support,Financial Analyst,2,3,3,4,3,12053,24,3,3,2,5,28,Travel_Rarely,No
+EMP_COMP_BAD_00712_00150,Jessica Clark,Male,34,Marketing,Accountant,2,1,2,1,2,10330,23,1,3,3,13,29,Non-Travel,Yes
+EMP_COMP_BAD_00712_00151,Carol Taylor,Male,52,Sales,Marketing Manager,1,2,3,2,3,12460,16,1,11,3,21,15,Non-Travel,Yes
+EMP_COMP_BAD_00712_00152,Matthew Rodriguez,Male,57,Engineering,Marketing Manager,5,2,2,3,1,8555,13,2,15,2,17,11,Travel_Frequently,Yes
+EMP_COMP_BAD_00712_00153,Barbara Miller,Male,30,Research and Development,Data Scientist,2,3,4,1,2,13099,17,2,7,5,13,18,Travel_Rarely,Yes
+EMP_COMP_BAD_00712_00154,Donald Miller,Male,49,Support,Legal Counsel,3,4,1,3,4,6847,12,3,15,0,22,9,Non-Travel,No
+EMP_COMP_BAD_00712_00155,Kevin Martinez,Female,22,Research and Development,Data Scientist,4,3,3,4,2,8546,20,0,13,0,20,27,Travel_Rarely,Yes
+EMP_COMP_BAD_00712_00156,Nancy Garcia,Female,23,Finance,IT Administrator,1,2,3,4,3,6590,19,2,15,4,16,19,Travel_Frequently,No
+EMP_COMP_BAD_00712_00157,Mark White,Female,57,Operations,Legal Counsel,2,3,3,4,4,9235,16,2,1,1,1,13,Travel_Frequently,Yes
+EMP_COMP_BAD_00712_00158,Lisa Anderson,Male,48,Operations,Operations Manager,5,2,2,3,1,9215,25,0,2,2,12,27,Travel_Rarely,No
+EMP_COMP_BAD_00712_00159,Daniel Smith,Male,38,Human Resources,IT Administrator,2,2,3,2,4,5150,13,3,3,3,9,12,Travel_Rarely,No
+EMP_COMP_BAD_00712_00160,Donna Johnson,Female,26,Support,Sales Representative,3,4,4,1,2,10648,25,2,11,4,13,3,Travel_Frequently,Yes
+EMP_COMP_BAD_00712_00161,Charles Rodriguez,Female,56,IT,Sales Representative,1,1,4,3,1,8218,13,3,10,0,20,26,Travel_Frequently,Yes
+EMP_COMP_BAD_00712_00162,Melissa Moore,Female,39,IT,Business Analyst,4,1,1,3,2,4554,13,2,5,2,5,19,Travel_Rarely,Yes
+EMP_COMP_BAD_00712_00163,Joseph Jackson,Female,45,Support,Marketing Manager,2,3,4,4,2,7107,14,0,12,5,20,7,Travel_Frequently,Yes
+EMP_COMP_BAD_00712_00164,Daniel Jackson,Male,32,Human Resources,Business Analyst,4,2,1,3,4,12543,22,1,7,2,17,3,Non-Travel,Yes
+EMP_COMP_BAD_00712_00165,Daniel Rodriguez,Female,30,Marketing,HR Manager,1,1,4,4,3,7279,23,3,1,1,7,2,Non-Travel,Yes
+EMP_COMP_BAD_00712_00166,Jennifer Clark,Female,42,IT,Sales Representative,3,1,3,4,2,10090,13,2,12,5,14,11,Non-Travel,No
+EMP_COMP_BAD_00712_00167,Charles Thompson,Female,56,Operations,IT Administrator,4,1,1,4,3,12916,19,0,11,7,13,26,Non-Travel,No
+EMP_COMP_BAD_00712_00168,John Perez,Male,45,Support,Operations Manager,5,1,4,3,4,9059,22,3,11,8,16,25,Travel_Rarely,No
+EMP_COMP_BAD_00712_00169,Robert Perez,Female,25,Human Resources,Business Analyst,2,2,2,4,2,11199,18,3,8,1,12,15,Non-Travel,Yes
+EMP_COMP_BAD_00712_00170,Karen Lewis,Female,41,Research and Development,HR Manager,5,2,3,4,3,4356,21,2,10,4,13,1,Travel_Rarely,Yes
+EMP_COMP_BAD_00712_00171,Dorothy Gonzalez,Male,47,Finance,Sales Representative,3,3,1,2,3,9088,19,0,2,1,8,21,Travel_Frequently,Yes
+EMP_COMP_BAD_00712_00172,Elizabeth Brown,Female,44,Human Resources,Financial Analyst,2,3,4,2,4,10668,19,3,13,2,21,23,Travel_Rarely,Yes
+EMP_COMP_BAD_00712_00173,Ashley Taylor,Female,46,Finance,IT Administrator,3,4,3,3,2,13333,13,2,1,1,1,10,Travel_Rarely,No
+EMP_COMP_BAD_00712_00174,Richard Lee,Female,32,Engineering,Sales Representative,2,4,4,2,1,6027,11,2,11,3,17,22,Travel_Rarely,Yes
+EMP_COMP_BAD_00712_00175,Lisa Martin,Male,40,Sales,Software Engineer,5,1,3,2,2,8375,18,3,11,6,15,17,Travel_Frequently,No
+EMP_COMP_BAD_00712_00176,Donna Jackson,Male,31,Legal,Research Scientist,1,4,1,2,1,10090,25,3,3,3,9,8,Travel_Frequently,Yes
+EMP_COMP_BAD_00712_00177,Carol Brown,Female,26,Engineering,Business Analyst,4,2,1,1,3,6285,19,0,0,0,8,15,Non-Travel,Yes
+EMP_COMP_BAD_00712_00178,Steven Brown,Male,41,Human Resources,Support Specialist,5,3,3,2,1,11863,24,2,14,6,18,14,Travel_Frequently,No
+EMP_COMP_BAD_00712_00179,Mary Lee,Female,24,Engineering,HR Manager,4,4,4,2,3,11057,20,1,3,0,13,7,Travel_Rarely,Yes
+EMP_COMP_BAD_00712_00180,Michelle Lewis,Female,47,IT,Product Manager,5,1,4,3,2,9150,14,3,6,4,12,2,Travel_Frequently,No
+EMP_COMP_BAD_00712_00181,Michael Walker,Male,42,Sales,Accountant,5,1,1,4,2,5055,18,3,0,0,10,2,Travel_Rarely,No
+EMP_COMP_BAD_00712_00182,Betty Taylor,Female,35,Human Resources,Data Scientist,1,1,4,4,1,12164,24,1,2,2,8,29,Non-Travel,No
+EMP_COMP_BAD_00712_00183,Melissa Lewis,Female,39,Finance,Accountant,4,2,3,3,1,6755,14,2,9,8,17,24,Travel_Frequently,Yes
+EMP_COMP_BAD_00712_00184,Carol Moore,Female,23,Support,Accountant,1,4,1,3,4,10434,17,3,4,3,13,4,Travel_Rarely,Yes
+EMP_COMP_BAD_00712_00185,Michelle Wilson,Male,26,IT,Research Scientist,2,1,3,3,4,7794,13,3,12,10,16,16,Travel_Frequently,No
+EMP_COMP_BAD_00712_00186,Michelle Davis,Female,46,Sales,Legal Counsel,5,1,4,4,2,6363,11,3,14,5,23,23,Non-Travel,No
+EMP_COMP_BAD_00712_00187,Karen Martin,Female,42,Human Resources,Business Analyst,5,2,3,2,2,9579,13,0,3,3,3,20,Non-Travel,Yes
+EMP_COMP_BAD_00712_00188,Brian Harris,Male,56,Operations,Data Scientist,4,4,1,2,3,10421,16,2,6,2,10,20,Non-Travel,Yes
+EMP_COMP_BAD_00712_00189,Lisa Perez,Male,46,Marketing,HR Manager,3,4,2,4,2,4969,13,0,3,3,9,20,Travel_Frequently,Yes
+EMP_COMP_BAD_00712_00190,Melissa Anderson,Male,53,IT,Sales Representative,5,1,2,3,2,11127,16,3,9,9,12,15,Non-Travel,Yes
+EMP_COMP_BAD_00712_00191,Matthew Rodriguez,Male,44,Research and Development,Business Analyst,5,2,3,1,4,7194,16,1,1,0,4,27,Non-Travel,Yes
+EMP_COMP_BAD_00712_00192,Patricia Lopez,Female,58,Human Resources,Research Scientist,2,3,1,1,3,15358,12,3,14,5,23,4,Travel_Rarely,Yes
+EMP_COMP_BAD_00712_00193,Jennifer Taylor,Male,54,Human Resources,IT Administrator,2,1,4,1,1,10349,11,2,1,1,6,27,Travel_Rarely,Yes
+EMP_COMP_BAD_00712_00194,Sarah Martinez,Male,44,Marketing,Data Scientist,4,2,2,4,3,7522,11,1,2,2,4,25,Non-Travel,Yes
+EMP_COMP_BAD_00712_00195,Melissa Garcia,Female,47,Sales,HR Manager,5,3,4,3,4,9626,21,2,15,7,24,22,Travel_Frequently,Yes
+EMP_COMP_BAD_00712_00196,Sandra Smith,Female,42,Sales,Operations Manager,5,3,1,3,1,5498,24,3,7,7,7,22,Travel_Frequently,Yes
+EMP_COMP_BAD_00712_00197,Anthony Walker,Male,36,Finance,Business Analyst,5,3,4,2,2,10599,16,0,1,1,7,19,Travel_Rarely,Yes
+EMP_COMP_BAD_00712_00198,Barbara Williams,Female,32,Legal,Financial Analyst,2,4,3,2,1,9292,14,3,11,0,21,14,Non-Travel,Yes
+EMP_COMP_BAD_00712_00199,Karen Clark,Female,30,Engineering,Operations Manager,1,1,2,3,2,6200,18,1,13,6,13,10,Non-Travel,Yes
+EMP_COMP_BAD_00712_00200,Matthew Gonzalez,Female,28,Operations,HR Manager,2,3,2,2,1,4682,13,1,3,3,6,25,Non-Travel,No
+EMP_COMP_BAD_00712_00201,Susan Johnson,Female,34,Support,Marketing Manager,4,1,3,1,3,15678,20,0,15,3,24,3,Non-Travel,No
+EMP_COMP_BAD_00712_00202,David Hernandez,Female,48,Sales,Operations Manager,2,1,1,2,2,9735,23,1,8,3,16,3,Travel_Rarely,No
+EMP_COMP_BAD_00712_00203,Margaret Hernandez,Male,46,Support,Legal Counsel,3,3,3,1,3,8838,17,2,5,5,8,19,Non-Travel,No
+EMP_COMP_BAD_00712_00204,Emily Martin,Female,58,Support,Financial Analyst,1,1,4,4,3,7225,14,0,11,8,11,18,Travel_Rarely,No
+EMP_COMP_BAD_00712_00205,Sandra Martinez,Male,40,Operations,Operations Manager,2,3,4,1,1,4780,12,0,12,1,17,21,Travel_Rarely,Yes
+EMP_COMP_BAD_00712_00206,Barbara Garcia,Male,25,Support,Software Engineer,3,2,3,1,4,9881,25,0,13,0,20,23,Non-Travel,Yes
+EMP_COMP_BAD_00712_00207,Mark Thompson,Female,25,Engineering,Product Manager,1,1,4,1,3,4634,21,3,13,4,16,8,Non-Travel,No
+EMP_COMP_BAD_00712_00208,Sandra Smith,Female,30,Legal,IT Administrator,2,1,1,1,2,5294,19,1,13,5,17,6,Travel_Frequently,Yes
+EMP_COMP_BAD_00712_00209,Nancy Gonzalez,Female,35,Marketing,Financial Analyst,3,3,4,4,4,9468,22,1,0,0,4,16,Travel_Frequently,Yes
+EMP_COMP_BAD_00712_00210,Matthew Lee,Female,50,Operations,Software Engineer,2,4,2,4,1,5758,21,3,2,0,3,27,Non-Travel,Yes
+EMP_COMP_BAD_00712_00211,Elizabeth Lewis,Male,32,Operations,Operations Manager,4,3,4,4,4,16315,18,0,12,4,20,29,Travel_Rarely,Yes
+EMP_COMP_BAD_00712_00212,David Anderson,Female,43,Support,Operations Manager,1,4,3,4,3,15316,14,0,8,8,16,3,Travel_Rarely,Yes
+EMP_COMP_BAD_00712_00213,Lisa Robinson,Male,48,IT,Business Analyst,4,1,1,3,1,10639,24,2,10,3,11,28,Travel_Rarely,No
+EMP_COMP_BAD_00712_00214,Kimberly Davis,Female,54,Research and Development,Product Manager,1,4,2,3,4,8213,13,0,8,8,8,17,Travel_Frequently,Yes
+EMP_COMP_BAD_00712_00215,David Miller,Female,40,Sales,Research Scientist,2,2,1,4,1,6394,19,2,0,0,0,18,Travel_Frequently,No
+EMP_COMP_BAD_00712_00216,Melissa Hernandez,Female,56,Sales,Financial Analyst,2,1,2,4,1,13090,23,2,14,6,17,17,Travel_Frequently,No
+EMP_COMP_BAD_00712_00217,William Williams,Male,22,Marketing,Legal Counsel,2,3,4,2,3,11185,20,0,4,4,12,10,Non-Travel,Yes
+EMP_COMP_BAD_00712_00218,Susan Perez,Male,37,Finance,Business Analyst,3,2,2,1,1,8371,22,3,5,5,13,3,Non-Travel,No
+EMP_COMP_BAD_00712_00219,Amanda Taylor,Female,33,Legal,IT Administrator,2,2,2,4,2,4707,12,1,7,1,10,13,Travel_Frequently,No
+EMP_COMP_BAD_00712_00220,John Lewis,Male,46,Research and Development,Sales Representative,2,4,4,2,1,13142,23,1,0,0,2,25,Non-Travel,No
+EMP_COMP_BAD_00712_00221,Charles Garcia,Male,58,IT,Sales Representative,2,2,4,4,2,13032,15,0,11,4,18,14,Travel_Rarely,Yes
+EMP_COMP_BAD_00712_00222,Robert Rodriguez,Male,47,Support,Research Scientist,1,3,1,1,2,7029,17,3,14,6,15,12,Travel_Frequently,No
+EMP_COMP_BAD_00712_00223,Emily Wilson,Male,53,Operations,Data Scientist,2,1,3,4,3,10549,11,0,8,1,18,13,Travel_Rarely,No
+EMP_COMP_BAD_00712_00224,Richard Harris,Female,40,Human Resources,Financial Analyst,2,3,1,3,3,10078,13,3,7,7,16,12,Non-Travel,Yes
+EMP_COMP_BAD_00712_00225,Elizabeth Rodriguez,Male,28,Legal,Data Scientist,5,2,1,4,2,8457,14,0,12,0,14,19,Travel_Rarely,Yes
+EMP_COMP_BAD_00712_00226,Nancy Rodriguez,Female,57,Human Resources,Operations Manager,5,2,1,3,1,9440,14,3,13,4,23,23,Non-Travel,Yes
+EMP_COMP_BAD_00712_00227,Donald Smith,Female,58,IT,Support Specialist,4,3,4,4,4,5373,23,1,3,0,9,8,Non-Travel,No
+EMP_COMP_BAD_00712_00228,Linda Moore,Male,45,IT,HR Manager,1,2,4,4,3,11686,14,2,0,0,5,29,Non-Travel,Yes
+EMP_COMP_BAD_00712_00229,Steven Taylor,Male,35,Legal,IT Administrator,4,3,2,4,1,10536,14,1,2,2,11,21,Travel_Frequently,Yes
+EMP_COMP_BAD_00712_00230,Michael Johnson,Female,46,Support,Operations Manager,4,1,3,4,3,10678,11,2,11,1,14,7,Travel_Rarely,No
+EMP_COMP_BAD_00712_00231,Jessica Davis,Female,56,Legal,Financial Analyst,5,4,4,2,3,5645,16,0,0,0,8,27,Travel_Frequently,No
+EMP_COMP_BAD_00712_00232,Linda Anderson,Female,55,IT,Marketing Manager,2,4,2,2,1,5098,17,0,2,2,12,14,Non-Travel,No
+EMP_COMP_BAD_00712_00233,Elizabeth Thompson,Male,30,Research and Development,IT Administrator,2,3,4,4,1,7093,17,3,15,0,16,27,Travel_Frequently,Yes
+EMP_COMP_BAD_00712_00234,Daniel Johnson,Male,37,Finance,Marketing Manager,1,1,3,2,2,10503,23,2,3,0,12,17,Travel_Rarely,No
+EMP_COMP_BAD_00712_00235,Daniel Robinson,Male,43,Engineering,Sales Representative,5,2,4,1,2,6042,11,3,7,7,8,2,Travel_Rarely,No
+EMP_COMP_BAD_00712_00236,John Lee,Female,24,Legal,Sales Representative,5,4,3,2,1,6984,17,3,2,2,3,21,Travel_Rarely,No
+EMP_COMP_BAD_00712_00237,Amanda Wilson,Male,55,Research and Development,Research Scientist,4,4,2,4,1,14694,11,3,7,3,10,19,Travel_Frequently,Yes
+EMP_COMP_BAD_00712_00238,Betty Martin,Male,40,Research and Development,Marketing Manager,1,3,3,2,2,11383,18,0,6,2,8,22,Non-Travel,Yes
+EMP_COMP_BAD_00712_00239,Dorothy White,Female,29,Operations,Sales Representative,1,4,3,4,2,10457,20,1,13,2,14,26,Travel_Rarely,Yes
+EMP_COMP_BAD_00712_00240,Ashley Martin,Male,51,Finance,Data Scientist,1,4,3,1,1,10958,18,2,15,1,15,5,Travel_Rarely,No
+EMP_COMP_BAD_00712_00241,Thomas Davis,Female,32,Operations,Research Scientist,5,4,4,4,2,12697,25,1,12,2,14,15,Travel_Rarely,Yes
+EMP_COMP_BAD_00712_00242,Christopher Brown,Male,48,Engineering,Financial Analyst,1,3,1,4,1,15711,14,2,9,0,12,1,Travel_Frequently,Yes
+EMP_COMP_BAD_00712_00243,James Lee,Male,52,Human Resources,Research Scientist,3,1,2,3,2,10152,19,0,2,2,11,20,Non-Travel,Yes
+EMP_COMP_BAD_00712_00244,Anthony Garcia,Male,46,Engineering,Financial Analyst,1,3,1,1,4,8630,14,3,7,2,8,22,Travel_Rarely,Yes
+EMP_COMP_BAD_00712_00245,Elizabeth Robinson,Female,33,Marketing,Research Scientist,3,3,3,3,2,11579,24,2,2,2,5,15,Non-Travel,No
+EMP_COMP_BAD_00712_00246,David White,Female,47,Human Resources,Software Engineer,2,1,4,1,4,4732,15,0,5,2,9,26,Non-Travel,Yes
+EMP_COMP_BAD_00712_00247,Michael Thompson,Male,24,Marketing,Operations Manager,2,4,3,4,2,8317,14,1,5,3,7,16,Travel_Rarely,No
+EMP_COMP_BAD_00712_00248,Nancy Clark,Male,32,Legal,HR Manager,2,2,4,3,1,13273,17,0,0,0,0,17,Travel_Frequently,No
+EMP_COMP_BAD_00712_00249,William Anderson,Female,35,Human Resources,Software Engineer,3,1,3,3,2,7482,21,3,5,5,9,5,Travel_Rarely,No
+EMP_COMP_BAD_00712_00250,James Jones,Male,46,Sales,Marketing Manager,4,4,4,4,3,14868,22,1,10,10,15,15,Travel_Rarely,Yes
+EMP_COMP_BAD_00712_00251,Margaret Williams,Male,54,Human Resources,HR Manager,1,2,4,2,1,10590,19,2,0,0,0,26,Travel_Frequently,No
+EMP_COMP_BAD_00712_00252,Karen Gonzalez,Female,41,IT,Research Scientist,1,2,1,3,3,6093,19,2,15,0,15,11,Travel_Frequently,No
+EMP_COMP_BAD_00712_00253,David Jones,Male,49,Human Resources,Support Specialist,3,3,4,1,3,10409,25,3,14,3,14,15,Non-Travel,No
+EMP_COMP_BAD_00712_00254,Kenneth Martinez,Male,50,Human Resources,Sales Representative,1,3,1,3,4,6997,12,3,3,3,6,5,Travel_Rarely,No
+EMP_COMP_BAD_00712_00255,Emily Martinez,Male,24,Research and Development,Research Scientist,1,1,4,1,1,6979,13,1,5,0,15,9,Travel_Frequently,No
+EMP_COMP_BAD_00712_00256,Thomas Rodriguez,Female,38,Operations,HR Manager,3,3,2,2,2,6435,18,3,0,0,5,4,Travel_Rarely,No
+EMP_COMP_BAD_00712_00257,Michael Harris,Female,45,Human Resources,Sales Representative,4,3,2,3,1,9892,11,2,4,3,13,4,Non-Travel,Yes
+EMP_COMP_BAD_00712_00258,Andrew Moore,Male,56,Engineering,Business Analyst,2,2,4,2,1,14746,16,2,2,2,4,28,Travel_Frequently,No
+EMP_COMP_BAD_00712_00259,Kenneth Jackson,Male,39,Research and Development,Accountant,3,3,1,4,2,7246,25,0,0,0,2,11,Travel_Rarely,No
+EMP_COMP_BAD_00712_00260,Ashley Clark,Male,23,Legal,HR Manager,4,3,3,3,3,4446,15,2,0,0,7,4,Non-Travel,Yes
+EMP_COMP_BAD_00712_00261,Robert Davis,Female,55,Legal,HR Manager,3,1,3,1,1,6347,22,2,10,2,13,23,Travel_Frequently,Yes
+EMP_COMP_BAD_00712_00262,George Garcia,Female,36,IT,Marketing Manager,3,1,4,4,3,6233,19,2,3,3,9,23,Travel_Rarely,No
+EMP_COMP_BAD_00712_00263,Anthony White,Male,36,Sales,Sales Representative,4,3,1,4,2,9630,21,1,3,3,8,27,Travel_Frequently,No
+EMP_COMP_BAD_00712_00264,Ashley Harris,Female,31,Marketing,Sales Representative,5,4,2,3,4,5602,17,1,10,7,11,25,Travel_Rarely,No
+EMP_COMP_BAD_00712_00265,David Ramirez,Male,24,IT,HR Manager,3,2,3,3,2,9878,25,0,13,6,21,20,Non-Travel,No
+EMP_COMP_BAD_00712_00266,Elizabeth Gonzalez,Female,48,IT,IT Administrator,4,1,4,4,2,10346,18,2,4,4,12,1,Travel_Rarely,No
+EMP_COMP_BAD_00712_00267,Sandra Lewis,Female,53,Legal,Accountant,1,1,1,1,1,5084,24,3,2,2,11,12,Travel_Frequently,Yes
+EMP_COMP_BAD_00712_00268,Sarah Clark,Female,55,Sales,Data Scientist,3,2,3,4,2,8427,15,0,8,8,14,16,Travel_Rarely,No
+EMP_COMP_BAD_00712_00269,Elizabeth Moore,Male,43,Finance,Operations Manager,2,3,2,3,1,12236,20,1,5,5,8,26,Travel_Frequently,No
+EMP_COMP_BAD_00712_00270,Elizabeth Miller,Female,46,Research and Development,Research Scientist,3,3,4,1,2,8779,24,1,7,7,14,1,Travel_Rarely,No
+EMP_COMP_BAD_00712_00271,Christopher White,Female,32,Operations,Financial Analyst,4,2,4,1,3,4978,19,3,14,5,15,3,Non-Travel,Yes
+EMP_COMP_BAD_00712_00272,Linda Harris,Male,46,Human Resources,Support Specialist,2,2,3,1,3,15364,11,1,14,8,19,28,Travel_Rarely,No
+EMP_COMP_BAD_00712_00273,Susan Rodriguez,Male,58,Marketing,Legal Counsel,2,2,3,2,3,8924,11,1,12,4,15,13,Travel_Frequently,Yes
+EMP_COMP_BAD_00712_00274,Melissa Rodriguez,Male,45,Support,Legal Counsel,5,1,4,4,3,8229,25,1,10,0,12,12,Travel_Rarely,Yes
+EMP_COMP_BAD_00712_00275,John Wilson,Female,46,Operations,Sales Representative,4,1,3,2,4,8260,12,0,8,4,13,15,Travel_Rarely,No
+EMP_COMP_BAD_00712_00276,Mark Anderson,Male,54,Marketing,HR Manager,3,3,1,4,3,10766,25,1,2,2,2,4,Non-Travel,No
+EMP_COMP_BAD_00712_00277,Mary Jackson,Female,58,Human Resources,Business Analyst,1,1,4,3,3,16110,23,2,13,6,13,28,Non-Travel,Yes
+EMP_COMP_BAD_00712_00278,Mark Thomas,Male,52,IT,Legal Counsel,2,4,2,4,2,12594,21,3,11,8,12,19,Travel_Rarely,No
+EMP_COMP_BAD_00712_00279,Richard Smith,Female,44,Finance,Research Scientist,1,4,2,3,3,9763,25,3,12,5,13,18,Travel_Rarely,No
+EMP_COMP_BAD_00712_00280,David Miller,Male,46,Finance,Sales Representative,3,2,3,3,2,8134,12,2,15,6,23,2,Non-Travel,No
+EMP_COMP_BAD_00712_00281,Joshua Smith,Male,49,IT,Support Specialist,4,2,4,3,1,3734,20,1,13,8,18,11,Travel_Frequently,Yes
+EMP_COMP_BAD_00712_00282,Melissa Smith,Female,30,Legal,Software Engineer,4,1,1,1,2,12425,22,1,13,0,20,25,Travel_Frequently,Yes
+EMP_COMP_BAD_00712_00283,Dorothy Thompson,Female,44,Finance,Product Manager,1,3,4,3,3,9698,17,2,1,1,6,23,Travel_Frequently,Yes
+EMP_COMP_BAD_00712_00284,Margaret Gonzalez,Female,23,Finance,Financial Analyst,4,4,3,1,1,8066,21,2,8,5,17,2,Travel_Frequently,No
+EMP_COMP_BAD_00712_00285,Richard Harris,Female,48,Marketing,Research Scientist,1,4,3,4,2,5265,22,2,3,3,9,10,Travel_Rarely,Yes
+EMP_COMP_BAD_00712_00286,Daniel Miller,Male,44,Engineering,IT Administrator,4,4,3,4,2,3527,18,0,8,0,14,8,Travel_Frequently,Yes
+EMP_COMP_BAD_00712_00287,Jennifer Walker,Female,30,Engineering,Support Specialist,2,1,3,2,4,14761,23,0,0,0,6,12,Non-Travel,No
+EMP_COMP_BAD_00712_00288,Jessica Jones,Male,53,Operations,Software Engineer,2,3,3,3,1,5084,12,0,11,10,16,14,Travel_Rarely,Yes
+EMP_COMP_BAD_00712_00289,Brian Clark,Female,48,Legal,IT Administrator,2,4,1,2,4,7532,16,1,7,6,8,15,Travel_Rarely,Yes
+EMP_COMP_BAD_00712_00290,Christopher Moore,Male,27,Engineering,IT Administrator,3,3,1,2,2,5076,24,3,14,1,17,2,Travel_Rarely,No
+EMP_COMP_BAD_00712_00291,Betty Rodriguez,Female,50,Legal,IT Administrator,3,3,2,3,4,9204,16,3,7,2,17,1,Non-Travel,No
+EMP_COMP_BAD_00712_00292,Barbara Robinson,Female,48,Engineering,Sales Representative,2,1,2,2,1,11788,19,2,13,4,21,3,Travel_Frequently,No
+EMP_COMP_BAD_00712_00293,John Robinson,Female,43,IT,Accountant,2,2,4,2,4,6947,15,2,2,2,8,29,Travel_Rarely,No
+EMP_COMP_BAD_00712_00294,Mary Martin,Male,23,Human Resources,Operations Manager,4,3,3,4,1,8056,12,2,1,1,6,8,Travel_Rarely,No
+EMP_COMP_BAD_00712_00295,Robert Ramirez,Male,30,Operations,HR Manager,4,2,2,1,4,6588,24,1,1,1,9,16,Travel_Frequently,No
+EMP_COMP_BAD_00712_00296,Robert Smith,Female,47,Finance,Legal Counsel,5,4,2,1,3,12465,24,3,4,0,4,25,Non-Travel,Yes
+EMP_COMP_BAD_00712_00297,Nancy Williams,Male,32,Support,Operations Manager,2,4,2,2,4,4126,22,2,1,1,8,18,Non-Travel,No
+EMP_COMP_BAD_00712_00298,Kenneth Thompson,Male,43,Human Resources,Research Scientist,2,2,2,3,1,4916,13,3,10,2,11,20,Non-Travel,Yes
+EMP_COMP_BAD_00712_00299,Michael Garcia,Female,44,Sales,Accountant,2,1,2,1,2,6362,17,3,14,3,23,17,Travel_Rarely,No
+EMP_COMP_BAD_00712_00300,Kenneth Harris,Female,34,Operations,HR Manager,5,2,4,2,3,7052,14,2,13,9,21,27,Travel_Rarely,No
+EMP_COMP_BAD_00712_00301,Richard Lee,Male,53,Sales,HR Manager,1,3,3,2,1,5031,14,0,8,8,17,25,Travel_Frequently,No
+EMP_COMP_BAD_00712_00302,Joshua Hernandez,Male,47,Operations,Operations Manager,5,2,2,3,3,9500,14,2,14,5,24,6,Travel_Frequently,No
+EMP_COMP_BAD_00712_00303,Daniel Gonzalez,Female,44,Operations,Software Engineer,2,3,3,4,3,10123,13,3,15,4,23,12,Travel_Rarely,No
+EMP_COMP_BAD_00712_00304,Brian Gonzalez,Male,24,Finance,Marketing Manager,4,3,3,1,2,6669,14,3,7,5,8,16,Travel_Rarely,No
+EMP_COMP_BAD_00712_00305,Kenneth Williams,Female,36,Sales,Support Specialist,4,4,4,4,4,10309,12,2,4,4,6,5,Non-Travel,No
+EMP_COMP_BAD_00712_00306,Ashley Clark,Female,37,IT,Software Engineer,1,3,4,3,2,7793,13,0,2,2,7,6,Travel_Frequently,No
+EMP_COMP_BAD_00712_00307,Kenneth Smith,Female,26,Research and Development,Software Engineer,4,4,3,4,2,4512,21,3,8,8,8,25,Travel_Frequently,Yes
+EMP_COMP_BAD_00712_00308,Ashley Sanchez,Female,51,Human Resources,HR Manager,4,3,4,1,4,7330,17,3,12,8,16,6,Travel_Frequently,Yes
+EMP_COMP_BAD_00712_00309,Nancy Martin,Female,54,Operations,Software Engineer,5,4,2,4,3,7470,25,1,4,1,4,24,Travel_Frequently,Yes
+EMP_COMP_BAD_00712_00310,Thomas Ramirez,Female,26,Operations,Operations Manager,5,4,2,2,2,6062,14,2,4,3,14,25,Travel_Rarely,No
+EMP_COMP_BAD_00712_00311,Michael Jones,Male,50,Research and Development,Legal Counsel,4,3,4,2,1,5721,16,3,0,0,5,26,Non-Travel,No
+EMP_COMP_BAD_00712_00312,Melissa Martinez,Male,32,Human Resources,Sales Representative,1,3,4,1,1,9529,22,2,11,8,14,9,Travel_Frequently,Yes
+EMP_COMP_BAD_00712_00313,Robert Wilson,Female,49,Sales,Software Engineer,3,3,4,4,3,4440,15,1,15,10,17,23,Travel_Rarely,No
+EMP_COMP_BAD_00712_00314,Anthony Lopez,Male,26,Finance,Product Manager,3,1,4,4,3,6346,24,0,3,1,9,2,Travel_Frequently,Yes
+EMP_COMP_BAD_00712_00315,Donald Martinez,Female,27,Marketing,Business Analyst,5,4,1,4,2,10014,18,2,6,6,10,21,Non-Travel,Yes
+EMP_COMP_BAD_00712_00316,Brian Johnson,Female,47,Human Resources,Business Analyst,2,2,4,2,3,13177,18,1,12,6,21,7,Non-Travel,Yes
+EMP_COMP_BAD_00712_00317,Nancy Ramirez,Male,41,Legal,Support Specialist,4,4,1,4,2,10796,22,2,15,5,16,7,Non-Travel,Yes
+EMP_COMP_BAD_00712_00318,Mary Williams,Female,25,Support,Financial Analyst,3,2,2,4,3,10366,22,0,12,8,22,3,Non-Travel,No
+EMP_COMP_BAD_00712_00319,Jessica Hernandez,Female,24,Marketing,Operations Manager,4,1,4,1,4,12343,20,1,4,4,13,16,Non-Travel,No
+EMP_COMP_BAD_00712_00320,Andrew Robinson,Male,42,Human Resources,Research Scientist,4,3,4,3,4,6720,24,1,3,1,3,9,Travel_Rarely,Yes
+EMP_COMP_BAD_00712_00321,Charles Wilson,Male,58,IT,Business Analyst,1,3,2,4,2,6658,24,1,11,0,19,28,Non-Travel,Yes
+EMP_COMP_BAD_00712_00322,Michael Thomas,Female,35,Research and Development,IT Administrator,2,2,3,1,1,10864,11,2,14,10,17,16,Non-Travel,No
+EMP_COMP_BAD_00712_00323,Sarah Thompson,Female,33,Marketing,Research Scientist,4,2,2,1,2,4797,21,0,8,8,10,8,Travel_Frequently,Yes
+EMP_COMP_BAD_00712_00324,Thomas Williams,Male,35,Marketing,Marketing Manager,1,2,1,2,4,9799,21,0,12,2,22,4,Travel_Rarely,No
+EMP_COMP_BAD_00712_00325,Andrew Clark,Male,37,IT,Research Scientist,1,2,1,4,3,8338,15,2,10,10,17,24,Travel_Frequently,Yes
+EMP_COMP_BAD_00712_00326,Michael Lopez,Male,58,Sales,IT Administrator,4,1,2,2,1,10406,19,1,3,3,13,25,Travel_Frequently,Yes
+EMP_COMP_BAD_00712_00327,Daniel Jackson,Female,22,Marketing,Sales Representative,2,3,1,1,3,4927,16,0,1,1,9,28,Non-Travel,Yes
+EMP_COMP_BAD_00712_00328,Steven Gonzalez,Female,37,Research and Development,Accountant,4,2,4,1,4,7370,21,1,9,7,15,22,Travel_Rarely,No
+EMP_COMP_BAD_00712_00329,Linda Miller,Male,29,Human Resources,Financial Analyst,2,3,4,2,1,3993,19,3,0,0,7,23,Travel_Rarely,Yes
+EMP_COMP_BAD_00712_00330,Richard Williams,Female,45,Support,Accountant,1,3,1,1,1,5846,16,3,14,5,21,16,Non-Travel,Yes
+EMP_COMP_BAD_00712_00331,Anthony Rodriguez,Male,32,Engineering,Software Engineer,2,3,4,1,3,10339,13,0,14,2,18,23,Non-Travel,Yes
+EMP_COMP_BAD_00712_00332,Michelle Walker,Male,37,Research and Development,IT Administrator,2,2,4,2,3,5054,25,3,8,5,8,11,Non-Travel,Yes
+EMP_COMP_BAD_00712_00333,Nancy Miller,Male,52,Operations,HR Manager,1,2,4,4,1,5706,24,2,15,7,15,1,Travel_Frequently,No
+EMP_COMP_BAD_00712_00334,Matthew Perez,Male,32,Sales,Legal Counsel,2,1,3,2,4,7350,11,2,13,2,15,9,Travel_Rarely,No
+EMP_COMP_BAD_00712_00335,Richard White,Female,28,Research and Development,Product Manager,5,4,1,4,3,6661,16,1,7,7,10,15,Travel_Rarely,No
+EMP_COMP_BAD_00712_00336,Anthony Moore,Female,52,Engineering,HR Manager,1,1,4,2,2,5775,21,2,11,8,13,16,Non-Travel,No
+EMP_COMP_BAD_00712_00337,Michelle Robinson,Male,50,Research and Development,Operations Manager,3,3,3,1,2,10644,20,3,5,2,11,12,Travel_Frequently,Yes
+EMP_COMP_BAD_00712_00338,Jessica Rodriguez,Male,51,Operations,Research Scientist,2,3,2,2,2,8603,18,0,13,10,19,3,Travel_Rarely,Yes
+EMP_COMP_BAD_00712_00339,Donna Clark,Female,27,Finance,Sales Representative,4,3,4,2,3,16392,13,0,11,4,15,10,Non-Travel,Yes
+EMP_COMP_BAD_00712_00340,Charles Sanchez,Male,32,Finance,Financial Analyst,2,3,3,4,4,9397,12,2,0,0,8,10,Travel_Frequently,No
+EMP_COMP_BAD_00712_00341,Melissa Miller,Male,53,Marketing,Business Analyst,3,1,2,3,3,13218,23,2,13,8,16,24,Non-Travel,Yes
+EMP_COMP_BAD_00712_00342,Elizabeth Martinez,Male,31,Engineering,Marketing Manager,2,2,4,4,1,5730,11,0,11,0,12,2,Travel_Rarely,No
+EMP_COMP_BAD_00712_00343,Nancy Taylor,Male,56,Engineering,Support Specialist,5,4,2,1,4,14868,23,0,5,3,9,3,Travel_Rarely,No
+EMP_COMP_BAD_00712_00344,Karen Lee,Female,45,Legal,Data Scientist,4,4,1,3,1,9850,22,3,13,2,22,27,Travel_Rarely,Yes
+EMP_COMP_BAD_00712_00345,Donna Harris,Female,34,Support,Support Specialist,5,4,1,3,1,10557,18,2,3,3,13,28,Travel_Rarely,Yes
+EMP_COMP_BAD_00712_00346,Linda Brown,Male,42,Finance,Marketing Manager,2,4,4,1,3,7909,15,3,14,2,14,9,Travel_Rarely,No
+EMP_COMP_BAD_00712_00347,John Martinez,Female,39,Support,HR Manager,4,3,3,3,4,8963,11,0,0,0,6,12,Travel_Rarely,Yes
+EMP_COMP_BAD_00712_00348,Mark Smith,Male,58,Legal,Operations Manager,3,4,4,3,4,5890,18,2,14,6,19,24,Travel_Rarely,Yes
+EMP_COMP_BAD_00712_00349,Nancy Lee,Male,48,Operations,Legal Counsel,2,1,1,3,4,5002,25,1,14,4,24,23,Travel_Rarely,No
+EMP_COMP_BAD_00712_00350,Linda Robinson,Female,31,Sales,Product Manager,1,4,1,1,3,5006,22,2,12,10,16,1,Travel_Frequently,No
+EMP_COMP_BAD_00712_00351,Andrew Harris,Female,25,Research and Development,Legal Counsel,4,4,3,2,1,9981,11,1,10,1,20,21,Travel_Frequently,Yes
+EMP_COMP_BAD_00712_00352,Emily Martin,Female,47,Engineering,Business Analyst,2,2,2,2,2,6393,17,0,13,7,14,4,Non-Travel,No
+EMP_COMP_BAD_00712_00353,Robert Sanchez,Male,51,Support,Product Manager,4,1,1,4,3,10108,25,3,14,0,21,5,Travel_Frequently,No
+EMP_COMP_BAD_00712_00354,Betty Taylor,Female,25,Research and Development,Software Engineer,5,2,1,2,1,9017,13,1,2,2,2,4,Non-Travel,No
+EMP_COMP_BAD_00712_00355,Robert Miller,Male,48,Operations,IT Administrator,5,1,2,1,2,4601,23,2,13,0,14,21,Travel_Rarely,Yes
+EMP_COMP_BAD_00712_00356,Barbara Lopez,Male,24,Marketing,Operations Manager,5,3,1,4,4,12665,24,3,6,0,14,7,Travel_Rarely,No
+EMP_COMP_BAD_00712_00357,Melissa Martinez,Female,45,Operations,Business Analyst,2,2,2,3,1,5256,17,2,2,2,5,23,Travel_Rarely,Yes
+EMP_COMP_BAD_00712_00358,Emily Walker,Female,50,Marketing,Legal Counsel,1,2,3,2,2,14826,13,0,4,4,7,9,Travel_Frequently,Yes
+EMP_COMP_BAD_00712_00359,Joshua Brown,Female,33,Sales,Support Specialist,1,1,4,3,4,9201,21,0,5,5,9,23,Non-Travel,No
+EMP_COMP_BAD_00712_00360,Paul Jackson,Female,51,Marketing,Legal Counsel,5,2,1,3,4,10734,11,2,9,4,14,23,Travel_Frequently,No
+EMP_COMP_BAD_00712_00361,Anthony Gonzalez,Male,53,Finance,Business Analyst,5,4,2,2,4,4730,19,3,13,2,19,26,Non-Travel,Yes
+EMP_COMP_BAD_00712_00362,Susan Lopez,Male,53,Support,IT Administrator,1,2,4,1,4,12712,11,1,3,3,5,5,Travel_Frequently,No
+EMP_COMP_BAD_00712_00363,Donna White,Female,29,Sales,Business Analyst,4,1,4,1,2,12629,19,2,8,2,11,1,Travel_Frequently,No
+EMP_COMP_BAD_00712_00364,Kenneth Sanchez,Female,37,Finance,Sales Representative,4,1,3,4,4,10104,19,1,14,3,20,12,Non-Travel,No
+EMP_COMP_BAD_00712_00365,Mark Moore,Female,33,Support,Financial Analyst,2,2,3,3,2,8131,18,3,0,0,9,3,Non-Travel,No
+EMP_COMP_BAD_00712_00366,Donald Thompson,Male,30,Marketing,Software Engineer,1,1,1,1,4,9929,12,0,6,3,6,3,Travel_Rarely,Yes
+EMP_COMP_BAD_00712_00367,Jennifer Taylor,Female,38,Research and Development,Operations Manager,1,1,3,3,4,12405,23,2,9,8,16,2,Non-Travel,Yes
+EMP_COMP_BAD_00712_00368,Kevin White,Female,31,Engineering,Data Scientist,5,4,2,4,2,5435,12,3,0,0,7,11,Travel_Rarely,No
+EMP_COMP_BAD_00712_00369,Karen Thompson,Male,30,Finance,Support Specialist,3,2,2,1,3,12538,11,2,0,0,7,10,Travel_Frequently,No
+EMP_COMP_BAD_00712_00370,Kimberly Thomas,Female,54,IT,Support Specialist,5,2,3,2,1,7908,22,3,1,1,8,7,Non-Travel,Yes
+EMP_COMP_BAD_00712_00371,Michelle Robinson,Female,38,Engineering,Research Scientist,3,2,3,3,2,6359,18,0,7,4,8,19,Travel_Frequently,No
+EMP_COMP_BAD_00712_00372,Elizabeth Clark,Female,33,Operations,IT Administrator,5,4,3,1,4,15534,13,3,10,6,18,23,Travel_Frequently,Yes
+EMP_COMP_BAD_00712_00373,Donald Garcia,Male,53,Support,Software Engineer,4,1,4,3,4,5672,18,1,1,1,5,22,Non-Travel,Yes
+EMP_COMP_BAD_00712_00374,Thomas Thomas,Female,28,IT,Legal Counsel,3,4,3,4,2,10822,16,1,5,2,14,16,Travel_Frequently,Yes
+EMP_COMP_BAD_00712_00375,Nancy Garcia,Male,57,Marketing,Financial Analyst,3,4,2,4,4,7602,20,3,5,5,5,20,Non-Travel,No
+EMP_COMP_BAD_00712_00376,Sarah Robinson,Male,46,Human Resources,Sales Representative,2,1,4,4,2,16340,17,3,3,3,11,28,Non-Travel,No
+EMP_COMP_BAD_00712_00377,Paul Wilson,Male,40,Human Resources,Software Engineer,3,2,3,3,1,10935,22,3,2,2,10,13,Travel_Rarely,Yes
+EMP_COMP_BAD_00712_00378,Kenneth White,Female,34,Sales,Sales Representative,2,4,3,1,4,12840,16,1,3,2,3,19,Travel_Frequently,No
+EMP_COMP_BAD_00712_00379,Matthew Lee,Female,32,Operations,Legal Counsel,1,3,3,4,1,10986,19,3,12,10,14,8,Non-Travel,Yes
+EMP_COMP_BAD_00712_00380,Kenneth Smith,Female,31,Support,Research Scientist,3,4,1,2,3,13057,21,0,4,0,13,28,Travel_Frequently,No
+EMP_COMP_BAD_00712_00381,Charles Gonzalez,Male,54,Finance,IT Administrator,4,2,4,2,3,7420,16,3,3,3,13,29,Non-Travel,Yes
+EMP_COMP_BAD_00712_00382,Paul Clark,Female,37,Marketing,HR Manager,4,2,2,1,1,12554,12,1,5,3,7,20,Travel_Rarely,Yes
+EMP_COMP_BAD_00712_00383,Richard Williams,Male,29,Support,Support Specialist,5,4,1,1,4,7854,13,3,14,1,14,20,Travel_Rarely,No
+EMP_COMP_BAD_00712_00384,Christopher White,Male,39,Operations,Operations Manager,1,3,2,1,1,4478,14,1,13,9,18,13,Travel_Rarely,No
+EMP_COMP_BAD_00712_00385,Ashley Rodriguez,Male,44,Marketing,Accountant,4,2,1,3,2,6279,14,0,10,0,13,6,Travel_Frequently,No
+EMP_COMP_BAD_00712_00386,Mark Rodriguez,Female,33,Support,Data Scientist,1,1,3,4,1,11711,12,1,2,2,11,14,Travel_Frequently,Yes
+EMP_COMP_BAD_00712_00387,Brian Rodriguez,Male,44,Engineering,Product Manager,4,1,3,3,1,15521,11,0,11,9,20,23,Non-Travel,Yes
+EMP_COMP_BAD_00712_00388,Carol White,Female,54,Legal,Accountant,4,2,2,4,2,6132,22,2,1,1,2,4,Travel_Rarely,Yes
+EMP_COMP_BAD_00712_00389,Kimberly Johnson,Male,33,Operations,Software Engineer,5,2,1,1,3,6252,15,0,15,6,17,10,Travel_Rarely,No
+EMP_COMP_BAD_00712_00390,Kevin Harris,Female,27,Legal,Support Specialist,4,1,1,1,3,8093,24,1,15,0,16,6,Travel_Frequently,Yes
+EMP_COMP_BAD_00712_00391,Barbara Hernandez,Male,44,Research and Development,Accountant,3,2,4,4,1,5716,22,0,15,9,15,29,Travel_Rarely,No
+EMP_COMP_BAD_00712_00392,Kenneth Williams,Male,49,Operations,IT Administrator,2,3,3,3,3,10306,22,1,4,4,10,13,Travel_Rarely,No
+EMP_COMP_BAD_00712_00393,James Taylor,Female,52,Sales,Data Scientist,4,1,4,4,4,15293,16,0,8,3,17,9,Travel_Rarely,Yes
+EMP_COMP_BAD_00712_00394,Jennifer Anderson,Female,44,Legal,IT Administrator,5,1,4,1,2,6261,24,2,1,1,2,16,Non-Travel,Yes
+EMP_COMP_BAD_00712_00395,Anthony Perez,Male,44,Legal,Research Scientist,5,2,3,2,3,11108,16,2,7,6,15,12,Non-Travel,No
+EMP_COMP_BAD_00712_00396,Emily Garcia,Female,37,Human Resources,Software Engineer,5,3,2,1,4,7032,17,3,2,2,12,13,Travel_Rarely,Yes
+EMP_COMP_BAD_00712_00397,Thomas Lopez,Male,44,Operations,Accountant,2,3,4,4,1,8420,21,0,0,0,5,10,Travel_Frequently,Yes
+EMP_COMP_BAD_00712_00398,Jessica Moore,Male,31,IT,Accountant,3,3,2,2,3,8662,16,1,13,5,18,27,Travel_Frequently,Yes
+EMP_COMP_BAD_00712_00399,Sarah Lewis,Male,44,IT,Operations Manager,5,2,4,4,3,8287,25,0,0,0,4,27,Travel_Frequently,Yes
+EMP_COMP_BAD_00712_00400,Sandra Brown,Male,52,Legal,Sales Representative,2,3,4,1,2,5957,23,0,8,0,11,27,Non-Travel,No
+EMP_COMP_BAD_00712_00401,Dorothy Lewis,Male,27,Research and Development,Marketing Manager,4,4,2,2,1,15470,13,0,6,6,16,12,Non-Travel,Yes
+EMP_COMP_BAD_00712_00402,Nancy Jones,Male,53,Support,Data Scientist,1,1,2,4,4,5032,22,3,13,1,16,8,Travel_Rarely,No
+EMP_COMP_BAD_00712_00403,Linda Robinson,Male,22,Legal,Software Engineer,1,3,1,4,1,3643,18,2,0,0,4,18,Non-Travel,No
+EMP_COMP_BAD_00712_00404,James Perez,Male,50,Support,Sales Representative,5,3,3,3,2,8542,20,0,3,3,8,15,Non-Travel,Yes
+EMP_COMP_BAD_00712_00405,Emily Taylor,Female,58,Support,Sales Representative,3,1,2,1,2,11654,13,3,7,7,9,5,Travel_Rarely,Yes
+EMP_COMP_BAD_00712_00406,Charles Lewis,Female,29,Marketing,HR Manager,2,4,4,1,2,5986,18,2,10,4,17,6,Travel_Rarely,Yes
+EMP_COMP_BAD_00712_00407,Brian Harris,Female,54,Finance,HR Manager,3,3,4,1,4,9528,25,3,6,6,8,4,Travel_Frequently,Yes
+EMP_COMP_BAD_00712_00408,James Harris,Male,47,Support,Software Engineer,4,3,3,3,1,9150,15,2,11,2,20,28,Travel_Rarely,No
+EMP_COMP_BAD_00712_00409,Nancy Jackson,Female,57,Sales,IT Administrator,5,4,3,1,2,5719,16,2,9,9,15,24,Travel_Frequently,Yes
+EMP_COMP_BAD_00712_00410,Carol Williams,Female,42,Marketing,Product Manager,5,4,1,1,1,3993,18,2,14,6,23,15,Non-Travel,No
+EMP_COMP_BAD_00712_00411,Kevin Wilson,Female,36,Operations,Research Scientist,1,3,4,4,1,3517,20,2,10,7,15,16,Non-Travel,Yes
+EMP_COMP_BAD_00712_00412,Brian Rodriguez,Male,39,IT,Software Engineer,2,4,2,1,1,7563,12,3,12,9,16,1,Travel_Rarely,No
+EMP_COMP_BAD_00712_00413,Thomas Ramirez,Female,44,Operations,Accountant,3,1,4,1,2,12974,22,0,14,2,15,5,Travel_Frequently,No
+EMP_COMP_BAD_00712_00414,Patricia Hernandez,Female,33,Finance,Product Manager,4,2,2,4,3,4744,15,2,12,2,14,7,Travel_Frequently,Yes
+EMP_COMP_BAD_00712_00415,Jessica Davis,Male,31,Finance,Business Analyst,1,3,4,1,3,7813,13,3,6,0,8,17,Travel_Frequently,Yes
+EMP_COMP_BAD_00712_00416,Steven Jackson,Female,53,Support,Accountant,2,2,4,3,4,8626,25,2,10,10,11,22,Travel_Frequently,Yes
+EMP_COMP_BAD_00712_00417,Charles Anderson,Male,51,Engineering,Legal Counsel,4,2,2,4,1,6766,25,1,4,4,14,28,Travel_Rarely,Yes
+EMP_COMP_BAD_00712_00418,Michael Brown,Female,52,Operations,Operations Manager,5,3,1,4,2,13423,11,3,13,2,21,27,Travel_Rarely,No
+EMP_COMP_BAD_00712_00419,Mary Jackson,Male,37,IT,Business Analyst,3,3,2,3,1,12519,23,2,3,3,12,15,Non-Travel,Yes
+EMP_COMP_BAD_00712_00420,Richard Lewis,Female,30,Research and Development,Data Scientist,4,1,3,2,1,14608,23,0,9,2,19,16,Non-Travel,Yes
+EMP_COMP_BAD_00712_00421,Kimberly Rodriguez,Male,27,Legal,Sales Representative,2,1,3,1,1,12687,14,2,7,7,8,8,Travel_Frequently,No
+EMP_COMP_BAD_00712_00422,Donald Sanchez,Female,23,Human Resources,Accountant,5,2,4,1,1,5585,17,0,2,2,7,24,Travel_Rarely,Yes
+EMP_COMP_BAD_00712_00423,Susan Thompson,Male,51,Sales,Sales Representative,3,2,3,4,2,11155,18,1,5,5,12,28,Travel_Rarely,No
+EMP_COMP_BAD_00712_00424,Linda Williams,Female,36,Legal,Software Engineer,5,1,2,3,2,10168,12,3,0,0,0,26,Travel_Rarely,Yes
+EMP_COMP_BAD_00712_00425,Nancy Lewis,Male,29,Engineering,IT Administrator,3,1,3,3,3,9443,23,2,5,4,11,5,Non-Travel,Yes
+EMP_COMP_BAD_00712_00426,William Walker,Male,27,Legal,Data Scientist,1,1,3,3,3,6882,25,3,10,3,13,8,Travel_Rarely,No
+EMP_COMP_BAD_00712_00427,Matthew Sanchez,Male,36,Research and Development,Data Scientist,4,3,1,3,1,9462,11,1,14,0,21,10,Non-Travel,No
+EMP_COMP_BAD_00712_00428,Lisa Ramirez,Male,51,Operations,Product Manager,1,2,2,3,1,9803,17,1,2,2,7,16,Travel_Frequently,No
+EMP_COMP_BAD_00712_00429,Joseph Perez,Male,25,Legal,Operations Manager,4,4,2,3,2,3904,25,3,6,3,10,15,Travel_Frequently,Yes
+EMP_COMP_BAD_00712_00430,Jessica Smith,Female,58,Support,Data Scientist,5,3,3,4,4,15857,18,3,9,5,16,4,Non-Travel,Yes
+EMP_COMP_BAD_00712_00431,Carol Harris,Female,23,Sales,Accountant,4,2,2,1,1,8112,18,2,12,0,16,6,Travel_Frequently,Yes
+EMP_COMP_BAD_00712_00432,William Moore,Female,38,Operations,IT Administrator,2,2,3,1,1,10497,24,0,14,9,19,3,Non-Travel,No
+EMP_COMP_BAD_00712_00433,Elizabeth Taylor,Female,24,Human Resources,Research Scientist,4,3,4,4,2,9611,21,3,1,1,6,4,Travel_Frequently,No
+EMP_COMP_BAD_00712_00434,Barbara Ramirez,Male,23,Finance,Financial Analyst,1,4,2,1,4,7829,15,3,2,2,6,16,Travel_Rarely,No
+EMP_COMP_BAD_00712_00435,Donald Martinez,Female,23,Human Resources,Business Analyst,5,2,1,4,2,9548,16,3,11,6,13,16,Travel_Frequently,Yes
+EMP_COMP_BAD_00712_00436,Nancy Lewis,Female,52,Legal,Data Scientist,1,1,3,1,4,10696,24,1,9,5,12,6,Travel_Rarely,No
+EMP_COMP_BAD_00712_00437,William White,Female,28,Finance,Product Manager,2,2,3,4,3,3873,15,2,15,2,16,22,Travel_Frequently,Yes
+EMP_COMP_BAD_00712_00438,Melissa Gonzalez,Male,25,Marketing,Research Scientist,5,2,4,3,4,5419,13,3,4,4,8,8,Travel_Rarely,No
+EMP_COMP_BAD_00712_00439,Betty Robinson,Female,32,IT,Financial Analyst,4,4,3,3,2,9681,12,3,0,0,7,15,Travel_Rarely,No
+EMP_COMP_BAD_00712_00440,Mary Martinez,Male,56,IT,Accountant,1,4,4,4,2,8149,13,2,9,0,14,16,Non-Travel,No
+EMP_COMP_BAD_00712_00441,Mary Clark,Male,39,Marketing,Research Scientist,5,1,1,2,3,7239,22,0,7,7,11,1,Travel_Frequently,Yes
+EMP_COMP_BAD_00712_00442,Kimberly Martin,Female,42,Engineering,Financial Analyst,5,2,4,4,2,16399,24,3,1,1,9,8,Non-Travel,Yes
+EMP_COMP_BAD_00712_00443,Sandra Jackson,Female,38,Marketing,Product Manager,2,3,3,2,1,8464,13,1,1,1,2,17,Non-Travel,No
+EMP_COMP_BAD_00712_00444,Donna Thomas,Male,35,Legal,Sales Representative,1,1,4,2,2,7645,14,3,8,2,8,7,Non-Travel,Yes
+EMP_COMP_BAD_00712_00445,David Moore,Female,45,Support,IT Administrator,4,3,1,3,4,9250,16,1,3,3,5,9,Travel_Frequently,No
+EMP_COMP_BAD_00712_00446,John Martin,Female,47,Marketing,Financial Analyst,3,1,1,2,1,15695,21,3,8,8,16,25,Travel_Frequently,Yes
+EMP_COMP_BAD_00712_00447,John Davis,Male,50,Research and Development,Software Engineer,5,4,1,1,1,6530,21,3,8,8,15,29,Travel_Frequently,Yes
+EMP_COMP_BAD_00712_00448,Karen Brown,Male,33,Operations,Financial Analyst,3,4,4,3,3,9434,17,2,14,8,15,24,Travel_Rarely,Yes
+EMP_COMP_BAD_00712_00449,Carol Brown,Male,43,Research and Development,Research Scientist,1,2,1,2,3,13056,18,3,3,3,4,14,Travel_Rarely,Yes
+EMP_COMP_BAD_00712_00450,Mary Thompson,Male,38,Support,Business Analyst,4,1,4,2,1,11547,13,3,0,0,9,7,Travel_Rarely,No
+EMP_COMP_BAD_00712_00451,Carol White,Female,26,IT,Data Scientist,5,4,1,2,3,14724,15,2,7,6,15,26,Travel_Frequently,No
+EMP_COMP_BAD_00712_00452,Steven Robinson,Female,36,Support,Accountant,1,4,3,3,4,8223,14,2,8,5,18,13,Non-Travel,Yes
+EMP_COMP_BAD_00712_00453,James Martin,Male,23,Marketing,Operations Manager,3,1,1,1,2,3524,19,2,9,3,19,18,Travel_Rarely,Yes
+EMP_COMP_BAD_00712_00454,Kenneth Miller,Male,55,Operations,Operations Manager,4,2,1,4,3,5398,23,0,6,4,11,27,Travel_Frequently,No
+EMP_COMP_BAD_00712_00455,Melissa Clark,Female,47,Human Resources,Legal Counsel,1,3,2,2,2,10309,23,2,8,8,18,18,Travel_Rarely,No
+EMP_COMP_BAD_00712_00456,Richard Martinez,Female,28,Research and Development,Support Specialist,3,3,2,4,1,6747,22,2,14,2,18,20,Non-Travel,Yes
+EMP_COMP_BAD_00712_00457,Linda Gonzalez,Male,55,Marketing,Operations Manager,5,2,3,4,4,7402,17,1,7,5,8,11,Travel_Rarely,Yes
+EMP_COMP_BAD_00712_00458,Nancy Davis,Female,56,IT,Legal Counsel,3,4,4,4,4,9205,15,3,6,1,16,16,Travel_Frequently,No
+EMP_COMP_BAD_00712_00459,John Martin,Male,56,Human Resources,Research Scientist,5,4,3,1,1,6418,11,2,13,6,21,25,Travel_Frequently,No
+EMP_COMP_BAD_00712_00460,Michael Sanchez,Female,42,Legal,Sales Representative,3,2,3,2,2,13080,22,1,14,2,16,5,Non-Travel,No
+EMP_COMP_BAD_00712_00461,Sarah Williams,Male,38,Engineering,Data Scientist,4,1,4,1,1,4786,21,3,5,0,14,20,Travel_Rarely,Yes
+EMP_COMP_BAD_00712_00462,Mary Martin,Female,26,Research and Development,Accountant,1,1,2,2,2,14524,18,0,2,2,4,14,Travel_Rarely,Yes
+EMP_COMP_BAD_00712_00463,Steven Lopez,Male,50,Sales,Financial Analyst,5,1,1,3,1,3643,16,2,11,0,13,23,Travel_Rarely,No
+EMP_COMP_BAD_00712_00464,Barbara Garcia,Female,38,Support,Support Specialist,5,1,3,2,4,10364,21,3,0,0,3,25,Travel_Frequently,Yes
+EMP_COMP_BAD_00712_00465,Thomas Sanchez,Female,56,Sales,HR Manager,3,2,3,3,3,7332,11,2,15,9,22,5,Non-Travel,Yes
+EMP_COMP_BAD_00712_00466,Emily Harris,Female,48,Engineering,Sales Representative,3,4,2,3,1,8510,22,3,9,3,17,13,Travel_Rarely,No
+EMP_COMP_BAD_00712_00467,Andrew Lopez,Male,26,Finance,Research Scientist,4,3,1,2,3,9984,22,3,0,0,8,5,Travel_Rarely,No
+EMP_COMP_BAD_00712_00468,Susan Taylor,Male,24,Operations,Support Specialist,5,2,1,1,2,4884,22,1,8,6,9,11,Travel_Rarely,Yes
+EMP_COMP_BAD_00712_00469,Kimberly Hernandez,Female,34,Marketing,Research Scientist,4,2,1,3,3,8217,12,0,10,6,17,10,Travel_Frequently,Yes
+EMP_COMP_BAD_00712_00470,Steven Thomas,Female,50,Human Resources,Support Specialist,2,1,4,4,1,8264,25,1,5,3,7,17,Non-Travel,No
+EMP_COMP_BAD_00712_00471,Susan Martinez,Male,38,Legal,Data Scientist,5,4,2,4,3,15628,17,1,2,1,7,16,Travel_Rarely,No
+EMP_COMP_BAD_00712_00472,Kimberly Ramirez,Female,47,Operations,Data Scientist,5,2,1,4,4,9862,20,0,9,5,17,16,Non-Travel,Yes
+EMP_COMP_BAD_00712_00473,Joshua White,Male,38,Sales,Product Manager,1,1,2,3,2,5296,15,0,15,4,19,25,Travel_Frequently,Yes
+EMP_COMP_BAD_00712_00474,Donna Rodriguez,Male,55,IT,Support Specialist,3,3,3,1,4,6790,13,0,12,2,17,13,Travel_Frequently,Yes
+EMP_COMP_BAD_00712_00475,William Martinez,Female,29,Human Resources,Research Scientist,2,2,2,1,4,9650,17,0,5,5,13,21,Non-Travel,No
+EMP_COMP_BAD_00712_00476,David Perez,Male,33,Legal,Product Manager,1,2,1,3,1,11899,24,1,10,9,14,29,Travel_Rarely,No
+EMP_COMP_BAD_00712_00477,Joshua Johnson,Female,53,Legal,IT Administrator,1,1,2,3,2,5421,19,2,6,6,11,13,Travel_Rarely,No
+EMP_COMP_BAD_00712_00478,Susan Thomas,Male,38,Sales,Sales Representative,1,2,2,1,2,9611,12,2,4,4,5,15,Travel_Rarely,No
+EMP_COMP_BAD_00712_00479,David Martin,Male,37,Operations,Research Scientist,5,4,3,2,3,7890,18,1,0,0,6,20,Travel_Frequently,No
+EMP_COMP_BAD_00712_00480,George Robinson,Male,23,IT,Business Analyst,2,1,1,1,3,4213,18,1,14,4,18,18,Travel_Rarely,No
+EMP_COMP_BAD_00712_00481,Donald Brown,Male,58,Marketing,HR Manager,2,2,1,4,1,15924,16,3,3,3,10,6,Non-Travel,No
+EMP_COMP_BAD_00712_00482,Kimberly Gonzalez,Male,53,IT,Business Analyst,2,4,4,3,4,7767,16,0,0,0,9,17,Travel_Rarely,No
+EMP_COMP_BAD_00712_00483,Robert Smith,Male,45,IT,IT Administrator,1,1,1,1,2,11831,18,2,0,0,9,2,Non-Travel,Yes
+EMP_COMP_BAD_00712_00484,Richard Sanchez,Female,52,IT,Operations Manager,5,1,1,2,2,10933,11,1,5,5,10,20,Travel_Frequently,No
+EMP_COMP_BAD_00712_00485,Michael Wilson,Male,28,Sales,Software Engineer,2,4,1,2,1,16273,16,2,13,9,13,8,Non-Travel,Yes
+EMP_COMP_BAD_00712_00486,Mary Rodriguez,Female,39,Research and Development,Sales Representative,5,2,1,3,3,6289,21,1,12,3,15,29,Non-Travel,Yes
+EMP_COMP_BAD_00712_00487,Richard Martin,Female,32,Support,Business Analyst,3,1,1,1,2,5197,16,3,10,0,20,23,Travel_Rarely,Yes
+EMP_COMP_BAD_00712_00488,Mary Harris,Male,28,Finance,Marketing Manager,2,1,3,2,1,7467,18,0,13,10,19,17,Travel_Frequently,Yes
+EMP_COMP_BAD_00712_00489,Karen Gonzalez,Female,45,Legal,Operations Manager,1,3,4,1,4,4129,22,1,0,0,0,24,Non-Travel,Yes
+EMP_COMP_BAD_00712_00490,Susan Walker,Female,48,IT,Legal Counsel,4,3,4,4,1,5859,22,1,11,6,15,11,Travel_Rarely,No
+EMP_COMP_BAD_00712_00491,John Garcia,Female,47,Sales,Marketing Manager,5,4,3,2,3,16071,21,1,5,0,12,4,Travel_Frequently,Yes
+EMP_COMP_BAD_00712_00492,George Jackson,Female,25,Legal,Operations Manager,3,1,4,4,2,11090,20,0,4,4,5,4,Non-Travel,No
+EMP_COMP_BAD_00712_00493,Linda Walker,Male,57,Engineering,Data Scientist,5,3,4,4,3,6191,12,1,3,2,11,9,Travel_Frequently,Yes
+EMP_COMP_BAD_00712_00494,Robert Lewis,Male,39,Research and Development,Marketing Manager,3,4,3,2,3,9819,12,1,10,5,20,7,Travel_Frequently,No
+EMP_COMP_BAD_00712_00495,Amanda Rodriguez,Female,57,Marketing,IT Administrator,1,1,3,4,3,5221,11,0,0,0,6,19,Non-Travel,No
+EMP_COMP_BAD_00712_00496,David Davis,Female,27,Research and Development,Operations Manager,1,2,2,2,2,9135,24,3,10,5,12,3,Travel_Frequently,No
+EMP_COMP_BAD_00712_00497,John Martinez,Female,41,Legal,Data Scientist,4,1,4,4,1,9664,22,3,8,8,8,10,Travel_Frequently,Yes
+EMP_COMP_BAD_00712_00498,Steven Thomas,Male,43,Sales,Operations Manager,4,3,1,3,3,9950,14,1,4,0,14,24,Non-Travel,No
+EMP_COMP_BAD_00712_00499,Jessica Walker,Female,40,Operations,Accountant,1,2,4,4,2,5014,20,3,8,8,18,10,Non-Travel,No
+EMP_COMP_BAD_00712_00500,Brian Lewis,Male,29,Legal,Software Engineer,1,3,1,1,4,9262,21,3,3,3,7,26,Travel_Rarely,No
+EMP_COMP_BAD_00712_00501,Robert Taylor,Male,42,IT,Operations Manager,5,2,1,4,3,6166,18,0,9,6,9,18,Travel_Rarely,Yes
+EMP_COMP_BAD_00712_00502,Steven Jackson,Female,30,Engineering,Software Engineer,5,1,1,1,2,7054,18,3,13,9,13,3,Non-Travel,Yes
+EMP_COMP_BAD_00712_00503,Jessica Lewis,Male,58,Engineering,Legal Counsel,3,4,3,4,4,9987,19,1,1,1,5,2,Non-Travel,Yes
+EMP_COMP_BAD_00712_00504,Ashley Lee,Female,33,Engineering,Software Engineer,4,4,1,4,4,9735,18,3,1,1,10,7,Travel_Rarely,No
+EMP_COMP_BAD_00712_00505,John Hernandez,Male,37,Finance,HR Manager,1,1,1,2,3,5496,13,0,4,4,5,7,Travel_Frequently,No
+EMP_COMP_BAD_00712_00506,Sarah Thomas,Male,33,Engineering,Financial Analyst,1,3,3,2,2,8956,22,3,10,7,11,27,Travel_Rarely,Yes
+EMP_COMP_BAD_00712_00507,Nancy Williams,Female,41,Finance,Research Scientist,2,3,3,2,1,5715,13,3,4,4,4,5,Travel_Rarely,No
+EMP_COMP_BAD_00712_00508,Melissa Taylor,Female,23,Support,Support Specialist,2,1,4,4,2,4976,21,0,6,5,11,28,Travel_Rarely,Yes
+EMP_COMP_BAD_00712_00509,Daniel Davis,Female,54,Finance,Support Specialist,2,1,3,1,2,7945,19,0,1,1,10,1,Travel_Rarely,Yes
+EMP_COMP_BAD_00712_00510,Thomas Smith,Female,43,Legal,IT Administrator,4,1,4,2,3,4905,20,0,2,1,3,9,Non-Travel,Yes
+EMP_COMP_BAD_00712_00511,Sandra Moore,Female,42,Support,Research Scientist,4,2,3,3,2,8971,16,2,7,5,8,3,Travel_Rarely,Yes
+EMP_COMP_BAD_00712_00512,George Lee,Male,30,IT,Accountant,4,1,2,4,1,14817,19,0,9,0,19,4,Non-Travel,No
+EMP_COMP_BAD_00712_00513,Betty Martin,Male,25,Support,Business Analyst,5,1,3,4,3,10287,16,3,1,1,9,29,Travel_Rarely,Yes
+EMP_COMP_BAD_00712_00514,James Harris,Female,54,Human Resources,Sales Representative,5,1,4,4,3,4737,20,0,12,6,13,7,Travel_Rarely,Yes
+EMP_COMP_BAD_00712_00515,Anthony Martinez,Male,22,Operations,Business Analyst,4,1,2,4,3,5841,22,3,4,2,11,26,Non-Travel,No
+EMP_COMP_BAD_00712_00516,Donna White,Male,30,Operations,IT Administrator,5,2,3,2,4,4554,23,0,14,1,17,5,Travel_Rarely,Yes
+EMP_COMP_BAD_00712_00517,Jessica Robinson,Female,48,Operations,Data Scientist,1,2,4,1,2,4655,22,0,15,10,16,7,Travel_Frequently,No
+EMP_COMP_BAD_00712_00518,Steven Rodriguez,Male,33,Sales,HR Manager,3,3,4,1,4,5030,22,2,12,10,14,18,Travel_Rarely,Yes
+EMP_COMP_BAD_00712_00519,Mark Rodriguez,Female,35,Human Resources,Data Scientist,3,2,1,1,4,5746,19,0,9,3,17,22,Non-Travel,No
+EMP_COMP_BAD_00712_00520,Susan Taylor,Male,45,Operations,Accountant,1,1,2,1,4,9230,21,0,13,9,20,24,Travel_Rarely,No
+EMP_COMP_BAD_00712_00521,Amanda Moore,Male,23,Legal,IT Administrator,3,3,4,1,4,8326,18,1,5,4,15,9,Non-Travel,Yes
+EMP_COMP_BAD_00712_00522,Dorothy Harris,Male,57,Marketing,Operations Manager,5,1,4,4,4,10489,19,0,11,7,12,5,Travel_Frequently,No
+EMP_COMP_BAD_00712_00523,Michelle Walker,Male,39,Operations,Data Scientist,2,1,1,4,3,7454,18,0,14,10,22,10,Travel_Frequently,No
+EMP_COMP_BAD_00712_00524,Brian Garcia,Female,40,Marketing,Legal Counsel,5,2,2,4,2,4485,17,0,5,5,10,11,Travel_Rarely,No
+EMP_COMP_BAD_00712_00525,Margaret Smith,Male,36,Legal,HR Manager,3,3,3,3,1,7544,11,1,5,4,15,19,Travel_Rarely,Yes
+EMP_COMP_BAD_00712_00526,Steven Hernandez,Male,53,Research and Development,Sales Representative,1,2,2,1,4,7200,25,3,6,5,11,1,Travel_Rarely,Yes
+EMP_COMP_BAD_00712_00527,Daniel Davis,Male,46,Research and Development,Software Engineer,2,2,3,3,3,11763,23,0,10,0,20,13,Travel_Frequently,Yes
+EMP_COMP_BAD_00712_00528,Robert White,Female,52,Sales,Accountant,3,2,4,4,4,5698,24,1,7,5,11,14,Non-Travel,Yes
+EMP_COMP_BAD_00712_00529,Karen Moore,Male,39,Research and Development,IT Administrator,3,3,2,3,3,7720,20,0,7,7,11,3,Travel_Rarely,Yes
+EMP_COMP_BAD_00712_00530,Richard Gonzalez,Female,41,Operations,Sales Representative,5,4,1,3,4,5819,16,3,9,7,11,25,Travel_Frequently,No
+EMP_COMP_BAD_00712_00531,Anthony Lewis,Female,49,Support,HR Manager,4,3,1,2,4,4323,11,3,5,4,5,24,Travel_Rarely,No
+EMP_COMP_BAD_00712_00532,David Taylor,Female,37,Support,Business Analyst,3,2,1,1,4,5380,23,3,13,4,13,14,Non-Travel,Yes
+EMP_COMP_BAD_00712_00533,Barbara White,Female,55,Research and Development,Operations Manager,1,4,1,3,2,9893,25,2,0,0,0,9,Travel_Rarely,No
+EMP_COMP_BAD_00712_00534,Robert Perez,Male,25,Support,Sales Representative,2,2,1,3,4,6193,11,1,8,6,12,14,Travel_Frequently,No
+EMP_COMP_BAD_00712_00535,Linda Davis,Male,56,Human Resources,Research Scientist,2,1,1,4,4,8265,18,1,4,0,14,12,Non-Travel,Yes
+EMP_COMP_BAD_00712_00536,Margaret Lopez,Female,22,Marketing,HR Manager,1,2,1,2,3,8694,20,3,10,8,20,19,Travel_Frequently,Yes
+EMP_COMP_BAD_00712_00537,James Lee,Female,22,IT,Sales Representative,2,1,3,1,4,13230,11,0,12,3,19,21,Non-Travel,No
+EMP_COMP_BAD_00712_00538,Patricia Garcia,Female,52,Sales,Software Engineer,2,3,3,1,1,14804,20,3,8,6,11,3,Non-Travel,Yes
+EMP_COMP_BAD_00712_00539,Charles Clark,Male,38,Human Resources,IT Administrator,5,2,3,4,4,8545,16,2,7,1,15,1,Travel_Frequently,Yes
+EMP_COMP_BAD_00712_00540,Michelle Sanchez,Female,33,Human Resources,Business Analyst,4,4,1,2,4,5480,18,2,13,0,21,25,Non-Travel,No
+EMP_COMP_BAD_00712_00541,Donna Lopez,Female,30,Legal,Legal Counsel,5,2,4,3,3,8826,12,1,6,2,15,18,Travel_Frequently,No
+EMP_COMP_BAD_00712_00542,Kenneth Hernandez,Male,40,Operations,Marketing Manager,3,4,2,1,2,6802,14,3,1,1,10,21,Travel_Frequently,Yes
+EMP_COMP_BAD_00712_00543,David Martin,Male,33,IT,Data Scientist,2,1,2,1,3,9986,25,1,8,3,10,27,Non-Travel,No
+EMP_COMP_BAD_00712_00544,Robert Miller,Male,42,Research and Development,Operations Manager,4,2,2,2,3,12401,20,2,4,4,5,23,Travel_Frequently,No
+EMP_COMP_BAD_00712_00545,David Smith,Male,50,Human Resources,IT Administrator,2,2,2,4,1,4713,13,2,10,8,12,26,Non-Travel,No
+EMP_COMP_BAD_00712_00546,Donald Johnson,Male,54,Operations,Software Engineer,3,3,1,3,4,6182,11,1,2,2,8,27,Travel_Frequently,No
+EMP_COMP_BAD_00712_00547,James Thompson,Male,30,Sales,Business Analyst,4,3,3,2,3,6071,18,1,0,0,9,29,Travel_Rarely,Yes
+EMP_COMP_BAD_00712_00548,Charles Martin,Female,23,Operations,Sales Representative,3,3,1,2,3,4540,13,0,4,1,11,17,Travel_Rarely,Yes
+EMP_COMP_BAD_00712_00549,Mark Taylor,Male,46,Marketing,Legal Counsel,5,2,1,2,1,4576,20,2,8,8,9,27,Travel_Rarely,Yes
+EMP_COMP_BAD_00712_00550,Michelle Williams,Male,39,Engineering,Sales Representative,2,3,3,1,2,5632,15,2,14,10,17,8,Non-Travel,No
+EMP_COMP_BAD_00712_00551,Mark Johnson,Male,25,Research and Development,Data Scientist,1,4,1,3,4,4053,22,3,7,1,14,8,Travel_Frequently,No
+EMP_COMP_BAD_00712_00552,Joseph White,Male,44,Finance,Support Specialist,4,2,3,3,3,9837,22,2,9,2,14,5,Non-Travel,No
+EMP_COMP_BAD_00712_00553,James Jackson,Male,42,Sales,Marketing Manager,1,3,4,1,4,12953,15,1,7,7,13,26,Travel_Rarely,No
+EMP_COMP_BAD_00712_00554,Ashley Sanchez,Male,36,Finance,Marketing Manager,2,3,1,1,2,6492,13,1,2,1,9,27,Non-Travel,No
+EMP_COMP_BAD_00712_00555,Mark Wilson,Male,28,Marketing,Accountant,5,3,2,1,4,6230,25,2,15,2,19,2,Travel_Frequently,No
+EMP_COMP_BAD_00712_00556,Robert Harris,Male,22,Operations,Operations Manager,1,4,3,3,1,7669,22,0,1,1,1,20,Travel_Frequently,No
+EMP_COMP_BAD_00712_00557,Daniel Anderson,Male,44,Sales,Marketing Manager,3,4,4,1,2,8777,20,1,5,5,12,6,Travel_Frequently,Yes
+EMP_COMP_BAD_00712_00558,John Thomas,Male,34,IT,IT Administrator,1,4,1,4,2,5722,12,1,0,0,9,6,Travel_Rarely,No
+EMP_COMP_BAD_00712_00559,Kenneth Miller,Female,43,Operations,IT Administrator,1,2,3,4,1,9740,19,2,3,0,13,13,Non-Travel,Yes
+EMP_COMP_BAD_00712_00560,Thomas Jones,Male,34,Engineering,Research Scientist,1,4,3,3,2,8295,12,3,8,3,17,10,Travel_Frequently,Yes
+EMP_COMP_BAD_00712_00561,Susan Brown,Female,30,Marketing,IT Administrator,1,2,3,1,1,15814,16,0,6,3,6,15,Non-Travel,No
+EMP_COMP_BAD_00712_00562,Steven Taylor,Female,33,Engineering,Data Scientist,3,2,1,1,1,4531,12,3,7,6,14,19,Travel_Frequently,Yes
+EMP_COMP_BAD_00712_00563,Matthew Jones,Male,29,Research and Development,Sales Representative,4,3,4,3,4,4568,20,2,5,5,9,19,Travel_Rarely,No
+EMP_COMP_BAD_00712_00564,Linda Martinez,Female,44,Sales,HR Manager,3,1,4,4,2,4535,11,0,2,2,3,9,Travel_Rarely,Yes
+EMP_COMP_BAD_00712_00565,Christopher Davis,Male,56,Sales,Sales Representative,3,2,2,4,1,11353,21,1,9,5,18,21,Travel_Frequently,Yes
+EMP_COMP_BAD_00712_00566,Robert White,Male,34,Support,Legal Counsel,4,3,2,4,3,10844,20,1,15,10,21,14,Travel_Rarely,Yes
+EMP_COMP_BAD_00712_00567,John Wilson,Female,55,IT,Research Scientist,3,4,3,2,1,12305,14,1,9,1,12,14,Non-Travel,Yes
+EMP_COMP_BAD_00712_00568,Karen Lewis,Male,23,Support,Software Engineer,3,4,1,2,2,5159,11,0,15,4,21,17,Travel_Frequently,Yes
+EMP_COMP_BAD_00712_00569,Mary Davis,Female,31,Human Resources,Legal Counsel,4,1,1,2,1,6219,22,2,5,5,7,20,Non-Travel,Yes
+EMP_COMP_BAD_00712_00570,Matthew Taylor,Male,35,Research and Development,IT Administrator,1,3,1,3,3,12307,16,0,15,0,21,29,Travel_Rarely,Yes
+EMP_COMP_BAD_00712_00571,James Martinez,Female,45,Finance,Product Manager,2,4,1,1,1,11837,25,3,1,1,4,21,Travel_Rarely,No
+EMP_COMP_BAD_00712_00572,Michael Jackson,Male,42,Engineering,HR Manager,4,1,2,4,4,9167,13,2,0,0,3,23,Non-Travel,No
+EMP_COMP_BAD_00712_00573,Linda Rodriguez,Male,28,Marketing,Software Engineer,5,3,3,1,2,11251,17,0,11,9,19,10,Travel_Frequently,No
+EMP_COMP_BAD_00712_00574,Michael Williams,Female,38,Engineering,Operations Manager,4,3,2,3,2,15726,17,2,15,3,23,4,Non-Travel,Yes
+EMP_COMP_BAD_00712_00575,Joseph Martin,Female,41,Research and Development,Financial Analyst,3,1,2,2,1,5637,13,3,13,9,21,25,Travel_Frequently,No
+EMP_COMP_BAD_00712_00576,Kenneth Gonzalez,Female,58,Legal,HR Manager,4,1,3,4,1,8055,21,2,3,3,9,14,Non-Travel,Yes
+EMP_COMP_BAD_00712_00577,Thomas Sanchez,Male,55,Legal,HR Manager,1,1,1,3,3,5263,22,2,8,1,10,20,Travel_Frequently,No
+EMP_COMP_BAD_00712_00578,Anthony Moore,Female,47,Sales,Software Engineer,4,1,1,4,1,3555,22,1,2,2,3,28,Travel_Rarely,Yes
+EMP_COMP_BAD_00712_00579,Sarah Garcia,Female,32,Legal,Research Scientist,2,3,2,1,2,5292,11,3,0,0,0,7,Travel_Rarely,Yes
+EMP_COMP_BAD_00712_00580,Patricia Johnson,Male,22,Human Resources,Sales Representative,2,3,3,2,4,6888,21,2,9,6,14,8,Travel_Rarely,Yes
+EMP_COMP_BAD_00712_00581,Mark Ramirez,Female,36,Human Resources,Software Engineer,2,1,1,4,2,3883,21,3,10,3,13,3,Travel_Frequently,No
+EMP_COMP_BAD_00712_00582,Sarah Garcia,Female,35,Support,Financial Analyst,4,1,4,4,3,5109,16,2,3,3,13,10,Non-Travel,No
+EMP_COMP_BAD_00712_00583,Linda Thomas,Female,57,Engineering,Financial Analyst,5,3,1,4,3,6682,21,2,12,7,17,9,Non-Travel,No
+EMP_COMP_BAD_00712_00584,Linda Rodriguez,Male,37,Operations,Data Scientist,4,2,4,3,4,13190,12,1,9,7,17,21,Travel_Rarely,Yes
+EMP_COMP_BAD_00712_00585,Daniel Lopez,Female,48,IT,Operations Manager,4,3,1,2,2,5550,16,2,10,0,15,16,Non-Travel,No
+EMP_COMP_BAD_00712_00586,Elizabeth Johnson,Male,28,Human Resources,Legal Counsel,2,3,4,4,1,9128,11,1,9,0,10,28,Non-Travel,Yes
+EMP_COMP_BAD_00712_00587,Jessica Perez,Male,54,Support,Data Scientist,2,1,1,1,3,8453,22,1,0,0,4,20,Travel_Frequently,Yes
+EMP_COMP_BAD_00712_00588,Emily Perez,Male,29,Research and Development,Sales Representative,3,4,1,1,1,6349,17,3,11,9,17,8,Travel_Rarely,No
+EMP_COMP_BAD_00712_00589,Donald Lewis,Male,45,Sales,Legal Counsel,1,1,3,2,1,16172,18,3,12,8,17,2,Travel_Frequently,No
+EMP_COMP_BAD_00712_00590,Matthew Anderson,Female,51,Operations,Research Scientist,4,3,4,4,4,4701,13,3,9,1,16,11,Travel_Rarely,Yes
+EMP_COMP_BAD_00712_00591,Jessica Johnson,Male,43,Human Resources,Operations Manager,1,4,1,2,2,6858,13,0,1,1,11,28,Non-Travel,No
+EMP_COMP_BAD_00712_00592,John Lee,Male,44,Engineering,Research Scientist,2,1,3,1,1,11247,20,0,10,2,12,6,Travel_Frequently,No
+EMP_COMP_BAD_00712_00593,Karen Brown,Female,49,Engineering,IT Administrator,2,3,1,2,4,13203,13,1,13,4,17,2,Travel_Rarely,Yes
+EMP_COMP_BAD_00712_00594,William Lee,Female,43,Marketing,HR Manager,5,4,2,2,3,3874,18,2,13,10,18,1,Travel_Rarely,Yes
+EMP_COMP_BAD_00712_00595,Ashley Lewis,Female,49,Support,Financial Analyst,1,4,2,2,1,8546,11,0,13,8,14,2,Travel_Frequently,Yes
+EMP_COMP_BAD_00712_00596,Joshua Perez,Male,47,Engineering,Data Scientist,1,4,3,3,4,5270,19,1,13,5,16,13,Non-Travel,Yes
+EMP_COMP_BAD_00712_00597,Mary Lopez,Male,58,Legal,HR Manager,2,4,4,4,2,5930,21,2,7,5,13,10,Non-Travel,No
+EMP_COMP_BAD_00712_00598,James Hernandez,Male,35,Operations,Operations Manager,4,2,4,2,1,5341,21,3,3,3,13,20,Travel_Frequently,No
+EMP_COMP_BAD_00712_00599,William Garcia,Female,52,Sales,IT Administrator,2,1,1,2,4,4896,19,3,15,5,19,21,Non-Travel,No
+EMP_COMP_BAD_00712_00600,James White,Male,33,Operations,Software Engineer,1,4,2,3,3,15166,19,0,0,0,4,22,Travel_Frequently,No
+EMP_COMP_BAD_00712_00601,Michael Moore,Male,48,Operations,Software Engineer,2,4,2,2,3,6465,23,2,0,0,2,24,Travel_Frequently,No
+EMP_COMP_BAD_00712_00602,Emily Lopez,Male,49,Legal,Research Scientist,2,4,3,2,1,9169,20,2,12,5,15,14,Travel_Rarely,No
+EMP_COMP_BAD_00712_00603,Dorothy Clark,Male,27,Engineering,Operations Manager,5,2,1,3,4,15621,13,3,12,4,16,18,Travel_Frequently,No
+EMP_COMP_BAD_00712_00604,Michael Lewis,Male,52,Operations,Data Scientist,5,1,3,1,4,6148,15,2,5,5,13,17,Travel_Frequently,No
+EMP_COMP_BAD_00712_00605,Kevin Wilson,Female,43,Human Resources,Software Engineer,4,2,1,4,4,5727,13,3,10,2,20,15,Travel_Rarely,No
+EMP_COMP_BAD_00712_00606,Elizabeth Martinez,Female,37,Finance,Operations Manager,1,1,1,4,2,9802,23,2,1,0,11,28,Travel_Frequently,No
+EMP_COMP_BAD_00712_00607,Kenneth Miller,Female,56,Support,Business Analyst,4,1,3,4,4,6227,12,1,11,1,18,7,Travel_Rarely,Yes
+EMP_COMP_BAD_00712_00608,Barbara Jones,Female,39,IT,IT Administrator,3,2,2,2,1,9043,22,0,7,7,8,27,Travel_Rarely,No
+EMP_COMP_BAD_00712_00609,Richard White,Male,35,IT,HR Manager,5,2,3,2,1,4068,21,2,4,4,12,15,Travel_Frequently,Yes
+EMP_COMP_BAD_00712_00610,John Miller,Female,39,Operations,Data Scientist,2,2,3,1,1,4845,23,0,3,3,13,1,Travel_Rarely,No
+EMP_COMP_BAD_00712_00611,Dorothy Anderson,Male,42,Human Resources,HR Manager,3,2,2,2,4,6909,21,2,13,2,20,5,Non-Travel,No
+EMP_COMP_BAD_00712_00612,Michael Jones,Male,22,Legal,HR Manager,1,4,1,4,3,6662,22,3,14,3,24,25,Travel_Rarely,Yes
+EMP_COMP_BAD_00712_00613,Mary Martinez,Male,44,Engineering,Sales Representative,3,2,1,4,2,13051,25,1,9,1,15,27,Non-Travel,No
+EMP_COMP_BAD_00712_00614,Thomas Smith,Female,40,Finance,Sales Representative,3,4,3,4,2,7720,20,2,6,6,10,3,Non-Travel,No
+EMP_COMP_BAD_00712_00615,Andrew Robinson,Male,54,IT,IT Administrator,4,1,3,4,4,7825,19,2,10,6,10,21,Travel_Rarely,No
+EMP_COMP_BAD_00712_00616,Robert Brown,Male,44,Operations,Support Specialist,4,3,4,2,3,9198,24,1,13,1,23,16,Travel_Frequently,Yes
+EMP_COMP_BAD_00712_00617,Joseph Davis,Female,24,Marketing,Software Engineer,2,1,4,4,1,10549,24,1,8,0,11,7,Travel_Rarely,No
+EMP_COMP_BAD_00712_00618,Margaret Taylor,Male,50,Sales,Legal Counsel,5,1,2,4,2,9790,22,0,6,5,8,12,Non-Travel,Yes
+EMP_COMP_BAD_00712_00619,Patricia Lee,Female,29,Human Resources,Software Engineer,3,4,2,4,2,8277,18,0,5,3,11,14,Travel_Rarely,Yes
+EMP_COMP_BAD_00712_00620,Margaret Hernandez,Male,53,Human Resources,Business Analyst,5,1,1,2,1,4274,19,1,4,3,13,29,Non-Travel,Yes
+EMP_COMP_BAD_00712_00621,Steven Wilson,Female,48,Operations,Operations Manager,4,2,1,3,4,3740,14,0,15,4,20,28,Travel_Frequently,Yes
+EMP_COMP_BAD_00712_00622,Michelle Martinez,Female,34,IT,Business Analyst,4,4,3,4,2,11743,15,1,11,2,20,22,Non-Travel,Yes
+EMP_COMP_BAD_00712_00623,John Robinson,Female,27,Human Resources,Data Scientist,1,2,3,1,4,8062,15,2,11,0,19,5,Travel_Frequently,Yes
+EMP_COMP_BAD_00712_00624,Karen Johnson,Male,34,Legal,HR Manager,4,4,2,1,2,6687,18,0,7,7,8,12,Travel_Rarely,Yes
+EMP_COMP_BAD_00712_00625,Andrew Lee,Female,31,Operations,Research Scientist,3,2,3,4,2,7337,25,1,5,2,12,22,Travel_Frequently,No
+EMP_COMP_BAD_00712_00626,Paul Lee,Female,39,Support,Marketing Manager,1,1,4,1,2,16248,19,3,2,2,4,29,Travel_Rarely,No
+EMP_COMP_BAD_00712_00627,Kevin White,Female,52,Finance,Software Engineer,1,3,1,3,1,8763,15,3,1,1,2,5,Non-Travel,No
+EMP_COMP_BAD_00712_00628,Linda Davis,Male,52,Legal,Data Scientist,1,4,3,4,3,14650,18,2,4,3,8,10,Non-Travel,Yes
+EMP_COMP_BAD_00712_00629,Charles Jackson,Male,56,Marketing,Financial Analyst,2,4,3,3,4,4882,24,0,10,5,10,6,Non-Travel,No
+EMP_COMP_BAD_00712_00630,Paul White,Female,55,Human Resources,Legal Counsel,2,2,4,2,3,13232,16,3,13,6,20,5,Non-Travel,No
+EMP_COMP_BAD_00712_00631,Sarah Gonzalez,Female,38,Marketing,Sales Representative,4,1,2,3,1,4589,15,2,2,2,2,17,Travel_Frequently,No
+EMP_COMP_BAD_00712_00632,Susan Garcia,Male,48,Sales,Financial Analyst,1,4,2,1,2,4411,21,3,4,4,12,8,Travel_Rarely,Yes
+EMP_COMP_BAD_00712_00633,George Clark,Male,33,Support,HR Manager,5,3,2,1,4,6035,14,0,4,4,6,21,Non-Travel,Yes
+EMP_COMP_BAD_00712_00634,Lisa Thompson,Male,37,Engineering,Research Scientist,5,3,4,2,3,7795,17,1,13,6,22,13,Non-Travel,Yes
+EMP_COMP_BAD_00712_00635,Susan Hernandez,Male,50,Support,Research Scientist,4,4,2,2,4,7709,17,1,2,1,7,21,Travel_Rarely,No
+EMP_COMP_BAD_00712_00636,Kimberly Hernandez,Male,57,Marketing,Software Engineer,3,4,3,4,3,8532,12,1,14,10,24,22,Travel_Rarely,Yes
+EMP_COMP_BAD_00712_00637,Lisa Anderson,Female,45,Marketing,Software Engineer,2,1,4,3,1,5777,20,2,2,1,6,21,Non-Travel,No
+EMP_COMP_BAD_00712_00638,Kimberly White,Male,52,Research and Development,Accountant,5,1,3,4,2,15650,25,3,5,1,11,23,Travel_Rarely,Yes
+EMP_COMP_BAD_00712_00639,Elizabeth Jones,Male,25,Operations,Business Analyst,4,4,2,3,3,4835,15,1,1,1,4,14,Non-Travel,Yes
+EMP_COMP_BAD_00712_00640,Kevin Lee,Male,29,Legal,Business Analyst,3,1,2,4,2,7556,25,0,0,0,1,25,Non-Travel,No
+EMP_COMP_BAD_00712_00641,Linda Thompson,Male,46,Engineering,Legal Counsel,4,4,2,3,4,7654,12,2,10,4,11,8,Non-Travel,No
+EMP_COMP_BAD_00712_00642,Elizabeth Thompson,Female,27,Finance,Research Scientist,1,1,4,2,4,3722,24,0,2,2,3,10,Non-Travel,Yes
+EMP_COMP_BAD_00712_00643,Thomas Rodriguez,Male,50,Finance,Business Analyst,3,1,3,3,4,7129,11,0,13,9,18,26,Non-Travel,No
+EMP_COMP_BAD_00712_00644,Joseph Lopez,Female,36,Support,Sales Representative,4,4,3,2,1,4646,18,2,7,7,13,17,Travel_Rarely,Yes
+EMP_COMP_BAD_00712_00645,Melissa Davis,Female,45,Legal,Operations Manager,1,3,3,3,3,13122,16,2,10,1,14,23,Travel_Frequently,Yes
+EMP_COMP_BAD_00712_00646,Kimberly Jackson,Female,47,Sales,HR Manager,5,3,1,1,1,8072,25,1,3,3,12,8,Travel_Rarely,No
+EMP_COMP_BAD_00712_00647,Thomas Sanchez,Male,35,Operations,Sales Representative,5,2,3,2,2,3688,14,0,7,5,7,8,Travel_Rarely,No
+EMP_COMP_BAD_00712_00648,Robert Taylor,Female,30,Human Resources,Legal Counsel,3,1,2,4,1,7665,19,0,15,1,15,25,Travel_Frequently,Yes
+EMP_COMP_BAD_00712_00649,Andrew Perez,Female,56,Operations,Marketing Manager,3,3,1,1,1,9467,17,0,4,4,9,29,Travel_Frequently,Yes
+EMP_COMP_BAD_00712_00650,Elizabeth Rodriguez,Male,28,IT,Operations Manager,3,2,2,1,2,12606,25,3,13,2,23,14,Travel_Frequently,Yes
+EMP_COMP_BAD_00712_00651,Amanda Taylor,Male,35,Sales,Support Specialist,3,2,4,3,2,10329,25,3,7,1,10,9,Non-Travel,No
+EMP_COMP_BAD_00712_00652,Brian Moore,Female,24,Legal,Sales Representative,2,4,4,4,1,10025,21,1,8,2,10,13,Travel_Frequently,No
+EMP_COMP_BAD_00712_00653,Thomas Lee,Male,25,Operations,Marketing Manager,4,1,2,2,4,8276,16,2,6,6,12,27,Non-Travel,Yes
+EMP_COMP_BAD_00712_00654,Susan Garcia,Female,28,Marketing,Business Analyst,3,3,3,4,3,9760,13,1,1,1,4,8,Travel_Frequently,Yes
+EMP_COMP_BAD_00712_00655,Dorothy Robinson,Female,38,Marketing,IT Administrator,2,1,2,1,3,4794,25,0,11,2,20,23,Travel_Frequently,No
+EMP_COMP_BAD_00712_00656,Lisa Anderson,Female,53,Finance,Business Analyst,4,4,1,4,1,13028,24,3,8,0,18,15,Travel_Rarely,No
+EMP_COMP_BAD_00712_00657,Matthew Jackson,Male,49,Human Resources,IT Administrator,3,1,1,4,1,5985,16,1,6,4,14,11,Non-Travel,No
+EMP_COMP_BAD_00712_00658,Donald Smith,Male,37,Operations,Sales Representative,5,2,2,3,2,12763,20,0,2,1,8,24,Travel_Rarely,No
+EMP_COMP_BAD_00712_00659,Sandra Thompson,Male,36,Sales,Research Scientist,1,2,3,3,4,10858,13,1,2,1,4,24,Travel_Frequently,No
+EMP_COMP_BAD_00712_00660,Daniel Moore,Female,45,Sales,HR Manager,4,4,3,1,2,5476,25,2,13,9,15,19,Travel_Rarely,Yes
+EMP_COMP_BAD_00712_00661,Betty Thompson,Male,49,Sales,Business Analyst,4,1,2,3,1,10373,11,3,9,1,15,23,Travel_Frequently,Yes
+EMP_COMP_BAD_00712_00662,Andrew Martin,Male,34,Research and Development,Research Scientist,1,4,2,4,3,7422,23,0,13,9,17,9,Travel_Rarely,No
+EMP_COMP_BAD_00712_00663,Joseph Wilson,Male,26,Legal,Accountant,3,1,4,3,1,4676,25,1,9,6,13,7,Non-Travel,Yes
+EMP_COMP_BAD_00712_00664,Ashley Anderson,Male,24,Finance,HR Manager,2,4,2,1,2,12779,12,2,1,1,3,2,Travel_Frequently,Yes
+EMP_COMP_BAD_00712_00665,Anthony Lopez,Male,39,Sales,Data Scientist,3,3,1,4,3,6293,22,1,11,3,21,4,Travel_Frequently,No
+EMP_COMP_BAD_00712_00666,Susan Jones,Female,35,Operations,Financial Analyst,4,4,1,1,3,4491,11,0,13,7,23,13,Non-Travel,No
+EMP_COMP_BAD_00712_00667,Donald Harris,Male,54,Sales,HR Manager,3,4,3,4,4,12215,22,2,1,1,11,4,Travel_Rarely,Yes
+EMP_COMP_BAD_00712_00668,Brian Harris,Female,47,Finance,IT Administrator,3,2,3,4,3,11915,12,0,5,5,10,3,Non-Travel,Yes
+EMP_COMP_BAD_00712_00669,Melissa Lopez,Male,38,Research and Development,HR Manager,3,3,4,1,2,15284,15,1,2,2,10,11,Travel_Frequently,No
+EMP_COMP_BAD_00712_00670,Nancy Brown,Male,53,Research and Development,Financial Analyst,2,3,3,2,3,5447,22,1,12,3,13,9,Travel_Rarely,Yes
+EMP_COMP_BAD_00712_00671,Richard Martin,Female,35,Operations,Financial Analyst,3,4,2,2,3,10119,20,2,14,8,15,4,Non-Travel,No
+EMP_COMP_BAD_00712_00672,David Johnson,Female,31,Marketing,IT Administrator,1,2,3,2,4,8626,17,3,6,2,6,20,Travel_Rarely,Yes
+EMP_COMP_BAD_00712_00673,John Wilson,Female,51,Support,Financial Analyst,3,3,1,2,4,12499,25,0,3,0,8,4,Non-Travel,Yes
+EMP_COMP_BAD_00712_00674,Jennifer Anderson,Female,35,Human Resources,IT Administrator,3,3,1,4,4,9159,15,0,11,9,20,5,Travel_Frequently,No
+EMP_COMP_BAD_00712_00675,James Gonzalez,Female,45,Sales,IT Administrator,5,3,1,4,3,10435,24,2,8,2,12,5,Non-Travel,Yes
+EMP_COMP_BAD_00712_00676,Andrew Clark,Female,53,Legal,Sales Representative,1,2,1,1,1,7690,21,2,10,8,15,18,Non-Travel,No
+EMP_COMP_BAD_00712_00677,Kimberly Hernandez,Male,42,IT,Accountant,4,1,4,4,4,11641,17,1,4,4,8,23,Non-Travel,Yes
+EMP_COMP_BAD_00712_00678,Susan Wilson,Female,51,Sales,Product Manager,3,4,2,1,4,3937,23,3,13,8,22,10,Travel_Rarely,No
+EMP_COMP_BAD_00712_00679,Dorothy Garcia,Female,34,Sales,Support Specialist,5,4,1,1,1,6647,22,2,11,6,15,11,Travel_Frequently,Yes
+EMP_COMP_BAD_00712_00680,Carol Smith,Female,28,Research and Development,HR Manager,1,4,2,2,1,5676,19,2,6,6,7,8,Non-Travel,Yes
+EMP_COMP_BAD_00712_00681,Christopher Wilson,Female,51,Finance,Product Manager,2,3,2,3,1,9561,20,3,15,5,18,20,Travel_Rarely,Yes
+EMP_COMP_BAD_00712_00682,Elizabeth Lewis,Female,29,Legal,HR Manager,1,1,1,1,2,8718,13,1,7,7,8,18,Non-Travel,Yes
+EMP_COMP_BAD_00712_00683,Emily Ramirez,Male,33,Research and Development,Product Manager,3,4,3,2,4,14997,25,2,6,0,6,13,Travel_Frequently,Yes
+EMP_COMP_BAD_00712_00684,Mark Taylor,Male,49,Operations,Marketing Manager,1,3,3,1,4,6836,17,3,8,5,15,14,Non-Travel,No
+EMP_COMP_BAD_00712_00685,Susan Thomas,Male,52,Finance,Software Engineer,4,2,2,2,2,8476,24,3,12,10,12,13,Travel_Frequently,Yes
+EMP_COMP_BAD_00712_00686,Mark Gonzalez,Female,26,IT,Support Specialist,2,4,1,2,1,7459,24,1,13,5,21,5,Non-Travel,Yes
+EMP_COMP_BAD_00712_00687,Joseph Jones,Female,29,Finance,Software Engineer,3,2,1,4,4,15663,18,3,2,2,2,20,Non-Travel,No
