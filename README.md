@@ -20,10 +20,12 @@ An AI-powered financial analysis and workforce optimization platform that helps 
 - **Employee Protection**: Exclude critical employees from layoff simulations
 - **Impact Analysis**: Compare financial metrics before and after simulated layoffs
 
-### Dashboard
-- **Executive Overview**: Key metrics and risk indicators at a glance
-- **Interactive Charts**: Visual representation of company health and workforce data
-- **Real-time Updates**: Live data from the latest analysis runs
+### Dashboard & UX
+- **Landing Page**: Intro, Z-Score cube, and feature links
+- **Compare Companies**: Side-by-side insolvency analysis
+- **Dashboard**: Executive overview, key metrics, risk indicators, interactive charts
+- **Theme**: Light/dark mode with persistent preference
+- **Floating Nav**: Bottom navigation with expand-on-click and hover labels
 
 ## Tech Stack
 
@@ -41,6 +43,7 @@ An AI-powered financial analysis and workforce optimization platform that helps 
 - **TypeScript** - Type-safe JavaScript
 - **Vite** - Fast build tool
 - **Tailwind CSS** - Utility-first styling
+- **Framer Motion** - Animations
 - **Recharts** - Data visualization
 - **Axios** - HTTP client
 - **Lucide React** - Icon library
@@ -65,13 +68,13 @@ cd backend
 
 # Create virtual environment
 python -m venv venv
-source venv/bin/activate  # On Windows: venv\Scripts\activate
+source venv/bin/activate  # On Windows: venv\Scripts\Activate.ps1
 
 # Install dependencies
 pip install -r requirements.txt
 
 # Start server
-uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload
+uvicorn app.main:app --reload --host 127.0.0.1 --port 8000
 ```
 
 #### Frontend Setup
@@ -126,15 +129,18 @@ insolvency-prevention-system/
 │   ├── src/
 │   │   ├── components/          # Reusable UI components
 │   │   ├── pages/               # Page components
+│   │   │   ├── Landing.tsx
 │   │   │   ├── Dashboard.tsx
 │   │   │   ├── InsolvencyAnalysis.tsx
+│   │   │   ├── Compare.tsx
 │   │   │   ├── EmployeeScoring.tsx
 │   │   │   ├── LayoffSimulation.tsx
 │   │   │   └── Reports.tsx
 │   │   ├── services/            # API client
 │   │   │   └── api.ts
 │   │   ├── context/             # React context providers
-│   │   │   └── ToastContext.tsx
+│   │   │   ├── ToastContext.tsx
+│   │   │   └── ThemeContext.tsx
 │   │   ├── App.tsx
 │   │   └── main.tsx
 │   ├── package.json

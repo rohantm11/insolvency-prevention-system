@@ -30,7 +30,7 @@ export default function Layout({ children }: LayoutProps) {
   const { theme, toggleTheme } = useTheme();
 
   return (
-    <div className="min-h-screen flex relative" style={{ minHeight: '100vh', background: 'linear-gradient(135deg, #020617 0%, #0f172a 50%, #0e7490 100%)' }}>
+    <div className="min-h-screen flex relative">
       {/* Animated gradient background (theme-aware) */}
       <div className="fixed inset-0 bg-gradient-animated pointer-events-none transition-opacity duration-500" aria-hidden />
       {/* Grid overlay - futuristic */}
