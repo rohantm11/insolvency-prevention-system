@@ -90,7 +90,6 @@ export default function FloatingNav() {
               {navItems.map((item, index) => {
                 const isActive = location.pathname === item.path;
                 const Icon = item.icon;
-                const isHovered = hoveredIndex === index;
                 return (
                   <Link
                     key={item.path}
