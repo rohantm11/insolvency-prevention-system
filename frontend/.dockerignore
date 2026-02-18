@@ -28,10 +28,9 @@ coverage/
 .git/
 .gitignore
 
-# Docker
+# Docker (keep nginx.conf so stage-2 can COPY it)
 Dockerfile
 .dockerignore
-nginx.conf
 
 # Misc
 *.log
