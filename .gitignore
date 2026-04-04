@@ -48,8 +48,12 @@ env/
 # Logs
 *.log
 
-# Generated data files
+# Generated data files (bulk CSVs)
 data/*.csv
+data/bad/
+data/good/
+data/employees/
+data/analysis_history.json
 
 # ML model artifacts
 *.pkl
@@ -57,6 +61,16 @@ data/*.csv
 *.h5
 *.pt
 *.pth
+ml_models/trained_models/
+
+# Binary / generated documents
+*.accdb
+*.pdf
+reports/
+
+# Generated scripts
+generate_project_report.py
+scripts/stress_tests.py
 
 # OS files
 .DS_Store
