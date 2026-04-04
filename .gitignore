@@ -68,9 +68,28 @@ ml_models/trained_models/
 *.pdf
 reports/
 
-# Generated scripts
+# Generated scripts and utilities
 generate_project_report.py
+generate_dataset.py
+generate_large_dataset.py
+generate_pdf.py
+generate_complete_doc_pdf.py
 scripts/stress_tests.py
+retrain_model.py
+train_model_v2.py
+model_comparison*.py
+model_comparison*.png
+model_comparison*.txt
+deploy.sh
+docker-compose.dev.yml
+docker-compose.prod.yml
+
+# Generated data directories
+data/generated/
+data/test_verification/
+data/training_companies/
+data/training_companies_10k/
+test_data/companies/
 
 # OS files
 .DS_Store
