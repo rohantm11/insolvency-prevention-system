@@ -1,275 +1,144 @@
-# Insolvency Prevention System
+# SolvencyInsight
 
-An AI-powered financial analysis and workforce optimization platform that helps businesses predict insolvency risk, evaluate employee performance, and simulate layoff scenarios with explainable machine learning.
-
-## Features
-
-### Financial Analysis
-- **Altman Z-Score Calculation**: Automated calculation of the Altman Z-Score for bankruptcy prediction
-- **Risk Classification**: Companies classified as Safe, Grey Zone, or Distress based on financial metrics
-- **Trend Analysis**: Track financial health over time with historical data visualization
-
-### Employee Scoring
-- **Performance Prediction**: ML-based employee performance scoring using XGBoost
-- **Bulk Upload**: Upload employee data via CSV for batch processing
-- **SHAP Explanations**: Understand why each employee received their score with SHAP waterfall charts
-
-### Layoff Simulation
-- **Cost Optimization**: Simulate workforce reductions while minimizing impact
-- **Budget Targeting**: Set target savings and see optimal layoff recommendations
-- **Employee Protection**: Exclude critical employees from layoff simulations
-- **Impact Analysis**: Compare financial metrics before and after simulated layoffs
-
-### Dashboard & UX
-- **Landing Page**: Intro, Z-Score cube, and feature links
-- **Compare Companies**: Side-by-side insolvency analysis
-- **Dashboard**: Executive overview, key metrics, risk indicators, interactive charts
-- **Theme**: Light/dark mode with persistent preference
-- **Floating Nav**: Bottom navigation with expand-on-click and hover labels
-
-## Tech Stack
-
-### Backend
-- **Python 3.11** - Core language
-- **FastAPI** - High-performance async API framework
-- **XGBoost** - Gradient boosting for ML models
-- **scikit-learn** - Machine learning utilities
-- **SHAP** - Model explainability
-- **Pandas** - Data manipulation
-- **Uvicorn** - ASGI server
-
-### Frontend
-- **React 18** - UI library
-- **TypeScript** - Type-safe JavaScript
-- **Vite** - Fast build tool
-- **Tailwind CSS** - Utility-first styling
-- **Framer Motion** - Animations
-- **Recharts** - Data visualization
-- **Axios** - HTTP client
-- **Lucide React** - Icon library
-
-### Infrastructure
-- **Docker** - Containerization
-- **Docker Compose** - Multi-container orchestration
-- **Nginx** - Production reverse proxy
-
-## Installation
-
-### Prerequisites
-- Node.js 20+
-- Python 3.11+
-- Docker & Docker Compose (optional)
-
-### Local Development
-
-#### Backend Setup
-```bash
-cd backend
-
-# Create virtual environment
-python -m venv venv
-source venv/bin/activate  # On Windows: venv\Scripts\Activate.ps1
-
-# Install dependencies
-pip install -r requirements.txt
-
-# Start server
-uvicorn app.main:app --reload --host 127.0.0.1 --port 8000
-```
-
-#### Frontend Setup
-```bash
-cd frontend
-
-# Install dependencies
-npm install
-
-# Start development server
-npm run dev
-```
-
-### Docker Deployment
-
-#### Development (with hot-reload)
-```bash
-docker-compose -f docker-compose.dev.yml up --build
-```
-
-#### Production
-```bash
-docker-compose up --build
-```
-
-Access the application:
-- **Frontend**: http://localhost:3000 (production) or http://localhost:5173 (development)
-- **Backend API**: http://localhost:8000
-- **API Documentation**: http://localhost:8000/docs
-
-## Project Structure
-
-```
-insolvency-prevention-system/
-├── backend/
-│   ├── app/
-│   │   ├── main.py              # FastAPI application entry
-│   │   ├── routes/              # API route handlers
-│   │   │   ├── company.py       # Company analysis endpoints
-│   │   │   └── employee.py      # Employee scoring endpoints
-│   │   ├── services/            # Business logic
-│   │   │   ├── analysis.py      # Financial analysis service
-│   │   │   └── employee.py      # Employee scoring service
-│   │   └── models/              # Pydantic models
-│   │       └── schemas.py       # Request/response schemas
-│   ├── models/                  # Trained ML models
-│   │   └── employee_model.pkl   # XGBoost employee scorer
-│   ├── requirements.txt
-│   ├── Dockerfile
-│   └── Dockerfile.dev
-├── frontend/
-│   ├── src/
-│   │   ├── components/          # Reusable UI components
-│   │   ├── pages/               # Page components
-│   │   │   ├── Landing.tsx
-│   │   │   ├── Dashboard.tsx
-│   │   │   ├── InsolvencyAnalysis.tsx
-│   │   │   ├── Compare.tsx
-│   │   │   ├── EmployeeScoring.tsx
-│   │   │   ├── LayoffSimulation.tsx
-│   │   │   └── Reports.tsx
-│   │   ├── services/            # API client
-│   │   │   └── api.ts
-│   │   ├── context/             # React context providers
-│   │   │   ├── ToastContext.tsx
-│   │   │   └── ThemeContext.tsx
-│   │   ├── App.tsx
-│   │   └── main.tsx
-│   ├── package.json
-│   ├── Dockerfile
-│   ├── Dockerfile.dev
-│   └── nginx.conf
-├── data/                        # Sample data files
-│   ├── company_data.csv
-│   └── employee_data.csv
-├── docs/                        # Documentation
-│   ├── API.md
-│   └── MODELS.md
-├── docker-compose.yml           # Production compose
-└── docker-compose.dev.yml       # Development compose
-```
-
-## API Quick Reference
-
-| Endpoint | Method | Description |
-|----------|--------|-------------|
-| `/api/health` | GET | Health check |
-| `/api/company/analyze` | POST | Analyze company financials |
-| `/api/company/risk-history` | GET | Get historical risk data |
-| `/api/employee/upload` | POST | Upload employee data for scoring |
-| `/api/employee/score/{id}` | GET | Get individual employee score |
-| `/api/employee/simulate-layoff` | POST | Run layoff simulation |
-
-See [docs/API.md](docs/API.md) for complete API documentation.
-
-## Model Performance
-
-| Model | Metric | Value |
-|-------|--------|-------|
-| Employee Scorer (XGBoost) | ROC-AUC | 0.89 |
-| Employee Scorer (XGBoost) | Accuracy | 0.85 |
-| Employee Scorer (XGBoost) | F1-Score | 0.82 |
-
-See [docs/MODELS.md](docs/MODELS.md) for detailed model documentation.
+An AI-powered insolvency prevention and workforce optimization platform. Predicts company bankruptcy risk using Altman Z-Score + XGBoost, evaluates employee attrition with retention scoring, and simulates layoff scenarios -- all with SHAP explainability.
 
 ## Screenshots
 
 ### Dashboard
 ![Dashboard](docs/screenshots/dashboard.png)
-*Executive dashboard with key metrics and risk indicators*
+*Executive dashboard with live market signals, risk distribution, department attrition, and tracked companies*
 
 ### Insolvency Analysis
-![Insolvency Analysis](docs/screenshots/insolvency-analysis.png)
-*Financial analysis with Altman Z-Score calculation*
+![Insolvency Analysis](docs/screenshots/insolvency.png)
+*Single or bulk company analysis with Altman Z-Score, 12 financial ratios, and SHAP risk driver explanations*
 
 ### Employee Scoring
 ![Employee Scoring](docs/screenshots/employee-scoring.png)
-*ML-powered employee performance scoring with SHAP explanations*
+*Bulk CSV upload for attrition prediction with retention scores, risk categorization, and per-employee SHAP breakdown*
 
 ### Layoff Simulation
 ![Layoff Simulation](docs/screenshots/layoff-simulation.png)
-*Workforce optimization simulation with impact analysis*
+*Budget-constrained workforce optimization with department minimums, retention comparison, and exportable recommendations*
+
+## Features
+
+- **Insolvency Risk Prediction** -- XGBoost on 12 financial ratios with Platt-calibrated probabilities and SHAP waterfall charts
+- **Altman Z-Score** -- Classical 1968 formula with Safe / Grey / Distress zone classification
+- **Employee Attrition Prediction** -- XGBoost on 18 features with weighted retention scoring
+- **Layoff Simulation** -- Budget-targeted recommendations respecting department minimums
+- **Enhanced Prediction** -- Blends ML with live market intelligence (news sentiment, sector performance, economic indicators)
+- **PDF Reports** -- Professional insolvency and layoff reports generated with ReportLab
+- **Company Comparison** -- Side-by-side analysis of two companies with dual SHAP charts
+- **Input Validation** -- Pydantic Field constraints, accounting identity checks (QR <= CR, DuPont, WC/CR)
+- **Dark / Light Theme** -- Persistent preference with glassmorphic UI and Framer Motion animations
+
+## Tech Stack
+
+| Layer | Technologies |
+|-------|-------------|
+| **Frontend** | React 19, TypeScript 5.9, Vite 7, Tailwind CSS 3.4, Framer Motion 12, Recharts 3, Remotion 4, Axios |
+| **Backend** | FastAPI, Python 3.11, Pydantic 2, Uvicorn |
+| **ML** | XGBoost 2, scikit-learn (CalibratedClassifierCV, cross_val_score), SHAP, NumPy, Pandas |
+| **Services** | ReportLab (PDF), httpx + BeautifulSoup (market intelligence), NewsAPI, FRED, Alpha Vantage |
+| **Infra** | Docker Compose, Nginx (reverse proxy, gzip, SPA routing), GitHub Actions CI/CD |
+
+## Quick Start
+
+### Local Development
+
+```bash
+# Backend
+cd backend
+pip install -r requirements.txt
+uvicorn app.main:app --reload --host 127.0.0.1 --port 8000
+
+# Frontend (new terminal)
+cd frontend
+npm install
+npm run dev
+```
+
+### Docker
+
+```bash
+docker-compose up --build
+```
+
+| Service | URL |
+|---------|-----|
+| Frontend | http://localhost:3000 (Docker) or http://localhost:5173 (dev) |
+| Backend API | http://localhost:8000 |
+| API Docs | http://localhost:8000/docs |
+
+## API Reference
+
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| GET | `/api/health` | Health check with model metrics |
+| POST | `/api/financial/analyze` | Single company insolvency analysis + SHAP |
+| POST | `/api/financial/upload-single` | Single company from CSV |
+| POST | `/api/financial/upload` | Bulk company analysis |
+| GET | `/api/financial/feature-importance` | XGBoost feature importances |
+| POST | `/api/financial/explain-row` | SHAP for one row of bulk CSV |
+| POST | `/api/employee/analyze` | Single employee attrition analysis |
+| POST | `/api/employee/upload` | Bulk employee analysis |
+| POST | `/api/employee/simulate-layoff` | Layoff simulation |
+| GET | `/api/employee/feature-importance` | Employee model importances |
+| POST | `/api/reports/insolvency` | Generate insolvency PDF report |
+| POST | `/api/reports/layoff` | Generate layoff PDF report |
+| POST | `/api/market-intelligence` | News sentiment + sector data |
+| POST | `/api/financial/analyze-enhanced` | ML + market intelligence blend |
+
+## Model Performance
+
+| Model | Accuracy | Precision | Recall | F1 | ROC-AUC | CV AUC (5-fold) |
+|-------|----------|-----------|--------|----|---------|----|
+| Insolvency (XGBoost) | 91.0% | 86.4% | 76.0% | 80.9% | 94.1% | 95.8% +/- 2.4% |
+| Employee (XGBoost) | 92.0% | 70.0% | 87.5% | 77.8% | 97.2% | -- |
+
+## Project Structure
+
+```
+insolvency-prevention-system/
+├── backend/app/
+│   ├── main.py                  # FastAPI app, 20+ endpoints, lifespan
+│   ├── models/schemas.py        # Pydantic models with Field(ge/le) bounds
+│   ├── routes/                  # financial.py, employee.py, reports.py
+│   └── services/                # market_intelligence, pdf_generator, enhanced_prediction
+├── frontend/src/
+│   ├── pages/                   # 7 pages (Landing, Dashboard, Insolvency, Compare, Employees, Layoffs, Reports)
+│   ├── components/              # 18 components (RiskGauge, ShapChart, FloatingNav, RotatingCube, ...)
+│   ├── hooks/useTilt.ts         # 3D tilt effect hook
+│   ├── context/                 # ThemeContext, ToastContext
+│   └── services/api.ts          # Axios client with interceptors
+├── ml_models/
+│   ├── insolvency_predictor.py  # XGBoost + Platt scaling + SHAP + input validation
+│   └── employee_scorer.py       # XGBoost + retention scoring + layoff simulation
+├── data/generate_dummy_data.py  # Synthetic data with accounting identity enforcement
+├── tests/                       # 14 pytest tests (8 API + 6 data validation)
+├── docker-compose.yml
+└── .github/workflows/ci.yml     # Lint, test, build, Docker, Trivy security scan
+```
 
 ## Configuration
 
-### Environment Variables
+Copy `.env.example` to `.env` and configure:
 
-#### Backend
 | Variable | Description | Default |
 |----------|-------------|---------|
-| `PYTHONDONTWRITEBYTECODE` | Prevent .pyc files | `1` |
-| `PYTHONUNBUFFERED` | Unbuffered output | `1` |
-
-#### Frontend
-| Variable | Description | Default |
-|----------|-------------|---------|
-| `VITE_API_URL` | Backend API URL | `http://localhost:8000` |
-
-## Usage Examples
-
-### Analyze Company Financials
-
-```python
-import requests
-
-response = requests.post(
-    "http://localhost:8000/api/company/analyze",
-    json={
-        "company_name": "Acme Corp",
-        "working_capital": 500000,
-        "total_assets": 2000000,
-        "retained_earnings": 300000,
-        "ebit": 150000,
-        "market_value_equity": 800000,
-        "total_liabilities": 1200000,
-        "sales": 3000000
-    }
-)
-
-result = response.json()
-print(f"Z-Score: {result['z_score']}")
-print(f"Risk Zone: {result['risk_zone']}")
-```
-
-### Upload Employee Data
-
-```python
-import requests
-
-with open("employees.csv", "rb") as f:
-    response = requests.post(
-        "http://localhost:8000/api/employee/upload",
-        files={"file": f}
-    )
-
-results = response.json()
-for employee in results["employees"]:
-    print(f"{employee['name']}: Score {employee['score']}")
-```
-
-## Contributing
-
-1. Fork the repository
-2. Create a feature branch (`git checkout -b feature/amazing-feature`)
-3. Commit changes (`git commit -m 'Add amazing feature'`)
-4. Push to branch (`git push origin feature/amazing-feature`)
-5. Open a Pull Request
+| `DATA_SOURCE` | `synthetic` or `real` | `synthetic` |
+| `SOLVENCY_API_KEY` | Optional API key for auth | empty (disabled) |
+| `VITE_API_URL` | Frontend API base URL | `http://localhost:8000` |
+| `NEWS_API_KEY` | NewsAPI.org key (market intelligence) | empty |
+| `FRED_API_KEY` | Federal Reserve data key | empty |
 
 ## License
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+MIT License. See [LICENSE](LICENSE) for details.
 
 ## Acknowledgments
 
-- [Altman Z-Score](https://en.wikipedia.org/wiki/Altman_Z-score) for bankruptcy prediction methodology
+- [Altman Z-Score](https://en.wikipedia.org/wiki/Altman_Z-score) (1968) for bankruptcy prediction methodology
 - [SHAP](https://github.com/slundberg/shap) for model explainability
-- [FastAPI](https://fastapi.tiangolo.com/) for the excellent API framework
-- [React](https://reactjs.org/) and [Vite](https://vitejs.dev/) for frontend tooling
+- [FastAPI](https://fastapi.tiangolo.com/) for the async API framework
+- [Damodaran Online](https://pages.stern.nyu.edu/~adamodar/) for real-world financial ratio benchmarks
