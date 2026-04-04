@@ -5,6 +5,7 @@
  */
 import { Link, useLocation } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
+import { preloadRoute } from '../routes';
 import {
   Home,
   LayoutDashboard,
@@ -59,10 +60,10 @@ export default function FloatingNav() {
       <AnimatePresence>
         {expanded && hoveredIndex !== null && (
           <motion.div
-            initial={{ opacity: 0, y: 8 }}
+            initial={{ opacity: 0, y: 6 }}
             animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: 8 }}
-            transition={{ duration: 0.2 }}
+            exit={{ opacity: 0, y: 6 }}
+            transition={{ duration: 0.25, ease: [0.33, 1, 0.68, 1] }}
             className="absolute bottom-full mb-2 px-3 py-1.5 rounded-lg bg-slate-800/95 dark:bg-dark-800/95 text-white text-sm font-medium whitespace-nowrap shadow-xl border border-white/10 backdrop-blur-sm"
           >
             {navItems[hoveredIndex].label}
@@ -82,7 +83,7 @@ export default function FloatingNav() {
           width: expanded ? 'auto' : 56,
           minHeight: 56,
         }}
-        transition={{ type: 'spring', stiffness: 300, damping: 30 }}
+        transition={{ type: 'spring', stiffness: 260, damping: 26 }}
       >
         {expanded ? (
           <>
@@ -95,7 +96,10 @@ export default function FloatingNav() {
                     key={item.path}
                     to={item.path}
                     onClick={() => setExpanded(false)}
-                    onMouseEnter={() => setHoveredIndex(index)}
+                    onMouseEnter={() => {
+                      setHoveredIndex(index);
+                      preloadRoute(item.path);
+                    }}
                     onMouseLeave={() => setHoveredIndex(null)}
                     className={`relative flex items-center justify-center w-10 h-10 rounded-full transition-all duration-200 ${
                       isActive
@@ -137,6 +141,7 @@ export default function FloatingNav() {
         <motion.span
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
+          transition={{ duration: 0.3, ease: [0.33, 1, 0.68, 1] }}
           className="text-xs text-slate-500 dark:text-dark-400 font-mono"
         >
           {currentLabel}

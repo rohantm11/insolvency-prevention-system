@@ -171,3 +171,50 @@ export interface FeatureImportanceResponse {
   feature_importance: Record<string, number>;
   model_metrics: Record<string, number>;
 }
+
+// Market Intelligence
+export interface MarketIntelligenceRequest {
+  company_name: string;
+  industry?: string | null;
+  description?: string | null;
+}
+
+export interface NewsArticleResponse {
+  title: string;
+  source: string;
+  url: string;
+  published_at: string;
+  summary: string;
+  sentiment_score: number;
+  relevance_score: number;
+}
+
+export interface SectorDataResponse {
+  sector: string;
+  performance_1d: number;
+  performance_1w: number;
+  performance_1m: number;
+  performance_ytd: number;
+  trend: string;
+}
+
+export interface EconomicIndicatorsResponse {
+  gdp_growth?: number | null;
+  unemployment_rate?: number | null;
+  inflation_rate?: number | null;
+  interest_rate?: number | null;
+  consumer_confidence?: number | null;
+}
+
+export interface MarketIntelligenceResponse {
+  company_name: string;
+  industry: string;
+  sector: string;
+  generated_at: string;
+  news_articles: NewsArticleResponse[];
+  overall_news_sentiment: number;
+  sector_data: SectorDataResponse | null;
+  economic_indicators: EconomicIndicatorsResponse | null;
+  risk_adjustment: number;
+  market_summary: string;
+}

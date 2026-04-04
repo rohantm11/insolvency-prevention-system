@@ -1,3 +1,5 @@
+export { default as AnimatedBackground } from './AnimatedBackground';
+export { default as LandingBackground } from './LandingBackground';
 export { default as Layout } from './Layout';
 export { default as RiskGauge } from './RiskGauge';
 export { default as ShapChart } from './ShapChart';
@@ -9,3 +11,5 @@ export { default as AnimatedButton } from './AnimatedButton';
 export { default as AnimatedPage } from './AnimatedPage';
 export { default as RotatingCube } from './RotatingCube';
 export { default as TerminalBlock } from './TerminalBlock';
+export { default as CountUp } from './CountUp';
+export { default as Tooltip } from './Tooltip';

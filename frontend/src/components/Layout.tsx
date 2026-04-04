@@ -1,9 +1,13 @@
 import { Link, useLocation } from 'react-router-dom';
 import { AnimatePresence, motion } from 'framer-motion';
+import { Player } from '@remotion/player';
 import { Activity, Sun, Moon } from 'lucide-react';
+import AnimatedBackground from './AnimatedBackground';
 import CustomCursor from './CustomCursor';
 import FloatingNav from './FloatingNav';
 import { useTheme } from '../context/ThemeContext';
+import { preloadRoute } from '../routes';
+import { BackgroundVideo } from '../remotion';
 
 interface LayoutProps {
   children: React.ReactNode;
@@ -19,35 +23,84 @@ const navItems = [
   { path: '/reports', label: 'Reports' },
 ];
 
+const smoothEase = [0.33, 1, 0.68, 1] as const; // smooth ease-out
+
 const pageVariants = {
-  initial: { opacity: 1, y: 0, filter: 'blur(0px)' },
-  animate: { opacity: 1, y: 0, filter: 'blur(0px)', transition: { duration: 0.2 } },
-  exit: { opacity: 0, y: -6, transition: { duration: 0.15 } },
+  initial: { opacity: 0.94, y: 6 },
+  animate: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.42, ease: smoothEase },
+  },
+  exit: {
+    opacity: 0,
+    y: -6,
+    transition: { duration: 0.24, ease: smoothEase },
+  },
 };
 
 export default function Layout({ children }: LayoutProps) {
   const location = useLocation();
   const { theme, toggleTheme } = useTheme();
+  const isHome = location.pathname === '/';
 
   return (
     <div className="min-h-screen flex relative">
-      {/* Animated gradient background (theme-aware) */}
-      <div className="fixed inset-0 bg-gradient-animated pointer-events-none transition-opacity duration-500" aria-hidden />
-      {/* Grid overlay - futuristic */}
-      <div className="fixed inset-0 bg-grid-futuristic bg-grid-glow pointer-events-none" aria-hidden />
-      {/* Overlay for contrast */}
-      <div className="fixed inset-0 bg-white/75 dark:bg-dark-950/85 pointer-events-none transition-colors duration-500" aria-hidden />
+      <AnimatedBackground />
+      {/* Non-home: ambient background video + overlay (smooth fade-in) */}
+      {!isHome && (
+        <>
+          <motion.div
+            className="fixed inset-0 z-[-1] overflow-hidden"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.7, ease: [0.33, 1, 0.68, 1] }}
+            aria-hidden
+          >
+            <Player
+              component={BackgroundVideo}
+              durationInFrames={900}
+              fps={30}
+              inputProps={{}}
+              compositionWidth={1920}
+              compositionHeight={1080}
+              style={{ width: '100%', height: '100%' }}
+              loop
+              autoPlay
+              controls={false}
+            />
+          </motion.div>
+          <motion.div
+            className="fixed inset-0 z-0 pointer-events-none"
+            style={{ backgroundColor: 'rgba(2, 8, 24, 0.75)' }}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.6, ease: [0.33, 1, 0.68, 1] }}
+            aria-hidden
+          />
+        </>
+      )}
+
+      {/* Home: gradient + grid */}
+      {isHome && (
+        <>
+          <div className="fixed inset-0 z-0 bg-gradient-animated pointer-events-none transition-opacity duration-500" aria-hidden />
+          <div className="fixed inset-0 z-0 bg-grid-futuristic bg-grid-glow pointer-events-none" aria-hidden />
+          <div className="fixed inset-0 z-0 bg-white/40 dark:bg-dark-950/50 pointer-events-none transition-colors duration-500" aria-hidden />
+        </>
+      )}
 
       <CustomCursor />
 
-      {/* Full-width main content (no sidebar) */}
-      <div className="flex-1 flex flex-col min-h-screen relative w-full">
+      {/* Full-width main content (no sidebar) - above backgrounds */}
+      <div className="flex-1 flex flex-col min-h-screen relative z-10 w-full">
         {/* Header - logo left, page title + actions right */}
-        <header className="h-16 bg-white/80 dark:bg-dark-900/70 border-b border-slate-200/80 dark:border-white/10 backdrop-blur-xl flex items-center justify-between px-4 sm:px-6 sticky top-0 z-30 transition-colors duration-300">
-          <Link to="/" className="flex items-center gap-3 hover:opacity-90 transition-opacity shrink-0">
+        <header className="h-16 bg-white/80 dark:bg-dark-900/70 border-b border-slate-200/80 dark:border-white/10 backdrop-blur-xl flex items-center justify-between px-4 sm:px-6 sticky top-0 z-30 transition-colors duration-400 ease-out">
+          <Link to="/" className="flex items-center gap-3 hover:opacity-90 transition-opacity shrink-0" onMouseEnter={() => preloadRoute('/')}>
             <motion.div
               className="w-9 h-9 bg-gradient-to-br from-primary-500 to-accent-500 rounded-xl flex items-center justify-center shadow-lg shadow-primary-500/25"
               whileHover={{ scale: 1.05, rotate: 5 }}
+              transition={{ type: 'tween', duration: 0.28, ease: [0.33, 1, 0.68, 1] }}
             >
               <Activity className="w-5 h-5 text-white" />
             </motion.div>
@@ -72,24 +125,25 @@ export default function Layout({ children }: LayoutProps) {
             <div className="flex items-center gap-2">
               <motion.div
                 className="w-2 h-2 rounded-full bg-green-500"
-                animate={{ opacity: [1, 0.5, 1] }}
-                transition={{ repeat: Infinity, duration: 1.5 }}
+                animate={{ opacity: [1, 0.55, 1] }}
+                transition={{ repeat: Infinity, duration: 2, ease: 'easeInOut' }}
               />
               <span className="text-sm text-slate-500 dark:text-dark-400">API Connected</span>
             </div>
           </div>
         </header>
 
-        {/* Page content with transition */}
-        <main className="flex-1 p-6 pb-28 overflow-auto">
-          <div className="max-w-7xl mx-auto">
-            <AnimatePresence mode="wait">
+        {/* Page content — smooth flow transition between routes */}
+        <main className={`flex-1 min-h-0 pb-28 overflow-auto relative pt-2 ${isHome ? 'px-0 pb-6' : 'px-6 pb-6'}`}>
+          <div className={isHome ? 'min-h-full w-full' : 'max-w-7xl mx-auto min-h-full'}>
+            <AnimatePresence mode="sync" initial={false}>
               <motion.div
                 key={location.pathname}
                 variants={pageVariants}
                 initial="initial"
                 animate="animate"
                 exit="exit"
+                className="min-h-full"
               >
                 {children}
                 {/* Footer at very end of page */}

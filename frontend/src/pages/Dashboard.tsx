@@ -17,6 +17,7 @@ import {
   Cell,
   Legend,
 } from 'recharts';
+import { Link } from 'react-router-dom';
 import {
   Building2,
   Users,
@@ -25,10 +26,15 @@ import {
   Clock,
   TrendingUp,
   TrendingDown,
+  FileSpreadsheet,
+  ArrowRight,
 } from 'lucide-react';
-import { getRecentAnalyses } from '../services/api';
-import type { AnalysisHistoryEntry } from '../types';
+import { getRecentAnalyses, getMarketIntelligence } from '../services/api';
+import type { AnalysisHistoryEntry, MarketIntelligenceResponse } from '../types';
 import { CHART_TOOLTIP_CONTENT_STYLE, CHART_TOOLTIP_ITEM_STYLE } from '../constants/chartStyles';
+import { getTrackedCompanies, type TrackedCompany } from '../constants/watchlist';
+import { CountUp, LoadingSpinner } from '../components';
+import { BarChart3, Bookmark } from 'lucide-react';
 
 /** Sample risk distribution data for pie chart visualization */
 const riskDistributionData = [
@@ -73,12 +79,33 @@ export default function Dashboard() {
   });
   const [recentActivity, setRecentActivity] = useState<AnalysisHistoryEntry[]>([]);
   const [recentLoading, setRecentLoading] = useState(true);
+  const [marketIntel, setMarketIntel] = useState<MarketIntelligenceResponse | null>(null);
+  const [marketIntelLoading, setMarketIntelLoading] = useState(true);
+  const [marketIntelError, setMarketIntelError] = useState<string | null>(null);
+  const [trackedCompanies, setTrackedCompanies] = useState<TrackedCompany[]>([]);
+
+  useEffect(() => {
+    setTrackedCompanies(getTrackedCompanies());
+  }, []);
 
   useEffect(() => {
     getRecentAnalyses(5)
       .then((res) => setRecentActivity(res.entries))
       .catch(() => setRecentActivity([]))
       .finally(() => setRecentLoading(false));
+  }, []);
+
+  useEffect(() => {
+    getMarketIntelligence({ company_name: 'Market Overview', industry: 'general' })
+      .then((data) => {
+        setMarketIntel(data);
+        setMarketIntelError(null);
+      })
+      .catch((err) => {
+        setMarketIntelError(err?.message || 'Failed to load market signals');
+        setMarketIntel(null);
+      })
+      .finally(() => setMarketIntelLoading(false));
   }, []);
 
   const container = {
@@ -149,9 +176,10 @@ export default function Dashboard() {
           <StatCard
             icon={Users}
             label="Total Employees Scored"
-            value={stats.totalEmployees.toLocaleString()}
+            value={stats.totalEmployees}
             trend={+156}
             trendLabel="vs last month"
+            formatNumber
           />
         </motion.div>
         <motion.div variants={item}>
@@ -164,6 +192,41 @@ export default function Dashboard() {
             variant="warning"
           />
         </motion.div>
+      </motion.div>
+
+      {/* Market Signals */}
+      <motion.div
+        initial={{ opacity: 0, y: 12 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.12, duration: 0.4 }}
+        className="card"
+      >
+        <h2 className="text-lg font-semibold text-slate-800 dark:text-white mb-4 flex items-center gap-2">
+          <BarChart3 className="w-5 h-5 text-primary-500" />
+          Market Signals
+        </h2>
+        {marketIntelLoading && (
+          <div className="flex items-center justify-center py-8">
+            <LoadingSpinner size="md" />
+          </div>
+        )}
+        {marketIntelError && !marketIntelLoading && (
+          <p className="text-sm text-amber-600 dark:text-amber-400 py-4">
+            {marketIntelError}
+          </p>
+        )}
+        {marketIntel && !marketIntelLoading && (
+          <div className="space-y-3">
+            {(marketIntel.sector || marketIntel.industry) && (
+              <p className="text-xs text-slate-500 dark:text-dark-400">
+                {[marketIntel.sector, marketIntel.industry].filter(Boolean).join(' · ')}
+              </p>
+            )}
+            <p className="text-sm text-slate-700 dark:text-dark-300 leading-relaxed whitespace-pre-line">
+              {marketIntel.market_summary}
+            </p>
+          </div>
+        )}
       </motion.div>
 
       {/* Charts Row */}
@@ -276,6 +339,67 @@ export default function Dashboard() {
         </motion.div>
       </motion.div>
 
+      {/* Tracked Companies (Recently analyzed) */}
+      <motion.div
+        initial={{ opacity: 0, y: 16 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.2, duration: 0.4 }}
+        className="card"
+      >
+        <div className="flex items-center justify-between mb-4">
+          <h2 className="text-lg font-semibold text-slate-800 dark:text-white">Tracked Companies</h2>
+          <span className="text-sm text-slate-500 dark:text-dark-400">Recently analyzed</span>
+        </div>
+        {trackedCompanies.length === 0 ? (
+          <div className="flex flex-col items-center justify-center text-center py-10">
+            <div className="w-14 h-14 rounded-xl bg-primary-500/10 border border-primary-500/20 flex items-center justify-center mb-3">
+              <Bookmark className="w-7 h-7 text-primary-500" />
+            </div>
+            <p className="font-medium text-slate-800 dark:text-white mb-1">No companies tracked yet</p>
+            <p className="text-slate-500 dark:text-dark-400 text-sm mb-4">
+              Run a single-company insolvency analysis to see it here.
+            </p>
+            <Link
+              to="/insolvency"
+              className="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-primary-500 hover:bg-primary-400 text-white font-medium text-sm transition-colors"
+            >
+              Run analysis
+              <ArrowRight className="w-4 h-4" />
+            </Link>
+          </div>
+        ) : (
+          <div className="overflow-x-auto">
+            <table className="w-full">
+              <thead>
+                <tr className="border-b border-dark-700">
+                  <th className="text-left py-3 px-4 text-xs font-semibold text-dark-400 uppercase tracking-wider">Company</th>
+                  <th className="text-left py-3 px-4 text-xs font-semibold text-dark-400 uppercase tracking-wider">Risk</th>
+                  <th className="text-left py-3 px-4 text-xs font-semibold text-dark-400 uppercase tracking-wider">Z-Score</th>
+                  <th className="text-left py-3 px-4 text-xs font-semibold text-dark-400 uppercase tracking-wider">Time</th>
+                </tr>
+              </thead>
+              <tbody>
+                {trackedCompanies.map((c, i) => (
+                  <tr key={c.timestamp + (c.company_id ?? c.company_name ?? i)} className="border-b border-dark-800 last:border-b-0 hover:bg-dark-800/50 transition-colors">
+                    <td className="py-3 px-4 text-white font-medium">{c.company_name || c.company_id || '—'}</td>
+                    <td className="py-3 px-4">
+                      <RiskBadge result={`${c.risk_category} Risk`} />
+                    </td>
+                    <td className="py-3 px-4 text-dark-200">{c.z_score.toFixed(2)}</td>
+                    <td className="py-3 px-4">
+                      <div className="flex items-center gap-2 text-dark-400 text-sm">
+                        <Clock className="w-4 h-4" />
+                        {formatTimeAgo(c.timestamp)}
+                      </div>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        )}
+      </motion.div>
+
       {/* Recent Activity Table - from API */}
       <motion.div
         initial={{ opacity: 0, y: 16 }}
@@ -317,8 +441,23 @@ export default function Dashboard() {
                 </tr>
               ) : recentActivity.length === 0 ? (
                 <tr className="border-b border-dark-800 last:border-b-0">
-                  <td colSpan={5} className="py-6 px-4 text-center text-dark-400 text-sm">
-                    No recent analyses. Run an analysis from Insolvency, Employees, or Layoffs.
+                  <td colSpan={5} className="py-10 px-4">
+                    <div className="flex flex-col items-center justify-center text-center max-w-sm mx-auto">
+                      <div className="w-16 h-16 rounded-2xl bg-primary-500/10 border border-primary-500/20 flex items-center justify-center mb-4">
+                        <FileSpreadsheet className="w-8 h-8 text-primary-500" />
+                      </div>
+                      <p className="font-semibold text-slate-800 dark:text-white mb-1">No analyses yet</p>
+                      <p className="text-slate-500 dark:text-dark-400 text-sm mb-4">
+                        Upload your first company CSV to see risk analysis and Z-Score results.
+                      </p>
+                      <Link
+                        to="/insolvency"
+                        className="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-primary-500 hover:bg-primary-400 text-white font-medium text-sm transition-colors"
+                      >
+                        Run first analysis
+                        <ArrowRight className="w-4 h-4" />
+                      </Link>
+                    </div>
                   </td>
                 </tr>
               ) : (
@@ -369,7 +508,7 @@ interface StatCardProps {
   icon: React.ElementType;
   /** Label text for the stat */
   label: string;
-  /** The stat value to display */
+  /** The stat value to display (number animates with CountUp) */
   value: string | number;
   /** Trend value (positive or negative change) */
   trend: number;
@@ -377,6 +516,8 @@ interface StatCardProps {
   trendLabel: string;
   /** Visual variant for the card styling */
   variant?: 'default' | 'danger' | 'warning';
+  /** Format large numbers with locale (e.g. 1,842) when using CountUp */
+  formatNumber?: boolean;
 }
 
 /**
@@ -391,6 +532,7 @@ function StatCard({
   trend,
   trendLabel,
   variant = 'default',
+  formatNumber = false,
 }: StatCardProps) {
   const variantStyles = {
     default: 'border-slate-200 bg-slate-50/80 dark:border-dark-700 dark:bg-dark-900',
@@ -433,7 +575,13 @@ function StatCard({
         </div>
       </div>
       <div className="mt-4">
-        <p className="text-3xl font-bold text-slate-800 dark:text-white">{value}</p>
+        <p className="text-3xl font-bold text-slate-800 dark:text-white">
+          {typeof value === 'number' ? (
+            <CountUp to={value} formatNumber={formatNumber} duration={1.4} />
+          ) : (
+            value
+          )}
+        </p>
         <p className="text-sm text-slate-500 dark:text-dark-400 mt-1">{label}</p>
       </div>
       <p className="text-xs text-slate-400 dark:text-dark-500 mt-2">{trendLabel}</p>

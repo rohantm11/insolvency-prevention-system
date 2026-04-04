@@ -22,7 +22,12 @@ class HealthResponse(BaseModel):
 # ============================================================================
 
 class CompanyFinancialData(BaseModel):
-    """Input data for a single company financial analysis."""
+    """Input data for a single company financial analysis.
+
+    For better insolvency modelling and explainability, ratios should be codependent
+    where applicable: e.g. quick_ratio <= current_ratio; ROA = net_profit_margin * sales_to_total_assets;
+    ROE ≈ ROA * (1 + debt_to_equity); interest_coverage consistent with EBIT and leverage.
+    """
     company_id: str | None = None
     company_name: str | None = None
 

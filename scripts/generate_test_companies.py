@@ -210,39 +210,89 @@ def generate_company_name(industry: str) -> str:
     return f"{prefix} {suffix}"
 
 
+def _round4(x: float) -> float:
+    return round(x, 4)
+
+
 def generate_safe_company_financials(industry: str) -> dict:
-    """Generate financial ratios for a SAFE (low risk) company."""
+    """Generate financial ratios for a SAFE (low risk) company.
+    Ratios are codependent to reflect real relationships:
+    - quick_ratio <= current_ratio (quick assets subset of current assets)
+    - return_on_assets = net_profit_margin * sales_to_total_assets (DuPont)
+    - return_on_equity ≈ ROA * (1 + debt_to_equity) (equity multiplier)
+    - interest_coverage consistent with EBIT and leverage
+    """
+    # --- Driver ratios (chosen first) ---
+    working_capital_to_total_assets = random.uniform(0.20, 0.45)
+    retained_earnings_to_total_assets = random.uniform(0.25, 0.50)
+    ebit_to_total_assets = random.uniform(0.08, 0.18)
+    market_value_equity_to_total_liabilities = random.uniform(2.0, 5.0)
+    sales_to_total_assets = random.uniform(1.0, 1.8)
+    current_ratio = random.uniform(1.8, 3.5)
+    debt_to_equity = random.uniform(0.3, 0.9)
+    net_profit_margin = random.uniform(0.06, 0.18)
+
+    # --- Derived (codependent) ---
+    # Quick ratio <= current ratio; typically 0.5–0.85 of current
+    quick_ratio = current_ratio * random.uniform(0.55, 0.85)
+    # ROA = Net profit margin × Asset turnover (DuPont)
+    return_on_assets = net_profit_margin * sales_to_total_assets
+    # ROE ≈ ROA × (1 + D/E) with small noise
+    return_on_equity = return_on_assets * (1 + debt_to_equity) * random.uniform(0.95, 1.08)
+    # Interest coverage: EBIT can cover interest; higher EBIT/TA and lower D/E → higher coverage
+    interest_coverage = max(4.0, (ebit_to_total_assets / max(0.01, debt_to_equity * 0.08)) * random.uniform(0.8, 1.2))
+
     return {
-        'working_capital_to_total_assets': round(random.uniform(0.20, 0.45), 4),
-        'retained_earnings_to_total_assets': round(random.uniform(0.25, 0.50), 4),
-        'ebit_to_total_assets': round(random.uniform(0.08, 0.18), 4),
-        'market_value_equity_to_total_liabilities': round(random.uniform(2.0, 5.0), 4),
-        'sales_to_total_assets': round(random.uniform(1.0, 1.8), 4),
-        'current_ratio': round(random.uniform(1.8, 3.5), 4),
-        'quick_ratio': round(random.uniform(1.2, 2.5), 4),
-        'debt_to_equity': round(random.uniform(0.3, 0.9), 4),
-        'interest_coverage': round(random.uniform(6.0, 20.0), 4),
-        'net_profit_margin': round(random.uniform(0.06, 0.18), 4),
-        'return_on_assets': round(random.uniform(0.08, 0.18), 4),
-        'return_on_equity': round(random.uniform(0.12, 0.28), 4)
+        'working_capital_to_total_assets': _round4(working_capital_to_total_assets),
+        'retained_earnings_to_total_assets': _round4(retained_earnings_to_total_assets),
+        'ebit_to_total_assets': _round4(ebit_to_total_assets),
+        'market_value_equity_to_total_liabilities': _round4(market_value_equity_to_total_liabilities),
+        'sales_to_total_assets': _round4(sales_to_total_assets),
+        'current_ratio': _round4(current_ratio),
+        'quick_ratio': _round4(min(quick_ratio, current_ratio - 0.01)),
+        'debt_to_equity': _round4(debt_to_equity),
+        'interest_coverage': _round4(interest_coverage),
+        'net_profit_margin': _round4(net_profit_margin),
+        'return_on_assets': _round4(return_on_assets),
+        'return_on_equity': _round4(return_on_equity),
     }
 
 
 def generate_risky_company_financials(industry: str) -> dict:
-    """Generate financial ratios for an AT-RISK (high insolvency risk) company."""
+    """Generate financial ratios for an AT-RISK (high insolvency risk) company.
+    Same codependency as safe: quick <= current, ROA = NPM × turnover, ROE from ROA and D/E,
+    interest coverage consistent with EBIT and leverage.
+    """
+    # --- Driver ratios (distressed ranges) ---
+    working_capital_to_total_assets = random.uniform(-0.15, 0.08)
+    retained_earnings_to_total_assets = random.uniform(-0.25, 0.05)
+    ebit_to_total_assets = random.uniform(-0.08, 0.03)
+    market_value_equity_to_total_liabilities = random.uniform(0.2, 0.8)
+    sales_to_total_assets = random.uniform(0.4, 0.8)
+    current_ratio = random.uniform(0.5, 1.0)
+    debt_to_equity = random.uniform(3.0, 8.0)
+    net_profit_margin = random.uniform(-0.12, 0.01)
+
+    # --- Derived (codependent) ---
+    quick_ratio = current_ratio * random.uniform(0.35, 0.65)
+    return_on_assets = net_profit_margin * sales_to_total_assets
+    return_on_equity = return_on_assets * (1 + debt_to_equity) * random.uniform(0.9, 1.15)
+    interest_coverage = (ebit_to_total_assets / max(0.05, debt_to_equity * 0.12)) * random.uniform(0.7, 1.3)
+    interest_coverage = min(2.0, max(-1.0, interest_coverage))
+
     return {
-        'working_capital_to_total_assets': round(random.uniform(-0.15, 0.08), 4),
-        'retained_earnings_to_total_assets': round(random.uniform(-0.25, 0.05), 4),
-        'ebit_to_total_assets': round(random.uniform(-0.08, 0.03), 4),
-        'market_value_equity_to_total_liabilities': round(random.uniform(0.2, 0.8), 4),
-        'sales_to_total_assets': round(random.uniform(0.4, 0.8), 4),
-        'current_ratio': round(random.uniform(0.5, 1.0), 4),
-        'quick_ratio': round(random.uniform(0.2, 0.6), 4),
-        'debt_to_equity': round(random.uniform(3.0, 8.0), 4),
-        'interest_coverage': round(random.uniform(0.2, 1.2), 4),
-        'net_profit_margin': round(random.uniform(-0.12, 0.01), 4),
-        'return_on_assets': round(random.uniform(-0.10, 0.02), 4),
-        'return_on_equity': round(random.uniform(-0.35, -0.05), 4)
+        'working_capital_to_total_assets': _round4(working_capital_to_total_assets),
+        'retained_earnings_to_total_assets': _round4(retained_earnings_to_total_assets),
+        'ebit_to_total_assets': _round4(ebit_to_total_assets),
+        'market_value_equity_to_total_liabilities': _round4(market_value_equity_to_total_liabilities),
+        'sales_to_total_assets': _round4(sales_to_total_assets),
+        'current_ratio': _round4(current_ratio),
+        'quick_ratio': _round4(min(quick_ratio, current_ratio - 0.01)),
+        'debt_to_equity': _round4(debt_to_equity),
+        'interest_coverage': _round4(interest_coverage),
+        'net_profit_margin': _round4(net_profit_margin),
+        'return_on_assets': _round4(return_on_assets),
+        'return_on_equity': _round4(return_on_equity),
     }
 
 

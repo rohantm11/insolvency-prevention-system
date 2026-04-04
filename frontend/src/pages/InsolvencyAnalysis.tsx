@@ -26,8 +26,10 @@ import {
 } from 'lucide-react';
 import { analyzeCompany, uploadSingleCompany, uploadFinancialData, generateInsolvencyReport, downloadBlob, downloadCompanyTemplate } from '../services/api';
 import type { CompanyFinancialData, InsolvencyAnalysisResponse, InsolvencyBulkResponse } from '../types';
-import { RiskGauge, DataTable, FileUpload, LoadingSpinner, Skeleton, AnimatedButton } from '../components';
+import { RiskGauge, DataTable, FileUpload, LoadingSpinner, Skeleton, AnimatedButton, Tooltip as InfoTooltip } from '../components';
 import { useToast } from '../context/ToastContext';
+import { TOOLTIP_COPY } from '../constants/tooltipCopy';
+import { addTrackedCompany } from '../constants/watchlist';
 
 /** Analysis mode - single company or bulk CSV upload */
 type Mode = 'single' | 'bulk';
@@ -94,10 +96,27 @@ export default function InsolvencyAnalysis() {
       }
 
       setSingleResult(result);
-      toast.success(
-        'Analysis Complete',
-        `Risk category: ${result.prediction.risk_category} (Z-Score: ${result.prediction.z_score.toFixed(2)})`
-      );
+      addTrackedCompany({
+        company_id: result.prediction.company_id ?? null,
+        company_name: result.prediction.company_name ?? null,
+        risk_category: result.prediction.risk_category,
+        z_score: result.prediction.z_score,
+      });
+      const isFirstAnalysis = typeof window !== 'undefined' && !localStorage.getItem('solvency-insight-first-analysis-done');
+      if (isFirstAnalysis) {
+        toast.addToast({
+          type: 'success',
+          title: 'Risk analysis complete — here\'s what the model found.',
+          message: `Risk category: ${result.prediction.risk_category}. Z-Score: ${result.prediction.z_score.toFixed(2)}. Check the risk drivers below for details.`,
+          duration: 8000,
+        });
+        localStorage.setItem('solvency-insight-first-analysis-done', 'true');
+      } else {
+        toast.success(
+          'Analysis Complete',
+          `Risk category: ${result.prediction.risk_category} (Z-Score: ${result.prediction.z_score.toFixed(2)})`
+        );
+      }
     } catch (err: any) {
       const errorMessage = err.response?.data?.detail || err.message || 'Analysis failed';
       setError(errorMessage);
@@ -271,6 +290,7 @@ export default function InsolvencyAnalysis() {
             <div className="mt-6 border-t border-dark-700 pt-6">
               <h3 className="text-sm font-medium text-white mb-4 flex items-center gap-2">
                 Altman Z-Score Components
+                <InfoTooltip content={TOOLTIP_COPY.ALTMAN_Z_SCORE} title="Altman Z-Score" />
                 <span className="text-xs text-dark-500 font-normal">(Required)</span>
               </h3>
               <div className="space-y-4">
@@ -519,11 +539,13 @@ export default function InsolvencyAnalysis() {
                 <MetricCard
                   label="Risk Category"
                   badge={singleResult.prediction.risk_category}
+                  tooltipContent={TOOLTIP_COPY.RISK_CATEGORY}
                 />
                 <MetricCard
                   label="Altman Z-Score"
                   value={singleResult.prediction.z_score.toFixed(2)}
                   subValue={singleResult.prediction.z_score_zone}
+                  tooltipContent={TOOLTIP_COPY.Z_SCORE}
                 />
                 <MetricCard
                   label="Est. Time to Event"
@@ -538,6 +560,7 @@ export default function InsolvencyAnalysis() {
                 <MetricCard
                   label="Distress Probability"
                   value={`${(singleResult.prediction.probability_of_distress * 100).toFixed(1)}%`}
+                  tooltipContent={TOOLTIP_COPY.DISTRESS_PROBABILITY}
                 />
               </div>
 
@@ -584,8 +607,9 @@ export default function InsolvencyAnalysis() {
 
           {/* SHAP Explanation Chart */}
           <div className="bg-dark-900 border border-dark-700 rounded-xl p-6 shadow-lg">
-            <h3 className="text-lg font-semibold text-white mb-2">
+            <h3 className="text-lg font-semibold text-white mb-2 flex items-center gap-2">
               Top 10 Risk Drivers (SHAP Analysis)
+              <InfoTooltip content={TOOLTIP_COPY.SHAP} title="SHAP" />
             </h3>
             <p className="text-sm text-dark-400 mb-4">
               Features that most influence the prediction. Red bars increase risk, green bars decrease risk.
@@ -761,6 +785,8 @@ interface MetricCardProps {
   badge?: 'Low' | 'Medium' | 'High';
   /** Optional icon component */
   icon?: React.ElementType;
+  /** Optional tooltip explanation (plain English) */
+  tooltipContent?: string;
 }
 
 /**
@@ -768,10 +794,13 @@ interface MetricCardProps {
  * @param {MetricCardProps} props - Component props
  * @returns {JSX.Element} Styled metric card
  */
-function MetricCard({ label, value, subValue, badge, icon: Icon }: MetricCardProps) {
+function MetricCard({ label, value, subValue, badge, icon: Icon, tooltipContent }: MetricCardProps) {
   return (
     <div className="bg-dark-800/50 rounded-lg p-4 border border-dark-700">
-      <p className="text-xs text-dark-400 mb-2">{label}</p>
+      <p className="text-xs text-dark-400 mb-2 flex items-center gap-1">
+        {label}
+        {tooltipContent && <InfoTooltip content={tooltipContent} />}
+      </p>
       {badge ? (
         <RiskBadge risk={badge} large />
       ) : (

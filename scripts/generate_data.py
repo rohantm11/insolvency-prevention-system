@@ -101,117 +101,125 @@ LAST_NAMES = [
 BUSINESS_TRAVEL = ['Non-Travel', 'Travel_Rarely', 'Travel_Frequently']
 
 # =============================================================================
-# Financial Data Generators
+# Financial Data Generators (codependent ratios)
+# =============================================================================
+# Ratios are derived from a small set of drivers so relationships hold:
+# - quick_ratio <= current_ratio (quick assets subset of current assets)
+# - return_on_assets = net_profit_margin * sales_to_total_assets (DuPont)
+# - return_on_equity ≈ ROA * (1 + debt_to_equity) (equity multiplier)
+# - interest_coverage consistent with EBIT/TA and leverage
 # =============================================================================
 
+def _round4(x: float) -> float:
+    return round(float(x), 4)
+
+
 def generate_healthy_company_ratios() -> dict:
-    """Generate financial ratios for a healthy company."""
-    # Altman Z-Score components (healthy companies: Z > 2.99)
+    """Generate financial ratios for a healthy company (codependent)."""
+    # Driver ratios (Altman + key metrics)
     working_capital_ratio = np.random.uniform(0.1, 0.4)
     retained_earnings_ratio = np.random.uniform(0.2, 0.5)
     ebit_ratio = np.random.uniform(0.05, 0.2)
     market_equity_ratio = np.random.uniform(1.0, 4.0)
     sales_ratio = np.random.uniform(0.8, 2.0)
-
-    # Additional ratios correlated with health
     current_ratio = np.random.uniform(1.5, 3.5)
-    quick_ratio = current_ratio * np.random.uniform(0.5, 0.9)
     debt_to_equity = np.random.uniform(0.3, 1.5)
-    interest_coverage = np.random.uniform(3, 15)
     net_profit_margin = np.random.uniform(0.05, 0.25)
-    return_on_assets = np.random.uniform(0.05, 0.2)
-    return_on_equity = np.random.uniform(0.1, 0.3)
+
+    # Derived (codependent)
+    quick_ratio = min(current_ratio - 0.01, current_ratio * np.random.uniform(0.5, 0.9))
+    return_on_assets = net_profit_margin * sales_ratio
+    return_on_equity = return_on_assets * (1 + debt_to_equity) * np.random.uniform(0.95, 1.08)
+    interest_coverage = max(3.0, (ebit_ratio / max(0.01, debt_to_equity * 0.08)) * np.random.uniform(0.8, 1.2))
 
     return {
-        'working_capital_to_total_assets': round(working_capital_ratio, 4),
-        'retained_earnings_to_total_assets': round(retained_earnings_ratio, 4),
-        'ebit_to_total_assets': round(ebit_ratio, 4),
-        'market_value_equity_to_total_liabilities': round(market_equity_ratio, 4),
-        'sales_to_total_assets': round(sales_ratio, 4),
-        'current_ratio': round(current_ratio, 4),
-        'quick_ratio': round(quick_ratio, 4),
-        'debt_to_equity': round(debt_to_equity, 4),
-        'interest_coverage': round(interest_coverage, 4),
-        'net_profit_margin': round(net_profit_margin, 4),
-        'return_on_assets': round(return_on_assets, 4),
-        'return_on_equity': round(return_on_equity, 4),
+        'working_capital_to_total_assets': _round4(working_capital_ratio),
+        'retained_earnings_to_total_assets': _round4(retained_earnings_ratio),
+        'ebit_to_total_assets': _round4(ebit_ratio),
+        'market_value_equity_to_total_liabilities': _round4(market_equity_ratio),
+        'sales_to_total_assets': _round4(sales_ratio),
+        'current_ratio': _round4(current_ratio),
+        'quick_ratio': _round4(quick_ratio),
+        'debt_to_equity': _round4(debt_to_equity),
+        'interest_coverage': _round4(interest_coverage),
+        'net_profit_margin': _round4(net_profit_margin),
+        'return_on_assets': _round4(return_on_assets),
+        'return_on_equity': _round4(return_on_equity),
         'is_bankrupt': 0,
         'years_to_bankruptcy': None
     }
 
 
 def generate_distressed_company_ratios() -> dict:
-    """Generate financial ratios for a distressed company."""
-    # Altman Z-Score components (distressed: Z < 1.81)
+    """Generate financial ratios for a distressed company (codependent)."""
     working_capital_ratio = np.random.uniform(-0.2, 0.1)
     retained_earnings_ratio = np.random.uniform(-0.3, 0.1)
     ebit_ratio = np.random.uniform(-0.1, 0.05)
     market_equity_ratio = np.random.uniform(0.1, 1.0)
     sales_ratio = np.random.uniform(0.3, 0.9)
-
-    # Additional ratios showing distress
     current_ratio = np.random.uniform(0.4, 1.2)
-    quick_ratio = current_ratio * np.random.uniform(0.3, 0.7)
     debt_to_equity = np.random.uniform(3.0, 8.0)
-    interest_coverage = np.random.uniform(-1, 2)
     net_profit_margin = np.random.uniform(-0.2, 0.02)
-    return_on_assets = np.random.uniform(-0.15, 0.02)
-    return_on_equity = np.random.uniform(-0.3, 0.05)
+
+    quick_ratio = min(current_ratio - 0.01, current_ratio * np.random.uniform(0.3, 0.7))
+    return_on_assets = net_profit_margin * sales_ratio
+    return_on_equity = return_on_assets * (1 + debt_to_equity) * np.random.uniform(0.9, 1.15)
+    interest_coverage = (ebit_ratio / max(0.05, debt_to_equity * 0.12)) * np.random.uniform(0.7, 1.3)
+    interest_coverage = np.clip(interest_coverage, -1.0, 2.0)
+
     years_to_bankruptcy = random.choice([1, 2, 3, 4, 5])
 
     return {
-        'working_capital_to_total_assets': round(working_capital_ratio, 4),
-        'retained_earnings_to_total_assets': round(retained_earnings_ratio, 4),
-        'ebit_to_total_assets': round(ebit_ratio, 4),
-        'market_value_equity_to_total_liabilities': round(market_equity_ratio, 4),
-        'sales_to_total_assets': round(sales_ratio, 4),
-        'current_ratio': round(current_ratio, 4),
-        'quick_ratio': round(quick_ratio, 4),
-        'debt_to_equity': round(debt_to_equity, 4),
-        'interest_coverage': round(interest_coverage, 4),
-        'net_profit_margin': round(net_profit_margin, 4),
-        'return_on_assets': round(return_on_assets, 4),
-        'return_on_equity': round(return_on_equity, 4),
+        'working_capital_to_total_assets': _round4(working_capital_ratio),
+        'retained_earnings_to_total_assets': _round4(retained_earnings_ratio),
+        'ebit_to_total_assets': _round4(ebit_ratio),
+        'market_value_equity_to_total_liabilities': _round4(market_equity_ratio),
+        'sales_to_total_assets': _round4(sales_ratio),
+        'current_ratio': _round4(current_ratio),
+        'quick_ratio': _round4(quick_ratio),
+        'debt_to_equity': _round4(debt_to_equity),
+        'interest_coverage': _round4(interest_coverage),
+        'net_profit_margin': _round4(net_profit_margin),
+        'return_on_assets': _round4(return_on_assets),
+        'return_on_equity': _round4(return_on_equity),
         'is_bankrupt': 1,
         'years_to_bankruptcy': years_to_bankruptcy
     }
 
 
 def generate_grey_zone_company_ratios() -> dict:
-    """Generate financial ratios for a company in the grey zone."""
-    # Altman Z-Score components (grey zone: 1.81 < Z < 2.99)
+    """Generate financial ratios for a company in the grey zone (codependent)."""
     working_capital_ratio = np.random.uniform(0.0, 0.2)
     retained_earnings_ratio = np.random.uniform(0.05, 0.25)
     ebit_ratio = np.random.uniform(0.02, 0.1)
     market_equity_ratio = np.random.uniform(0.8, 2.0)
     sales_ratio = np.random.uniform(0.6, 1.2)
-
-    # Additional ratios showing uncertainty
     current_ratio = np.random.uniform(1.0, 2.0)
-    quick_ratio = current_ratio * np.random.uniform(0.4, 0.8)
     debt_to_equity = np.random.uniform(1.5, 3.5)
-    interest_coverage = np.random.uniform(1.5, 5)
     net_profit_margin = np.random.uniform(-0.02, 0.08)
-    return_on_assets = np.random.uniform(0.0, 0.08)
-    return_on_equity = np.random.uniform(-0.05, 0.15)
 
-    # 30% chance of eventual bankruptcy for grey zone
+    quick_ratio = min(current_ratio - 0.01, current_ratio * np.random.uniform(0.4, 0.8))
+    return_on_assets = net_profit_margin * sales_ratio
+    return_on_equity = return_on_assets * (1 + debt_to_equity) * np.random.uniform(0.92, 1.1)
+    interest_coverage = (ebit_ratio / max(0.03, debt_to_equity * 0.1)) * np.random.uniform(0.75, 1.25)
+    interest_coverage = np.clip(interest_coverage, 0.5, 6.0)
+
     is_bankrupt = 1 if random.random() < 0.3 else 0
     years_to_bankruptcy = random.choice([3, 4, 5, 6, 7]) if is_bankrupt else None
 
     return {
-        'working_capital_to_total_assets': round(working_capital_ratio, 4),
-        'retained_earnings_to_total_assets': round(retained_earnings_ratio, 4),
-        'ebit_to_total_assets': round(ebit_ratio, 4),
-        'market_value_equity_to_total_liabilities': round(market_equity_ratio, 4),
-        'sales_to_total_assets': round(sales_ratio, 4),
-        'current_ratio': round(current_ratio, 4),
-        'quick_ratio': round(quick_ratio, 4),
-        'debt_to_equity': round(debt_to_equity, 4),
-        'interest_coverage': round(interest_coverage, 4),
-        'net_profit_margin': round(net_profit_margin, 4),
-        'return_on_assets': round(return_on_assets, 4),
-        'return_on_equity': round(return_on_equity, 4),
+        'working_capital_to_total_assets': _round4(working_capital_ratio),
+        'retained_earnings_to_total_assets': _round4(retained_earnings_ratio),
+        'ebit_to_total_assets': _round4(ebit_ratio),
+        'market_value_equity_to_total_liabilities': _round4(market_equity_ratio),
+        'sales_to_total_assets': _round4(sales_ratio),
+        'current_ratio': _round4(current_ratio),
+        'quick_ratio': _round4(quick_ratio),
+        'debt_to_equity': _round4(debt_to_equity),
+        'interest_coverage': _round4(interest_coverage),
+        'net_profit_margin': _round4(net_profit_margin),
+        'return_on_assets': _round4(return_on_assets),
+        'return_on_equity': _round4(return_on_equity),
         'is_bankrupt': is_bankrupt,
         'years_to_bankruptcy': years_to_bankruptcy
     }

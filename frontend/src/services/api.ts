@@ -15,6 +15,8 @@ import type {
   EmployeeBulkResponse,
   LayoffSimulationResponse,
   FeatureImportanceResponse,
+  MarketIntelligenceRequest,
+  MarketIntelligenceResponse,
 } from '../types';
 
 /** Base URL for the backend API, configurable via VITE_API_URL environment variable */
@@ -71,6 +73,17 @@ export const getHealth = async (): Promise<HealthResponse> => {
  */
 export const getRecentAnalyses = async (limit = 10): Promise<RecentAnalysesResponse> => {
   const response = await api.get<RecentAnalysesResponse>('/api/analyses/recent', { params: { limit } });
+  return response.data;
+};
+
+/**
+ * Get market intelligence for a company (news, sector, economic context).
+ * @param request - company_name and optional industry, description
+ */
+export const getMarketIntelligence = async (
+  request: MarketIntelligenceRequest
+): Promise<MarketIntelligenceResponse> => {
+  const response = await api.post<MarketIntelligenceResponse>('/api/market-intelligence', request);
   return response.data;
 };
 
