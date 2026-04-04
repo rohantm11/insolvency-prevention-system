@@ -5,16 +5,6 @@
 
 import { useState } from 'react';
 import {
-  BarChart,
-  Bar,
-  XAxis,
-  YAxis,
-  Tooltip,
-  ResponsiveContainer,
-  Cell,
-  ReferenceLine,
-} from 'recharts';
-import {
   Building2,
   Upload,
   AlertTriangle,
@@ -26,7 +16,7 @@ import {
 } from 'lucide-react';
 import { analyzeCompany, uploadSingleCompany, uploadFinancialData, generateInsolvencyReport, downloadBlob, downloadCompanyTemplate } from '../services/api';
 import type { CompanyFinancialData, InsolvencyAnalysisResponse, InsolvencyBulkResponse } from '../types';
-import { RiskGauge, DataTable, FileUpload, LoadingSpinner, Skeleton, AnimatedButton, Tooltip as InfoTooltip } from '../components';
+import { RiskGauge, DataTable, FileUpload, LoadingSpinner, Skeleton, AnimatedButton, Tooltip as InfoTooltip, ShapChart } from '../components';
 import { useToast } from '../context/ToastContext';
 import { TOOLTIP_COPY } from '../constants/tooltipCopy';
 import { addTrackedCompany } from '../constants/watchlist';
@@ -174,17 +164,6 @@ export default function InsolvencyAnalysis() {
     setSelectedFile(null);
     setError(null);
   };
-
-  // Prepare SHAP chart data
-  const shapChartData = singleResult
-    ? singleResult.explanation.top_risk_drivers.slice(0, 10).map((item) => ({
-        name: formatFeatureName(item.feature),
-        value: item.shap_value,
-        originalValue: item.original_value,
-        impact: item.impact,
-        fullName: item.feature,
-      }))
-    : [];
 
   return (
     <div className="space-y-6">
@@ -605,60 +584,11 @@ export default function InsolvencyAnalysis() {
             </div>
           )}
 
-          {/* SHAP Explanation Chart */}
-          <div className="bg-dark-900 border border-dark-700 rounded-xl p-6 shadow-lg">
-            <h3 className="text-lg font-semibold text-white mb-2 flex items-center gap-2">
-              Top 10 Risk Drivers (SHAP Analysis)
-              <InfoTooltip content={TOOLTIP_COPY.SHAP} title="SHAP" />
-            </h3>
-            <p className="text-sm text-dark-400 mb-4">
-              Features that most influence the prediction. Red bars increase risk, green bars decrease risk.
-            </p>
-            <div className="h-96">
-              <ResponsiveContainer width="100%" height="100%">
-                <BarChart
-                  data={shapChartData}
-                  layout="vertical"
-                  margin={{ top: 5, right: 30, left: 150, bottom: 5 }}
-                >
-                  <XAxis
-                    type="number"
-                    tick={{ fill: '#94a3b8', fontSize: 12 }}
-                    axisLine={{ stroke: '#334155' }}
-                    tickLine={{ stroke: '#334155' }}
-                  />
-                  <YAxis
-                    type="category"
-                    dataKey="name"
-                    tick={{ fill: '#94a3b8', fontSize: 12 }}
-                    axisLine={{ stroke: '#334155' }}
-                    tickLine={false}
-                    width={140}
-                  />
-                  <Tooltip content={<ShapTooltip />} cursor={{ fill: 'rgba(6, 182, 212, 0.1)' }} />
-                  <ReferenceLine x={0} stroke="#475569" strokeWidth={1} />
-                  <Bar dataKey="value" radius={[0, 4, 4, 0]} maxBarSize={24}>
-                    {shapChartData.map((entry, index) => (
-                      <Cell
-                        key={`cell-${index}`}
-                        fill={entry.value >= 0 ? '#ef4444' : '#22c55e'}
-                      />
-                    ))}
-                  </Bar>
-                </BarChart>
-              </ResponsiveContainer>
-            </div>
-            <div className="mt-4 flex items-center justify-center gap-8 text-sm">
-              <div className="flex items-center gap-2">
-                <div className="w-4 h-4 rounded bg-red-500" />
-                <span className="text-dark-400">Increases Risk</span>
-              </div>
-              <div className="flex items-center gap-2">
-                <div className="w-4 h-4 rounded bg-green-500" />
-                <span className="text-dark-400">Decreases Risk</span>
-              </div>
-            </div>
-          </div>
+          {/* SHAP Explanation Chart — uses shared ShapChart component */}
+          <ShapChart
+            data={singleResult.explanation.top_risk_drivers}
+            title="Top 10 Risk Drivers (SHAP Analysis)"
+          />
         </div>
       )}
 
@@ -894,46 +824,3 @@ function SummaryCard({ label, value, color }: SummaryCardProps) {
   );
 }
 
-/**
- * Custom tooltip component for SHAP value bar chart.
- * Displays feature name, current value, and SHAP contribution.
- * @param {object} props - Recharts tooltip props
- * @returns {JSX.Element|null} Styled tooltip or null when inactive
- */
-function ShapTooltip({ active, payload }: any) {
-  if (!active || !payload?.length) return null;
-
-  const data = payload[0].payload;
-
-  return (
-    <div className="bg-dark-800 border border-dark-600 rounded-lg p-3 shadow-lg">
-      <p className="text-white font-medium mb-1">{data.fullName}</p>
-      <p className="text-dark-300 text-sm">
-        Current Value: <span className="text-white font-medium">{data.originalValue}</span>
-      </p>
-      <p className="text-dark-300 text-sm">
-        SHAP Value:{' '}
-        <span className={data.value >= 0 ? 'text-red-400' : 'text-green-400'}>
-          {data.value >= 0 ? '+' : ''}
-          {data.value.toFixed(4)}
-        </span>
-      </p>
-      <p className="text-dark-500 text-xs mt-1 capitalize">{data.impact}</p>
-    </div>
-  );
-}
-
-/**
- * Formats a snake_case feature name into Title Case for display.
- * @param {string} name - Snake case feature name (e.g., "working_capital_to_total_assets")
- * @returns {string} Formatted name (e.g., "Working Capital To Total Assets")
- */
-function formatFeatureName(name: string): string {
-  return name
-    .replace(/_/g, ' ')
-    .replace(/([A-Z])/g, ' $1')
-    .split(' ')
-    .map((word) => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
-    .join(' ')
-    .trim();
-}

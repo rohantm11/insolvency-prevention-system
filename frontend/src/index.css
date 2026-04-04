@@ -7,6 +7,14 @@ html, body {
   margin: 0;
   padding: 0;
 }
+/* Smooth scrolling globally */
+html {
+  scroll-behavior: smooth;
+  -webkit-overflow-scrolling: touch;
+}
+* {
+  scroll-behavior: smooth;
+}
 #root {
   margin: 0;
   padding: 0;
@@ -276,22 +284,29 @@ section {
   }
 }
 
-/* Custom scrollbar */
+/* Custom scrollbar — thin and subtle */
 ::-webkit-scrollbar {
-  width: 8px;
-  height: 8px;
+  width: 6px;
+  height: 6px;
 }
 
 ::-webkit-scrollbar-track {
-  @apply bg-slate-200 dark:bg-dark-900;
+  background: transparent;
 }
 
 ::-webkit-scrollbar-thumb {
-  @apply bg-slate-400 rounded-full dark:bg-dark-600;
+  @apply bg-dark-600/60 rounded-full;
+  transition: background-color 0.2s ease;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  @apply bg-slate-500 dark:bg-dark-500;
+  @apply bg-dark-500;
+}
+
+/* Firefox smooth scrollbar */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(100,116,139,0.4) transparent;
 }
 
 /* Table styles */

@@ -23,23 +23,19 @@ const navItems = [
   { path: '/reports', label: 'Reports' },
 ];
 
-const cinematicEase = [0.22, 1, 0.36, 1] as const; // ease-out-quint for premium feel
+const cinematicEase = [0.22, 1, 0.36, 1] as const;
 
 const pageVariants = {
-  initial: { opacity: 0, scale: 0.97, y: 20, filter: 'blur(8px)' },
+  initial: { opacity: 0, y: 16 },
   animate: {
     opacity: 1,
-    scale: 1,
     y: 0,
-    filter: 'blur(0px)',
-    transition: { duration: 0.5, ease: cinematicEase },
+    transition: { duration: 0.35, ease: cinematicEase },
   },
   exit: {
     opacity: 0,
-    scale: 1.02,
-    y: -15,
-    filter: 'blur(6px)',
-    transition: { duration: 0.3, ease: cinematicEase },
+    y: -8,
+    transition: { duration: 0.15, ease: cinematicEase },
   },
 };
 
@@ -138,9 +134,9 @@ export default function Layout({ children }: LayoutProps) {
         </header>
 
         {/* Page content — smooth flow transition between routes */}
-        <main className={`flex-1 min-h-0 pb-28 overflow-auto relative pt-2 ${isHome ? 'px-0 pb-6' : 'px-6 pb-6'}`}>
+        <main className={`flex-1 min-h-0 pb-28 overflow-auto relative pt-2 ${isHome ? 'px-0 pb-6' : 'px-6 pb-6'}`} style={{ willChange: 'scroll-position', WebkitOverflowScrolling: 'touch' }}>
           <div className={isHome ? 'min-h-full w-full' : 'max-w-7xl mx-auto min-h-full'}>
-            <AnimatePresence mode="wait" initial={false}>
+            <AnimatePresence mode="sync" initial={false}>
               <motion.div
                 key={location.pathname}
                 variants={pageVariants}
