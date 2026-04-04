@@ -55,12 +55,10 @@ from app.models.schemas import (
     EmployeePrediction,
     EmployeeExplanation,
     EmployeeBulkResponse,
-    LayoffSimulationRequest,
     LayoffSimulationResponse,
     LayoffRecommendation,
     InsolvencyReportRequest,
     LayoffReportRequest,
-    ErrorResponse,
     # Market Intelligence schemas
     EnhancedAnalysisRequest,
     EnhancedPredictionResponse,

@@ -10,12 +10,10 @@ from pathlib import Path
 from dataclasses import dataclass
 from typing import Optional
 import pandas as pd
-import numpy as np
 
 from .market_intelligence import (
     MarketIntelligenceService,
     MarketIntelligenceReport,
-    classify_industry
 )
 
 

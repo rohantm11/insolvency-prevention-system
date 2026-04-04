@@ -338,7 +338,7 @@ class NewsService:
                         # Parse date
                         try:
                             published = datetime.strptime(pub_date, "%a, %d %b %Y %H:%M:%S %Z")
-                        except:
+                        except ValueError:
                             published = datetime.now()
 
                         articles.append(NewsArticle(
@@ -400,7 +400,7 @@ class EconomicDataService:
         try:
             async with httpx.AsyncClient(timeout=10.0) as client:
                 for series_id, attr_name in self.INDICATORS.items():
-                    url = f"https://api.stlouisfed.org/fred/series/observations"
+                    url = "https://api.stlouisfed.org/fred/series/observations"
                     params = {
                         "series_id": series_id,
                         "api_key": self.api_key,

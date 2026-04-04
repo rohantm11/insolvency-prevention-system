@@ -6,7 +6,6 @@ interface Particle {
   color: string; opacity: number;
 }
 
-const COLORS = { solvent: '#00e5a0', stressed: '#ffb340', insolvent: '#ff3b5c' };
 const COUNT = 8000;
 const FOCAL = 400;
 

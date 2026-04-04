@@ -175,11 +175,13 @@ export default function AnimatedBackground() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
   useEffect(() => {
-    const canvas = canvasRef.current;
-    if (!canvas) return;
+    const maybeCanvas = canvasRef.current;
+    if (!maybeCanvas) return;
+    const maybeCtx = maybeCanvas.getContext('2d');
+    if (!maybeCtx) return;
 
-    const ctx = canvas.getContext('2d');
-    if (!ctx) return;
+    const canvasEl: HTMLCanvasElement = maybeCanvas;
+    const g: CanvasRenderingContext2D = maybeCtx;
 
     let width = window.innerWidth;
     let height = window.innerHeight;
@@ -189,8 +191,8 @@ export default function AnimatedBackground() {
     let rafId: number;
 
     function setSize() {
-      canvas.width = width;
-      canvas.height = height;
+      canvasEl.width = width;
+      canvasEl.height = height;
     }
 
     function getConnectedPairs(): { from: number; to: number }[] {
@@ -254,15 +256,15 @@ export default function AnimatedBackground() {
         return p.t <= 1;
       });
 
-      ctx.clearRect(0, 0, width, height);
-      drawDotGrid(ctx, width, height);
-      drawConnections(ctx, nodes);
+      g.clearRect(0, 0, width, height);
+      drawDotGrid(g, width, height);
+      drawConnections(g, nodes);
       for (const pulse of pulses) {
-        drawPulseAlongBezier(ctx, pulse);
+        drawPulseAlongBezier(g, pulse);
       }
       const time = performance.now();
       for (const node of nodes) {
-        drawNode(ctx, node, time);
+        drawNode(g, node, time);
       }
 
       rafId = requestAnimationFrame(tick);
@@ -274,8 +276,8 @@ export default function AnimatedBackground() {
     const onResize = () => {
       width = window.innerWidth;
       height = window.innerHeight;
-      canvas.width = width;
-      canvas.height = height;
+      canvasEl.width = width;
+      canvasEl.height = height;
       nodes = initNodes(width, height);
       pulses = [];
     };

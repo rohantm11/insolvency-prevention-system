@@ -2,7 +2,7 @@
  * Animates a number from 0 (or from) to target value when in view. Used for "live demo" stats.
  */
 import { useEffect, useState } from 'react';
-import { motion, useInView, useMotionValue, useMotionValueEvent, animate } from 'framer-motion';
+import { useInView, useMotionValue, useMotionValueEvent, animate } from 'framer-motion';
 import { useRef } from 'react';
 
 interface CountUpProps {

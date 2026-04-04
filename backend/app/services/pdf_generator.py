@@ -10,7 +10,7 @@ from datetime import datetime
 from typing import Any
 
 from reportlab.lib import colors
-from reportlab.lib.pagesizes import letter, A4
+from reportlab.lib.pagesizes import letter
 from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
 from reportlab.lib.units import inch
 from reportlab.platypus import (
@@ -19,10 +19,9 @@ from reportlab.platypus import (
     Spacer,
     Table,
     TableStyle,
-    PageBreak,
     HRFlowable,
 )
-from reportlab.lib.enums import TA_CENTER, TA_LEFT, TA_RIGHT
+from reportlab.lib.enums import TA_CENTER
 
 
 class PDFReportGenerator:
@@ -265,7 +264,6 @@ class PDFReportGenerator:
                 feature = driver.get('feature', '').replace('_', ' ').title()
                 value = driver.get('feature_value', 0)
                 shap_value = driver.get('shap_value', 0)
-                impact = driver.get('impact', '')
 
                 # Format value
                 if isinstance(value, float):
@@ -276,10 +274,8 @@ class PDFReportGenerator:
                 # Determine direction indicator
                 if shap_value > 0:
                     direction = "↑ Increases Risk"
-                    direction_color = colors.HexColor('#e53e3e')
                 else:
                     direction = "↓ Decreases Risk"
-                    direction_color = colors.HexColor('#38a169')
 
                 driver_data.append([
                     str(i),
