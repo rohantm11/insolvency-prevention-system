@@ -64,7 +64,10 @@ class EmployeeScorer:
         "over_time",
     ]
 
-    # Retention score weights
+    # Weights informed by HR analytics literature: performance and tenure are
+    # consistently the strongest predictors of employee value (Holtom et al.,
+    # 2008; Griffeth et al., 2000). Weights are domain heuristics, not fitted
+    # parameters.
     RETENTION_WEIGHTS = {
         "performance": 0.30,
         "job_satisfaction": 0.20,
@@ -86,6 +89,7 @@ class EmployeeScorer:
         self.is_fitted = False
         self.metrics: dict[str, float] = {}
         self.feature_names: list[str] = []
+        self.feature_bounds_: dict[str, tuple[float, float]] = {}
 
     def _encode_categorical(
         self,
@@ -161,6 +165,12 @@ class EmployeeScorer:
         # Handle missing values
         X = X.fillna(X.median())
 
+        # Store feature bounds for winsorization at prediction time
+        self.feature_bounds_ = {}
+        for col in X.columns:
+            if pd.api.types.is_numeric_dtype(X[col]):
+                self.feature_bounds_[col] = (float(X[col].quantile(0.01)), float(X[col].quantile(0.99)))
+
         # Split data
         X_train, X_test, y_train, y_test = train_test_split(
             X, y,
@@ -228,6 +238,13 @@ class EmployeeScorer:
         X = df[self.feature_names].copy()
         X = self._encode_categorical(X, fit=False)
         X = X.fillna(X.median())
+
+        # Winsorize to training distribution bounds
+        if hasattr(self, "feature_bounds_") and self.feature_bounds_:
+            for col in X.columns:
+                if col in self.feature_bounds_:
+                    lo, hi = self.feature_bounds_[col]
+                    X[col] = X[col].clip(lo, hi)
 
         # Get attrition probability
         attrition_proba = self.model.predict_proba(X)[:, 1]
@@ -508,6 +525,7 @@ class EmployeeScorer:
             "feature_names": self.feature_names,
             "metrics": self.metrics,
             "random_state": self.random_state,
+            "feature_bounds_": self.feature_bounds_,
         }
 
         with open(path, "wb") as f:
@@ -532,7 +550,8 @@ class EmployeeScorer:
         self.label_encoders = model_data.get("label_encoders", {})
         self.feature_names = model_data["feature_names"]
         self.metrics = model_data["metrics"]
-        self.random_state = model_data.get("random_state", 42)  # Default if not present
+        self.random_state = model_data.get("random_state", 42)
+        self.feature_bounds_ = model_data.get("feature_bounds_", {})
 
         # Recreate SHAP explainer
         self.explainer = shap.TreeExplainer(self.model)

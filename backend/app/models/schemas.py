@@ -32,20 +32,20 @@ class CompanyFinancialData(BaseModel):
     company_name: str | None = None
 
     # Altman Z-score components
-    working_capital_to_total_assets: float = Field(..., description="Working Capital / Total Assets")
-    retained_earnings_to_total_assets: float = Field(..., description="Retained Earnings / Total Assets")
-    ebit_to_total_assets: float = Field(..., description="EBIT / Total Assets")
-    market_value_equity_to_total_liabilities: float = Field(..., description="Market Value of Equity / Total Liabilities")
-    sales_to_total_assets: float = Field(..., description="Sales / Total Assets")
+    working_capital_to_total_assets: float = Field(..., ge=-1.0, le=1.0, description="Working Capital / Total Assets")
+    retained_earnings_to_total_assets: float = Field(..., ge=-2.0, le=1.0, description="Retained Earnings / Total Assets. Negative indicates accumulated losses.")
+    ebit_to_total_assets: float = Field(..., ge=-1.0, le=1.0, description="EBIT / Total Assets")
+    market_value_equity_to_total_liabilities: float = Field(..., ge=0.0, le=100.0, description="Market Value of Equity / Total Liabilities")
+    sales_to_total_assets: float = Field(..., ge=0.0, le=10.0, description="Sales / Total Assets (asset turnover)")
 
     # Additional financial ratios
-    current_ratio: float = Field(..., description="Current Assets / Current Liabilities")
-    quick_ratio: float = Field(..., description="Quick Assets / Current Liabilities")
-    debt_to_equity: float = Field(..., description="Total Debt / Total Equity")
-    interest_coverage: float = Field(..., description="EBIT / Interest Expense")
-    net_profit_margin: float = Field(..., description="Net Income / Revenue")
-    return_on_assets: float = Field(..., description="Net Income / Total Assets")
-    return_on_equity: float = Field(..., description="Net Income / Shareholders Equity")
+    current_ratio: float = Field(..., ge=0.0, le=30.0, description="Current Assets / Current Liabilities")
+    quick_ratio: float = Field(..., ge=0.0, le=30.0, description="(Current Assets - Inventory) / Current Liabilities")
+    debt_to_equity: float = Field(..., ge=-10.0, le=50.0, description="Total Debt / Total Equity. Negative indicates negative equity.")
+    interest_coverage: float = Field(..., ge=-50.0, le=100.0, description="EBIT / Interest Expense. Negative means EBIT does not cover interest.")
+    net_profit_margin: float = Field(..., ge=-2.0, le=1.0, description="Net Income / Revenue")
+    return_on_assets: float = Field(..., ge=-1.0, le=1.0, description="Net Income / Total Assets")
+    return_on_equity: float = Field(..., ge=-5.0, le=5.0, description="Net Income / Shareholders Equity. Extreme values indicate near-zero equity.")
 
     class Config:
         json_schema_extra = {
@@ -78,6 +78,7 @@ class InsolvencyPrediction(BaseModel):
     z_score: float = Field(..., description="Altman Z-Score")
     z_score_zone: str = Field(..., description="Safe, Grey, or Distress")
     executive_summary: str | None = Field(None, description="Plain-language narrative summary")
+    input_warnings: list[str] = Field(default_factory=list, description="Warnings about input data inconsistencies")
 
 
 class InsolvencyExplanation(BaseModel):
@@ -138,7 +139,7 @@ class EmployeeData(BaseModel):
     name: str | None = None
 
     # Demographics
-    age: int = Field(..., ge=18, le=100)
+    age: int = Field(..., ge=18, le=70)
     gender: str = Field(..., description="Male or Female")
 
     # Job info
@@ -153,17 +154,17 @@ class EmployeeData(BaseModel):
     environment_satisfaction: int = Field(..., ge=1, le=4)
 
     # Compensation
-    monthly_income: int = Field(..., gt=0)
+    monthly_income: float = Field(..., ge=1000, le=200000)
     percent_salary_hike: int = Field(..., ge=0, le=100)
     stock_option_level: int = Field(..., ge=0, le=3)
 
     # Work history
-    years_at_company: int = Field(..., ge=0)
-    years_in_current_role: int = Field(..., ge=0)
-    total_working_years: int = Field(..., ge=0)
+    years_at_company: int = Field(..., ge=0, le=50)
+    years_in_current_role: int = Field(..., ge=0, le=50)
+    total_working_years: int = Field(..., ge=0, le=50)
 
     # Other factors
-    distance_from_home: int = Field(..., ge=0)
+    distance_from_home: int = Field(..., ge=0, le=100)
     business_travel: str = Field(..., description="Non-Travel, Travel_Rarely, or Travel_Frequently")
     over_time: str = Field(..., description="Yes or No")
 
@@ -367,20 +368,20 @@ class EnhancedAnalysisRequest(BaseModel):
     description: str | None = Field(default="", description="Company description for better industry classification")
 
     # Altman Z-score components
-    working_capital_to_total_assets: float = Field(..., description="Working Capital / Total Assets")
-    retained_earnings_to_total_assets: float = Field(..., description="Retained Earnings / Total Assets")
-    ebit_to_total_assets: float = Field(..., description="EBIT / Total Assets")
-    market_value_equity_to_total_liabilities: float = Field(..., description="Market Value of Equity / Total Liabilities")
-    sales_to_total_assets: float = Field(..., description="Sales / Total Assets")
+    working_capital_to_total_assets: float = Field(..., ge=-1.0, le=1.0, description="Working Capital / Total Assets")
+    retained_earnings_to_total_assets: float = Field(..., ge=-2.0, le=1.0, description="Retained Earnings / Total Assets")
+    ebit_to_total_assets: float = Field(..., ge=-1.0, le=1.0, description="EBIT / Total Assets")
+    market_value_equity_to_total_liabilities: float = Field(..., ge=0.0, le=100.0, description="Market Value of Equity / Total Liabilities")
+    sales_to_total_assets: float = Field(..., ge=0.0, le=10.0, description="Sales / Total Assets")
 
     # Additional financial ratios
-    current_ratio: float = Field(..., description="Current Assets / Current Liabilities")
-    quick_ratio: float = Field(..., description="Quick Assets / Current Liabilities")
-    debt_to_equity: float = Field(..., description="Total Debt / Total Equity")
-    interest_coverage: float = Field(..., description="EBIT / Interest Expense")
-    net_profit_margin: float = Field(..., description="Net Income / Revenue")
-    return_on_assets: float = Field(..., description="Net Income / Total Assets")
-    return_on_equity: float = Field(..., description="Net Income / Shareholders Equity")
+    current_ratio: float = Field(..., ge=0.0, le=30.0, description="Current Assets / Current Liabilities")
+    quick_ratio: float = Field(..., ge=0.0, le=30.0, description="(Current Assets - Inventory) / Current Liabilities")
+    debt_to_equity: float = Field(..., ge=-10.0, le=50.0, description="Total Debt / Total Equity")
+    interest_coverage: float = Field(..., ge=-50.0, le=100.0, description="EBIT / Interest Expense")
+    net_profit_margin: float = Field(..., ge=-2.0, le=1.0, description="Net Income / Revenue")
+    return_on_assets: float = Field(..., ge=-1.0, le=1.0, description="Net Income / Total Assets")
+    return_on_equity: float = Field(..., ge=-5.0, le=5.0, description="Net Income / Shareholders Equity")
 
     # Market intelligence options
     include_market_intelligence: bool = Field(default=True, description="Whether to include live market research")

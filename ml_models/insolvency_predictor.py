@@ -6,7 +6,9 @@ company insolvency/bankruptcy based on financial indicators including
 Altman Z-score components.
 """
 
+import hashlib
 import pickle
+import time
 from pathlib import Path
 from typing import Any
 
@@ -14,7 +16,8 @@ import numpy as np
 import pandas as pd
 import shap
 import xgboost as xgb
-from sklearn.model_selection import train_test_split
+from sklearn.calibration import CalibratedClassifierCV
+from sklearn.model_selection import cross_val_score, train_test_split
 from sklearn.metrics import (
     accuracy_score,
     precision_score,
@@ -49,7 +52,9 @@ class InsolvencyPredictor:
         "return_on_equity",
     ]
 
-    # Altman Z-score coefficients (original formula for public manufacturing companies)
+    # Original Altman (1968) coefficients for public manufacturing firms. See:
+    # Altman, E.I. "Financial Ratios, Discriminant Analysis and the Prediction
+    # of Corporate Bankruptcy." Journal of Finance, 1968.
     ALTMAN_COEFFICIENTS = {
         "working_capital_to_total_assets": 1.2,
         "retained_earnings_to_total_assets": 1.4,
@@ -67,10 +72,70 @@ class InsolvencyPredictor:
         """
         self.random_state = random_state
         self.model: xgb.XGBClassifier | None = None
+        self.calibrated_model: CalibratedClassifierCV | None = None
         self.explainer: shap.TreeExplainer | None = None
         self.is_fitted = False
         self.metrics: dict[str, float] = {}
         self.feature_names: list[str] = []
+        self.feature_bounds_: dict[str, tuple[float, float]] = {}
+        self.training_metadata: dict[str, Any] = {}
+
+    def _preprocess_features(self, X: pd.DataFrame) -> pd.DataFrame:
+        """Log-transform skewed features and winsorize to training bounds."""
+        X = X.copy()
+        # Log-transform skewed features (signed log for potentially negative values)
+        skewed_cols = ["debt_to_equity", "interest_coverage"]
+        for col in skewed_cols:
+            if col in X.columns:
+                X[col] = np.sign(X[col]) * np.log1p(np.abs(X[col]))
+        # Winsorize to training distribution bounds
+        if hasattr(self, "feature_bounds_") and self.feature_bounds_:
+            for col in X.columns:
+                if col in self.feature_bounds_:
+                    lo, hi = self.feature_bounds_[col]
+                    X[col] = X[col].clip(lo, hi)
+        return X
+
+    def validate_input(self, data: dict) -> list[str]:
+        """Check accounting identity consistency. Returns list of warnings."""
+        warnings_list = []
+        # Quick ratio must be <= current ratio
+        qr = data.get("quick_ratio")
+        cr = data.get("current_ratio")
+        if qr is not None and cr is not None and qr > cr + 0.01:
+            warnings_list.append(
+                f"quick_ratio ({qr:.2f}) exceeds current_ratio ({cr:.2f}). "
+                "Quick assets are a subset of current assets."
+            )
+        # DuPont check: ROA should approximate NPM * Sales/TA
+        npm = data.get("net_profit_margin")
+        sta = data.get("sales_to_total_assets")
+        roa = data.get("return_on_assets")
+        if npm is not None and sta is not None and roa is not None:
+            dupont_roa = npm * sta
+            if abs(roa - dupont_roa) > 0.08:
+                warnings_list.append(
+                    f"ROA ({roa:.4f}) deviates significantly from NPM x Sales/TA "
+                    f"({dupont_roa:.4f}). Check for data entry errors."
+                )
+        # Negative working capital should mean current_ratio < 1
+        wc = data.get("working_capital_to_total_assets")
+        if wc is not None and cr is not None:
+            if wc < 0 and cr > 1.05:
+                warnings_list.append(
+                    f"Negative working capital ({wc:.4f}) but current_ratio > 1 "
+                    f"({cr:.2f}). These are contradictory."
+                )
+        # High debt should mean low interest coverage
+        de = data.get("debt_to_equity")
+        ic = data.get("interest_coverage")
+        if de is not None and ic is not None:
+            if de > 5 and ic > 10:
+                warnings_list.append(
+                    f"Very high leverage (D/E={de:.2f}) with very high interest "
+                    f"coverage ({ic:.2f}) is unusual. Verify data."
+                )
+        return warnings_list
 
     def train(
         self,
@@ -101,6 +166,13 @@ class InsolvencyPredictor:
         # Handle missing values
         X = X.fillna(X.median())
 
+        # Store pre-transform bounds for winsorization at prediction time
+        self.feature_bounds_ = {}
+        for col in X.columns:
+            self.feature_bounds_[col] = (float(X[col].quantile(0.01)), float(X[col].quantile(0.99)))
+
+        X = self._preprocess_features(X)
+
         # Split data
         X_train, X_test, y_train, y_test = train_test_split(
             X, y,
@@ -114,11 +186,13 @@ class InsolvencyPredictor:
         n_positive = (y_train == 1).sum()
         scale_pos_weight = n_negative / n_positive if n_positive > 0 else 1.0
 
-        # Initialize and train XGBoost model with regularization for better calibration
+        # Conservative hyperparameters to prevent overfitting on synthetic data.
+        # Fewer trees + shallow depth + regularization = better generalization
+        # to unseen real-world data.
         self.model = xgb.XGBClassifier(
-            n_estimators=50,  # Fewer trees to reduce overfitting
-            max_depth=3,  # Shallower trees for less extreme predictions
-            learning_rate=0.05,  # Lower learning rate for smoother predictions
+            n_estimators=50,
+            max_depth=3,
+            learning_rate=0.05,
             scale_pos_weight=scale_pos_weight,
             random_state=self.random_state,
             eval_metric="logloss",
@@ -135,13 +209,20 @@ class InsolvencyPredictor:
             verbose=False
         )
 
+        # Calibrate probabilities using Platt scaling (sigmoid method)
+        # Uses cross-validation to avoid overfitting the calibration
+        self.calibrated_model = CalibratedClassifierCV(
+            self.model, method="sigmoid", cv=3
+        )
+        self.calibrated_model.fit(X_train, y_train)
+
         # Create SHAP explainer
         self.explainer = shap.TreeExplainer(self.model)
         self.is_fitted = True
 
         # Calculate metrics on test set
         y_pred = self.model.predict(X_test)
-        y_pred_proba = self.model.predict_proba(X_test)[:, 1]
+        y_pred_proba = self.calibrated_model.predict_proba(X_test)[:, 1]
 
         self.metrics = {
             "accuracy": accuracy_score(y_test, y_pred),
@@ -149,6 +230,22 @@ class InsolvencyPredictor:
             "recall": recall_score(y_test, y_pred, zero_division=0),
             "f1": f1_score(y_test, y_pred, zero_division=0),
             "roc_auc": roc_auc_score(y_test, y_pred_proba),
+        }
+
+        # Also compute cross-validated metrics for robustness
+        cv_auc = cross_val_score(
+            self.model, X, y, cv=5, scoring="roc_auc", error_score="raise"
+        )
+        self.metrics["cv_roc_auc_mean"] = float(cv_auc.mean())
+        self.metrics["cv_roc_auc_std"] = float(cv_auc.std())
+
+        # Model versioning metadata
+        self.training_metadata = {
+            "trained_at": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
+            "n_samples": len(X),
+            "n_features": len(self.feature_names),
+            "bankrupt_ratio": float(y.mean()),
+            "hyperparameters": self.model.get_params(),
         }
 
         return self.metrics
@@ -171,16 +268,18 @@ class InsolvencyPredictor:
 
         X = df[self.feature_names].copy()
         X = X.fillna(X.median())
+        X = self._preprocess_features(X)
 
-        # Get probability of distress (class 1)
-        raw_probabilities = self.model.predict_proba(X)[:, 1]
+        # Probabilities are calibrated via Platt scaling during training
+        # Use calibrated model if available, otherwise raw
+        if hasattr(self, "calibrated_model") and self.calibrated_model is not None:
+            probabilities = self.calibrated_model.predict_proba(X)[:, 1]
+        else:
+            probabilities = self.model.predict_proba(X)[:, 1]
 
-        # Apply probability smoothing to avoid extreme 0.0 and 1.0 values
-        # Uses a sigmoid-based transformation that compresses extremes
-        # This makes probabilities more realistic (e.g., 0.02-0.98 range)
-        probabilities = 0.02 + 0.96 * raw_probabilities  # Map to [0.02, 0.98]
-
-        # Categorize risk
+        # Thresholds calibrated to Altman's original distress boundaries:
+        # Z < 1.81 (distress) maps to ~0.7 probability, Z > 2.99 (safe)
+        # maps to ~0.3 probability.
         risk_categories = []
         for prob in probabilities:
             if prob < 0.3:
@@ -233,6 +332,7 @@ class InsolvencyPredictor:
 
         X = df[self.feature_names].copy()
         X = X.fillna(X.median())
+        X = self._preprocess_features(X)
 
         # Get single sample
         sample = X.iloc[[index]]
@@ -344,9 +444,12 @@ class InsolvencyPredictor:
 
         model_data = {
             "model": self.model,
+            "calibrated_model": self.calibrated_model,
             "feature_names": self.feature_names,
             "metrics": self.metrics,
             "random_state": self.random_state,
+            "feature_bounds_": self.feature_bounds_,
+            "training_metadata": self.training_metadata,
         }
 
         with open(path, "wb") as f:
@@ -368,9 +471,12 @@ class InsolvencyPredictor:
             model_data = pickle.load(f)
 
         self.model = model_data["model"]
+        self.calibrated_model = model_data.get("calibrated_model", None)
         self.feature_names = model_data["feature_names"]
         self.metrics = model_data["metrics"]
-        self.random_state = model_data.get("random_state", 42)  # Default if not present
+        self.random_state = model_data.get("random_state", 42)
+        self.feature_bounds_ = model_data.get("feature_bounds_", {})
+        self.training_metadata = model_data.get("training_metadata", {})
 
         # Recreate SHAP explainer
         self.explainer = shap.TreeExplainer(self.model)

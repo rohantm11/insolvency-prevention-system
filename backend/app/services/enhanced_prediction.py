@@ -126,9 +126,10 @@ class EnhancedPredictionService:
                 print(f"Market intelligence error: {e}")
                 market_adjustment = 0.0
 
-        # Calculate adjusted probability
-        # Formula: adjusted = base + (base * adjustment) + (adjustment * 0.5)
-        # This ensures market conditions affect prediction but don't dominate
+        # Heuristic blending: first term (base * adj * 0.5) scales market impact
+        # proportionally to existing risk. Second term (adj * 0.3) provides
+        # baseline shift. Conservative fixed weights pending calibration
+        # against historical market-to-bankruptcy paired data.
         adjusted_prob = base_prob + (base_prob * market_adjustment * 0.5) + (market_adjustment * 0.3)
         adjusted_prob = max(0.0, min(1.0, adjusted_prob))
 

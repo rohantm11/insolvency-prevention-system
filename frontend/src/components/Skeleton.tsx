@@ -1,16 +1,12 @@
 interface SkeletonProps {
   className?: string;
-  /** Optional: use a fixed height (e.g. "h-4", "h-12") */
   height?: string;
-  /** Optional: use a fixed width (e.g. "w-24", "w-full") */
   width?: string;
-  /** Use "circle" for avatar-style placeholders */
   variant?: 'rect' | 'circle';
 }
 
 /**
- * Skeleton placeholder for loading states.
- * Uses pulse animation to indicate content is loading.
+ * Skeleton placeholder with shimmer effect for premium loading states.
  */
 export default function Skeleton({
   className = '',
@@ -20,7 +16,7 @@ export default function Skeleton({
 }: SkeletonProps) {
   return (
     <div
-      className={`animate-pulse bg-dark-700 ${variant === 'circle' ? 'rounded-full' : 'rounded'} ${height || ''} ${width || ''} ${className}`}
+      className={`skeleton-shimmer ${variant === 'circle' ? 'rounded-full' : 'rounded'} ${height || ''} ${width || ''} ${className}`}
       aria-hidden
     />
   );

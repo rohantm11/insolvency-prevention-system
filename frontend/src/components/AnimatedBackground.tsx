@@ -1,11 +1,13 @@
 import { useEffect, useRef } from 'react';
 
-const NODES_COUNT = 28;
+const NODES_COUNT = 32;
 const GRID_SPACING = 48;
 const DOT_RADIUS = 0.8;
 const DOT_COLOR = 'rgba(0,200,212,0.045)';
-const CONNECT_THRESHOLD = 220;
-const CONNECT_OPACITY_FACTOR = 0.18;
+const CONNECT_THRESHOLD = 260;
+const CONNECT_OPACITY_FACTOR = 0.14;
+const MOUSE_REPEL_RADIUS = 200;
+const MOUSE_REPEL_FORCE = 0.0008;
 const CONNECT_STROKE = '#00c8d4';
 const CONNECT_LINEWIDTH = 0.7;
 const PULSE_SPAWN_INTERVAL = 45;
@@ -189,6 +191,14 @@ export default function AnimatedBackground() {
     let pulses: Pulse[] = [];
     let frameCount = 0;
     let rafId: number;
+    let mouseX = -9999;
+    let mouseY = -9999;
+
+    function handleMouse(e: MouseEvent) {
+      mouseX = e.clientX;
+      mouseY = e.clientY;
+    }
+    window.addEventListener('mousemove', handleMouse);
 
     function setSize() {
       canvasEl.width = width;
@@ -211,6 +221,19 @@ export default function AnimatedBackground() {
       height = window.innerHeight;
 
       for (const node of nodes) {
+        // Mouse repulsion — particles gently scatter from cursor
+        const mdx = node.x - mouseX;
+        const mdy = node.y - mouseY;
+        const mDist = Math.hypot(mdx, mdy);
+        if (mDist < MOUSE_REPEL_RADIUS && mDist > 1) {
+          const force = (1 - mDist / MOUSE_REPEL_RADIUS) * MOUSE_REPEL_FORCE;
+          node.vx += (mdx / mDist) * force * mDist;
+          node.vy += (mdy / mDist) * force * mDist;
+        }
+        // Damping to prevent runaway velocity
+        node.vx *= 0.995;
+        node.vy *= 0.995;
+
         node.x += node.vx;
         node.y += node.vy;
         if (node.x <= 0 || node.x >= width) node.vx *= -1;
@@ -286,6 +309,7 @@ export default function AnimatedBackground() {
     return () => {
       cancelAnimationFrame(rafId);
       window.removeEventListener('resize', onResize);
+      window.removeEventListener('mousemove', handleMouse);
     };
   }, []);
 

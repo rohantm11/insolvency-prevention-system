@@ -64,8 +64,8 @@ export default function AnimatedButton({
       `}
       disabled={isDisabled}
       onClick={handleClick}
-      whileHover={!isDisabled ? { scale: 1.02, boxShadow: '0 0 24px rgba(6, 182, 212, 0.35)' } : undefined}
-      whileTap={!isDisabled ? { scale: 0.98 } : undefined}
+      whileHover={!isDisabled ? { scale: 1.03, y: -1, boxShadow: '0 0 28px rgba(6, 182, 212, 0.35), 0 10px 30px -10px rgba(0,0,0,0.3)' } : undefined}
+      whileTap={!isDisabled ? { scale: 0.97, y: 1, boxShadow: '0 0 10px rgba(6, 182, 212, 0.15)' } : undefined}
     >
       {/* Ripple layers */}
       {ripple && ripples.map((r) => (

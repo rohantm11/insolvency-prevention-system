@@ -298,15 +298,21 @@ def generate_company_data(n_samples: int = 1000, seed: int = 42) -> pd.DataFrame
         "sales_to_total_assets":                    np.round(cat("s_ta"),    4),
         "current_ratio":     np.round(cat("current_ratio"), 4),
         "quick_ratio":       np.round(cat("quick_ratio"),   4),
-        "debt_to_equity":    np.round(np.clip(cat("debt_to_equity"),    -50,  200), 4),
-        "interest_coverage": np.round(np.clip(cat("interest_coverage"), -30,   80), 4),
-        "net_profit_margin": np.round(np.clip(cat("net_profit_margin"), -1.5, 1.5), 4),
-        "return_on_assets":  np.round(np.clip(cat("roa"),               -1.0, 1.0), 4),
-        "return_on_equity":  np.round(np.clip(cat("roe"),               -5.0, 5.0), 4),
+        "debt_to_equity":    np.round(cat("debt_to_equity"), 4),  # clipped per-industry below
+        "interest_coverage": np.round(np.clip(cat("interest_coverage"), -20,   50), 4),
+        "net_profit_margin": np.round(np.clip(cat("net_profit_margin"), -0.8, 0.6), 4),
+        "return_on_assets":  np.round(np.clip(cat("roa"),               -0.5, 0.4), 4),
+        "return_on_equity":  np.round(np.clip(cat("roe"),               -3.0, 3.0), 4),
         "altman_z_score":    np.round(z_scores, 4),
         "is_bankrupt":       is_bankrupt,
         "years_to_bankruptcy": years_to_bankruptcy,
     })
+
+    # Industry-specific D/E clipping: Financial Services firms legitimately
+    # operate at 8-15x leverage; non-financial companies rarely exceed D/E of 15.
+    financial_mask = df["industry"] == "Financial Services"
+    df.loc[~financial_mask, "debt_to_equity"] = df.loc[~financial_mask, "debt_to_equity"].clip(-5, 20)
+    df.loc[financial_mask, "debt_to_equity"] = df.loc[financial_mask, "debt_to_equity"].clip(-5, 40)
 
     df = df.sample(frac=1, random_state=int(seed)).reset_index(drop=True)
     return df
@@ -515,6 +521,32 @@ def validate_company_data(df: pd.DataFrame) -> None:
         violations.append(
             f"  [X] D/E not higher for bankrupt (h={dte_h:.2f}, b={dte_b:.2f})"
         )
+
+    # 4. Debt-to-equity within realistic bounds
+    non_fin = df[df["industry"] != "Financial Services"]
+    max_de = non_fin["debt_to_equity"].max()
+    if max_de > 20:
+        violations.append(f"  [X] Non-financial D/E max is {max_de:.1f}, exceeds 20")
+    else:
+        print(f"  [OK] Non-financial D/E max: {max_de:.1f} (within bounds)")
+
+    # 5. Interest coverage sign should match EBIT sign
+    neg_ebit = df["ebit_to_total_assets"] < 0
+    neg_ic = df["interest_coverage"] < 0
+    mismatched = (neg_ebit & ~neg_ic).sum()
+    if mismatched > len(df) * 0.1:
+        violations.append(f"  [X] {mismatched} rows have negative EBIT but positive IC")
+    else:
+        print(f"  [OK] EBIT/IC sign consistency ({mismatched} mismatches)")
+
+    # 6. Negative WC should correlate with current_ratio < 1
+    neg_wc = df["working_capital_to_total_assets"] < -0.01
+    high_cr = df["current_ratio"] > 1.05
+    contradictions = (neg_wc & high_cr).sum()
+    if contradictions > len(df) * 0.05:
+        violations.append(f"  [X] {contradictions} rows: negative WC but CR > 1")
+    else:
+        print(f"  [OK] WC/CR consistency ({contradictions} contradictions)")
 
     if violations:
         print("\nVALIDATION FAILURES:")

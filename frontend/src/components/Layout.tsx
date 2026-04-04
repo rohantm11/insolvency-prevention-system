@@ -23,19 +23,23 @@ const navItems = [
   { path: '/reports', label: 'Reports' },
 ];
 
-const smoothEase = [0.33, 1, 0.68, 1] as const; // smooth ease-out
+const cinematicEase = [0.22, 1, 0.36, 1] as const; // ease-out-quint for premium feel
 
 const pageVariants = {
-  initial: { opacity: 0.94, y: 6 },
+  initial: { opacity: 0, scale: 0.97, y: 20, filter: 'blur(8px)' },
   animate: {
     opacity: 1,
+    scale: 1,
     y: 0,
-    transition: { duration: 0.42, ease: smoothEase },
+    filter: 'blur(0px)',
+    transition: { duration: 0.5, ease: cinematicEase },
   },
   exit: {
     opacity: 0,
-    y: -6,
-    transition: { duration: 0.24, ease: smoothEase },
+    scale: 1.02,
+    y: -15,
+    filter: 'blur(6px)',
+    transition: { duration: 0.3, ease: cinematicEase },
   },
 };
 
@@ -95,7 +99,7 @@ export default function Layout({ children }: LayoutProps) {
       {/* Full-width main content (no sidebar) - above backgrounds */}
       <div className="flex-1 flex flex-col min-h-screen relative z-10 w-full">
         {/* Header - logo left, page title + actions right */}
-        <header className="h-16 bg-white/80 dark:bg-dark-900/70 border-b border-slate-200/80 dark:border-white/10 backdrop-blur-xl flex items-center justify-between px-4 sm:px-6 sticky top-0 z-30 transition-colors duration-400 ease-out">
+        <header className="h-16 bg-white/80 dark:bg-dark-900/60 border-b border-slate-200/80 dark:border-white/[0.07] backdrop-blur-2xl flex items-center justify-between px-4 sm:px-6 sticky top-0 z-30 transition-colors duration-400 ease-out" style={{ boxShadow: '0 4px 30px rgba(0,0,0,0.1), inset 0 -1px 0 rgba(255,255,255,0.04)' }}>
           <Link to="/" className="flex items-center gap-3 hover:opacity-90 transition-opacity shrink-0" onMouseEnter={() => preloadRoute('/')}>
             <motion.div
               className="w-9 h-9 bg-gradient-to-br from-primary-500 to-accent-500 rounded-xl flex items-center justify-center shadow-lg shadow-primary-500/25"
@@ -136,7 +140,7 @@ export default function Layout({ children }: LayoutProps) {
         {/* Page content — smooth flow transition between routes */}
         <main className={`flex-1 min-h-0 pb-28 overflow-auto relative pt-2 ${isHome ? 'px-0 pb-6' : 'px-6 pb-6'}`}>
           <div className={isHome ? 'min-h-full w-full' : 'max-w-7xl mx-auto min-h-full'}>
-            <AnimatePresence mode="sync" initial={false}>
+            <AnimatePresence mode="wait" initial={false}>
               <motion.div
                 key={location.pathname}
                 variants={pageVariants}

@@ -1,10 +1,10 @@
 /**
  * Floating bottom menu: compact pill that expands when opened.
  * Icons only in bar; label appears on hover (tooltip / slide-in).
- * Futuristic glass + glow styling.
+ * Enhanced glassmorphism + shared layout animation for active indicator.
  */
 import { Link, useLocation } from 'react-router-dom';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion, AnimatePresence, LayoutGroup } from 'framer-motion';
 import { preloadRoute } from '../routes';
 import {
   Home,
@@ -28,6 +28,15 @@ const navItems = [
   { path: '/layoffs', icon: Scissors, label: 'Layoff Simulation' },
   { path: '/reports', icon: FileText, label: 'Reports' },
 ];
+
+const iconVariants = {
+  hidden: { scale: 0, opacity: 0 },
+  visible: (i: number) => ({
+    scale: 1,
+    opacity: 1,
+    transition: { delay: i * 0.04, type: 'spring' as const, stiffness: 400, damping: 22 },
+  }),
+};
 
 export default function FloatingNav() {
   const location = useLocation();
@@ -60,10 +69,10 @@ export default function FloatingNav() {
       <AnimatePresence>
         {expanded && hoveredIndex !== null && (
           <motion.div
-            initial={{ opacity: 0, y: 6 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: 6 }}
-            transition={{ duration: 0.25, ease: [0.33, 1, 0.68, 1] }}
+            initial={{ opacity: 0, y: 6, scale: 0.95 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            exit={{ opacity: 0, y: 6, scale: 0.95 }}
+            transition={{ duration: 0.2, ease: [0.22, 1, 0.36, 1] }}
             className="absolute bottom-full mb-2 px-3 py-1.5 rounded-lg bg-slate-800/95 dark:bg-dark-800/95 text-white text-sm font-medium whitespace-nowrap shadow-xl border border-white/10 backdrop-blur-sm"
           >
             {navItems[hoveredIndex].label}
@@ -74,9 +83,13 @@ export default function FloatingNav() {
 
       {/* Floating pill — expands horizontally when open */}
       <motion.div
-        className="flex items-center overflow-hidden rounded-full bg-white/90 dark:bg-dark-900/90 border border-slate-200/80 dark:border-white/10 shadow-2xl backdrop-blur-xl max-w-[95vw]"
+        className="flex items-center overflow-hidden rounded-full max-w-[95vw]"
         style={{
-          boxShadow: '0 0 40px rgba(6, 182, 212, 0.12), 0 25px 50px -12px rgba(0, 0, 0, 0.15)',
+          background: 'rgba(15, 23, 42, 0.7)',
+          backdropFilter: 'blur(24px) saturate(1.5)',
+          WebkitBackdropFilter: 'blur(24px) saturate(1.5)',
+          border: '1px solid rgba(255,255,255,0.08)',
+          boxShadow: '0 0 50px rgba(6,182,212,0.08), 0 30px 60px -15px rgba(0,0,0,0.3), inset 0 1px 0 rgba(255,255,255,0.06)',
         }}
         initial={false}
         animate={{
@@ -85,55 +98,77 @@ export default function FloatingNav() {
         }}
         transition={{ type: 'spring', stiffness: 260, damping: 26 }}
       >
-        {expanded ? (
-          <>
-            <div className="flex items-center gap-1 py-2 pl-3 pr-2 overflow-x-auto scrollbar-thin">
-              {navItems.map((item, index) => {
-                const isActive = location.pathname === item.path;
-                const Icon = item.icon;
-                return (
-                  <Link
-                    key={item.path}
-                    to={item.path}
-                    onClick={() => setExpanded(false)}
-                    onMouseEnter={() => {
-                      setHoveredIndex(index);
-                      preloadRoute(item.path);
-                    }}
-                    onMouseLeave={() => setHoveredIndex(null)}
-                    className={`relative flex items-center justify-center w-10 h-10 rounded-full transition-all duration-200 ${
-                      isActive
-                        ? 'bg-primary-500 text-white shadow-lg shadow-primary-500/30'
-                        : 'text-slate-500 hover:text-slate-800 hover:bg-slate-200/80 dark:text-dark-300 dark:hover:text-white dark:hover:bg-white/10'
-                    }`}
-                    title={item.label}
-                    aria-label={item.label}
-                  >
-                    <Icon className="w-5 h-5 shrink-0" />
-                  </Link>
-                );
-              })}
-            </div>
-            <button
+        <LayoutGroup>
+          {expanded ? (
+            <>
+              <div className="flex items-center gap-1 py-2 pl-3 pr-2 overflow-x-auto scrollbar-thin">
+                {navItems.map((item, index) => {
+                  const isActive = location.pathname === item.path;
+                  const Icon = item.icon;
+                  return (
+                    <Link
+                      key={item.path}
+                      to={item.path}
+                      onClick={() => setExpanded(false)}
+                      onMouseEnter={() => {
+                        setHoveredIndex(index);
+                        preloadRoute(item.path);
+                      }}
+                      onMouseLeave={() => setHoveredIndex(null)}
+                      className="relative flex items-center justify-center w-10 h-10 rounded-full transition-colors duration-200"
+                      title={item.label}
+                      aria-label={item.label}
+                    >
+                      {/* Shared layout active indicator */}
+                      {isActive && (
+                        <motion.div
+                          layoutId="nav-active-indicator"
+                          className="absolute inset-0 rounded-full bg-primary-500"
+                          style={{ boxShadow: '0 0 20px rgba(6,182,212,0.5)' }}
+                          transition={{ type: 'spring', stiffness: 380, damping: 28 }}
+                        />
+                      )}
+                      <motion.div
+                        custom={index}
+                        variants={iconVariants}
+                        initial="hidden"
+                        animate="visible"
+                        className={`relative z-10 ${
+                          isActive
+                            ? 'text-white'
+                            : 'text-slate-400 hover:text-white'
+                        }`}
+                      >
+                        <Icon className="w-5 h-5 shrink-0" />
+                      </motion.div>
+                    </Link>
+                  );
+                })}
+              </div>
+              <button
+                type="button"
+                onClick={() => setExpanded(false)}
+                className="flex items-center justify-center w-10 h-10 rounded-full mr-2 text-slate-400 hover:text-white hover:bg-white/10 transition-colors"
+                aria-label="Close menu"
+              >
+                <ChevronUp className="w-5 h-5" />
+              </button>
+            </>
+          ) : (
+            <motion.button
               type="button"
-              onClick={() => setExpanded(false)}
-              className="flex items-center justify-center w-10 h-10 rounded-full mr-2 text-slate-500 hover:bg-slate-200/80 hover:text-slate-800 dark:hover:bg-white/10 dark:hover:text-white transition-colors"
-              aria-label="Close menu"
+              onClick={() => setExpanded(true)}
+              className="flex items-center justify-center w-full h-full gap-2 rounded-full text-slate-400 hover:text-primary-400 transition-colors group"
+              aria-label="Open menu"
+              aria-expanded={expanded}
+              /* Gentle floating when collapsed */
+              animate={{ y: [0, -3, 0] }}
+              transition={{ repeat: Infinity, duration: 3, ease: 'easeInOut' }}
             >
-              <ChevronUp className="w-5 h-5" />
-            </button>
-          </>
-        ) : (
-          <button
-            type="button"
-            onClick={() => setExpanded(true)}
-            className="flex items-center justify-center w-full h-full gap-2 rounded-full text-slate-600 dark:text-dark-300 hover:text-primary-500 dark:hover:text-primary-400 transition-colors group"
-            aria-label="Open menu"
-            aria-expanded={expanded}
-          >
-            <Menu className="w-6 h-6 text-primary-500 dark:text-primary-400" />
-          </button>
-        )}
+              <Menu className="w-6 h-6 text-primary-400" />
+            </motion.button>
+          )}
+        </LayoutGroup>
       </motion.div>
 
       {/* Collapsed state: show current page hint */}
@@ -141,8 +176,8 @@ export default function FloatingNav() {
         <motion.span
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
-          transition={{ duration: 0.3, ease: [0.33, 1, 0.68, 1] }}
-          className="text-xs text-slate-500 dark:text-dark-400 font-mono"
+          transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
+          className="text-xs text-dark-400 font-mono"
         >
           {currentLabel}
         </motion.span>

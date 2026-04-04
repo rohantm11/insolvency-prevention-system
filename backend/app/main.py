@@ -6,7 +6,9 @@ import asyncio
 import hashlib
 import io
 import json
+import os as _os
 import sys
+import threading
 import time
 import uuid
 from contextlib import asynccontextmanager
@@ -91,6 +93,7 @@ CACHE_MAX_SIZE = 2000
 # Analysis history for Dashboard (persisted to JSON)
 ANALYSIS_HISTORY_MAX_ENTRIES = 500
 _analysis_history_path: Path | None = None
+_history_lock = threading.Lock()
 
 
 def _get_analysis_history_path() -> Path:
@@ -109,43 +112,45 @@ def _append_analysis(
     payload: dict[str, Any] | None = None,
 ) -> None:
     """Append an analysis entry to history (for Dashboard)."""
-    try:
-        path = _get_analysis_history_path()
-        entries: list[dict] = []
-        if path.exists():
-            with open(path, "r", encoding="utf-8") as f:
-                entries = json.load(f)
-        entry = {
-            "id": str(uuid.uuid4()),
-            "type": analysis_type,
-            "name": name,
-            "result": result,
-            "score": score,
-            "timestamp": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
-            "payload": payload or {},
-        }
-        entries.insert(0, entry)
-        entries = entries[:ANALYSIS_HISTORY_MAX_ENTRIES]
-        with open(path, "w", encoding="utf-8") as f:
-            json.dump(entries, f, indent=2)
-    except Exception:
-        pass
+    with _history_lock:
+        try:
+            path = _get_analysis_history_path()
+            entries: list[dict] = []
+            if path.exists():
+                with open(path, "r", encoding="utf-8") as f:
+                    entries = json.load(f)
+            entry = {
+                "id": str(uuid.uuid4()),
+                "type": analysis_type,
+                "name": name,
+                "result": result,
+                "score": score,
+                "timestamp": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
+                "payload": payload or {},
+            }
+            entries.insert(0, entry)
+            entries = entries[:ANALYSIS_HISTORY_MAX_ENTRIES]
+            with open(path, "w", encoding="utf-8") as f:
+                json.dump(entries, f, indent=2)
+        except Exception:
+            pass
 
 
 def _get_recent_analyses(limit: int = 10) -> list[AnalysisHistoryEntry]:
     """Return most recent analysis entries."""
-    try:
-        path = _get_analysis_history_path()
-        if not path.exists():
+    with _history_lock:
+        try:
+            path = _get_analysis_history_path()
+            if not path.exists():
+                return []
+            with open(path, "r", encoding="utf-8") as f:
+                entries = json.load(f)
+            out = []
+            for e in entries[:limit]:
+                out.append(AnalysisHistoryEntry(**e))
+            return out
+        except Exception:
             return []
-        with open(path, "r", encoding="utf-8") as f:
-            entries = json.load(f)
-        out = []
-        for e in entries[:limit]:
-            out.append(AnalysisHistoryEntry(**e))
-        return out
-    except Exception:
-        return []
 
 
 def _generate_executive_summary(
@@ -357,6 +362,38 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+# Optional API key authentication
+_API_KEY = _os.environ.get("SOLVENCY_API_KEY")
+if _API_KEY:
+    from starlette.middleware.base import BaseHTTPMiddleware
+    from starlette.requests import Request
+    from starlette.responses import JSONResponse as StarletteJSONResponse
+
+    class APIKeyMiddleware(BaseHTTPMiddleware):
+        async def dispatch(self, request: Request, call_next):
+            # Skip auth for health check and root
+            if request.url.path in ("/", "/api/health", "/docs", "/openapi.json", "/redoc"):
+                return await call_next(request)
+            # Skip non-API routes
+            if not request.url.path.startswith("/api/"):
+                return await call_next(request)
+            api_key = request.headers.get("x-api-key")
+            if api_key != _API_KEY:
+                return StarletteJSONResponse(
+                    status_code=401,
+                    content={"error": "Invalid or missing API key"}
+                )
+            return await call_next(request)
+
+    app.add_middleware(APIKeyMiddleware)
+
+
+# Include route modules
+from app.routes import financial_router, employee_router, reports_router
+app.include_router(financial_router)
+app.include_router(employee_router)
+app.include_router(reports_router)
+
 
 # ============================================================================
 # Health Check Endpoints
@@ -428,6 +465,10 @@ async def analyze_company(data: CompanyFinancialData):
 
     try:
         data_dict = data.model_dump()
+
+        # Run accounting identity checks
+        input_warnings = insolvency_model.validate_input(data_dict) if insolvency_model else []
+
         cache_key = _cache_key_from_dict(data_dict)
         cached = _get_cached(cache_key)
         if cached is not None:
@@ -456,6 +497,7 @@ async def analyze_company(data: CompanyFinancialData):
             z_score=float(z_scores["z_score"].iloc[0]),
             z_score_zone=str(z_scores["z_score_zone"].iloc[0]),
             executive_summary=exec_summary,
+            input_warnings=input_warnings,
         )
         explanation_response = InsolvencyExplanation(
             shap_values=convert_numpy_types(explanation["shap_values"]),
