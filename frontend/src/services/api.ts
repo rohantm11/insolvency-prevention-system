@@ -17,6 +17,7 @@ import type {
   FeatureImportanceResponse,
   MarketIntelligenceRequest,
   MarketIntelligenceResponse,
+  CompanyHealthScore,
 } from '../types';
 
 /** Base URL for the backend API, configurable via VITE_API_URL environment variable */
@@ -192,6 +193,47 @@ export const explainFinancialRow = async (
  */
 export const getFinancialFeatureImportance = async (): Promise<FeatureImportanceResponse> => {
   const response = await api.get<FeatureImportanceResponse>('/api/financial/feature-importance');
+  return response.data;
+};
+
+// Model Bridge: Company Health Score
+
+/**
+ * Compute company_health_score from financial data.
+ * Bridges the insolvency model to the employee model.
+ * Formula: health_score = 100 * (1 - probability_of_distress)
+ * @param {CompanyFinancialData} data - Company financial ratios
+ * @returns {Promise<CompanyHealthScore>} Health score with distress details
+ */
+export const getCompanyHealthScore = async (
+  data: CompanyFinancialData
+): Promise<CompanyHealthScore> => {
+  const response = await api.post<CompanyHealthScore>('/api/bridge/company-health-score', data);
+  return response.data;
+};
+
+/**
+ * Upload employee CSV with company_health_score auto-injected into every row.
+ * Bridges insolvency analysis to employee scoring in one step.
+ * @param {File} file - CSV file with employee data
+ * @param {number} companyHealthScore - Health score from insolvency analysis (0-100)
+ * @returns {Promise<EmployeeBulkResponse>} Predictions with health score applied
+ */
+export const uploadEmployeeWithHealth = async (
+  file: File,
+  companyHealthScore: number
+): Promise<EmployeeBulkResponse> => {
+  const formData = new FormData();
+  formData.append('file', file);
+
+  const response = await api.post<EmployeeBulkResponse>(
+    '/api/employee/upload-with-health',
+    formData,
+    {
+      params: { company_health_score: companyHealthScore },
+      headers: { 'Content-Type': 'multipart/form-data' },
+    }
+  );
   return response.data;
 };
 

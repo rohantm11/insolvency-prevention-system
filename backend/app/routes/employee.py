@@ -74,6 +74,7 @@ async def analyze_employee(data: EmployeeData):
             attrition_probability=float(predictions["attrition_probability"].iloc[0]),
             attrition_risk=str(predictions["attrition_risk"].iloc[0]),
             layoff_priority=str(predictions["layoff_priority"].iloc[0]),
+            company_health_score=data.company_health_score,
         )
         explanation_response = EmployeeExplanation(
             shap_values=deps["convert_numpy_types"](explanation["shap_values"]),
@@ -107,6 +108,9 @@ async def upload_employee_data(file: UploadFile = File(...)):
         predictions = raw["predictions"]
         df = raw["df"]
 
+        # Determine the company_health_score used (from CSV column or default)
+        health_scores = df["company_health_score"] if "company_health_score" in df.columns else pd.Series([50.0] * len(df))
+
         results = []
         for i in range(len(df)):
             pred = EmployeePrediction(
@@ -117,6 +121,7 @@ async def upload_employee_data(file: UploadFile = File(...)):
                 attrition_probability=float(predictions["attrition_probability"].iloc[i]),
                 attrition_risk=predictions["attrition_risk"].iloc[i],
                 layoff_priority=predictions["layoff_priority"].iloc[i],
+                company_health_score=float(health_scores.iloc[i]),
             )
             results.append(pred)
 
@@ -265,6 +270,7 @@ async def explain_employee_row(file: UploadFile = File(...), row_index: int = 0)
         predictions = raw["predictions"]
         explanation = deps["convert_numpy_types"](raw["explanation"])
         row_df = raw["row_df"]
+        health_score = float(row_df["company_health_score"].iloc[0]) if "company_health_score" in row_df.columns else 50.0
         prediction = EmployeePrediction(
             employee_id=row_df["employee_id"].iloc[0] if "employee_id" in row_df.columns else "Unknown",
             name=row_df["name"].iloc[0] if "name" in row_df.columns else None,
@@ -273,6 +279,7 @@ async def explain_employee_row(file: UploadFile = File(...), row_index: int = 0)
             attrition_probability=float(predictions["attrition_probability"].iloc[0]),
             attrition_risk=str(predictions["attrition_risk"].iloc[0]),
             layoff_priority=str(predictions["layoff_priority"].iloc[0]),
+            company_health_score=health_score,
         )
         explanation_response = EmployeeExplanation(
             shap_values=deps["convert_numpy_types"](explanation["shap_values"]),

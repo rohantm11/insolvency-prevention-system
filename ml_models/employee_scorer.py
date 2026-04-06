@@ -53,7 +53,11 @@ class EmployeeScorer:
         "distance_from_home",
         "business_travel",
         "over_time",
+        "company_health_score",
     ]
+
+    # Default value for company_health_score when not provided (neutral)
+    DEFAULT_COMPANY_HEALTH_SCORE = 50.0
 
     # Categorical columns requiring encoding
     CATEGORICAL_COLUMNS = [
@@ -126,6 +130,25 @@ class EmployeeScorer:
                         df_encoded[col] = self.label_encoders[col].transform(df_encoded[col])
 
         return df_encoded
+
+    def _ensure_company_health_score(self, df: pd.DataFrame) -> pd.DataFrame:
+        """
+        Ensure company_health_score column exists.
+
+        If the column is missing, fills with the neutral default (50).
+        This makes the feature backward-compatible with CSVs that don't
+        include company health data.
+
+        Args:
+            df: DataFrame that may or may not have company_health_score
+
+        Returns:
+            DataFrame with company_health_score column guaranteed present
+        """
+        if "company_health_score" not in df.columns:
+            df = df.copy()
+            df["company_health_score"] = self.DEFAULT_COMPANY_HEALTH_SCORE
+        return df
 
     def train(
         self,
@@ -235,6 +258,7 @@ class EmployeeScorer:
         if not self.is_fitted or self.model is None:
             raise ValueError("Model must be trained before making predictions")
 
+        df = self._ensure_company_health_score(df)
         X = df[self.feature_names].copy()
         X = self._encode_categorical(X, fit=False)
         X = X.fillna(X.median())
@@ -301,6 +325,7 @@ class EmployeeScorer:
         if not self.is_fitted or self.explainer is None:
             raise ValueError("Model must be trained before explaining predictions")
 
+        df = self._ensure_company_health_score(df)
         X = df[self.feature_names].copy()
         X = self._encode_categorical(X, fit=False)
         X = X.fillna(X.median())

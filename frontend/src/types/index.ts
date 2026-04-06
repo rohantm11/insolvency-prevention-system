@@ -103,6 +103,7 @@ export interface EmployeeData {
   distance_from_home: number;
   business_travel: string;
   over_time: string;
+  company_health_score?: number;
 }
 
 export interface EmployeePrediction {
@@ -113,6 +114,15 @@ export interface EmployeePrediction {
   attrition_probability: number;
   attrition_risk: 'Low' | 'Medium' | 'High';
   layoff_priority: 'Low' | 'Medium' | 'High';
+  company_health_score: number;
+}
+
+export interface CompanyHealthScore {
+  company_health_score: number;
+  probability_of_distress: number;
+  risk_category: string;
+  z_score: number;
+  z_score_zone: string;
 }
 
 export interface EmployeeExplanation {

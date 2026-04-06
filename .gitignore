@@ -48,20 +48,18 @@ env/
 # Logs
 *.log
 
-# Generated data files (bulk CSVs)
-data/*.csv
+# Generated data files (bulk CSVs) - keep core training CSVs for deployment
+data/analysis_history.json
 data/bad/
 data/good/
 data/employees/
-data/analysis_history.json
 
-# ML model artifacts
-*.pkl
+# ML model artifacts (keep .pkl for deployment - models are small ~425KB)
+# *.pkl
 *.joblib
 *.h5
 *.pt
 *.pth
-ml_models/trained_models/
 
 # Binary / generated documents
 *.accdb

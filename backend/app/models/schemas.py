@@ -168,6 +168,12 @@ class EmployeeData(BaseModel):
     business_travel: str = Field(..., description="Non-Travel, Travel_Rarely, or Travel_Frequently")
     over_time: str = Field(..., description="Yes or No")
 
+    # Company financial health integration
+    company_health_score: float = Field(
+        default=50.0, ge=0, le=100,
+        description="Company financial health score (0-100). Derived from insolvency model: 100*(1 - probability_of_distress). Default 50 (neutral) when unknown."
+    )
+
     class Config:
         json_schema_extra = {
             "example": {
@@ -190,7 +196,8 @@ class EmployeeData(BaseModel):
                 "total_working_years": 10,
                 "distance_from_home": 10,
                 "business_travel": "Travel_Rarely",
-                "over_time": "No"
+                "over_time": "No",
+                "company_health_score": 72.5
             }
         }
 
@@ -204,6 +211,7 @@ class EmployeePrediction(BaseModel):
     attrition_probability: float = Field(..., ge=0, le=1)
     attrition_risk: str = Field(..., description="Low, Medium, or High")
     layoff_priority: str = Field(..., description="Low, Medium, or High")
+    company_health_score: float = Field(default=50.0, ge=0, le=100, description="Company health score used for this prediction")
 
 
 class EmployeeExplanation(BaseModel):

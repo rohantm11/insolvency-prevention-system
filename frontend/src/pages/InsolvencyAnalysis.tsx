@@ -13,9 +13,14 @@ import {
   Clock,
   TrendingUp,
   Info,
+  Users,
+  ArrowRight,
+  UserX,
+  UserCheck,
+  X,
 } from 'lucide-react';
-import { analyzeCompany, uploadSingleCompany, uploadFinancialData, generateInsolvencyReport, downloadBlob, downloadCompanyTemplate } from '../services/api';
-import type { CompanyFinancialData, InsolvencyAnalysisResponse, InsolvencyBulkResponse } from '../types';
+import { analyzeCompany, uploadSingleCompany, uploadFinancialData, generateInsolvencyReport, downloadBlob, downloadCompanyTemplate, uploadEmployeeWithHealth } from '../services/api';
+import type { CompanyFinancialData, InsolvencyAnalysisResponse, InsolvencyBulkResponse, EmployeeBulkResponse, EmployeePrediction } from '../types';
 import { RiskGauge, DataTable, FileUpload, LoadingSpinner, Skeleton, AnimatedButton, Tooltip as InfoTooltip, ShapChart } from '../components';
 import { useToast } from '../context/ToastContext';
 import { TOOLTIP_COPY } from '../constants/tooltipCopy';
@@ -56,6 +61,11 @@ export default function InsolvencyAnalysis() {
   const [loading, setLoading] = useState(false);
   const [downloadingReport, setDownloadingReport] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  // Workforce Impact state
+  const [employeeFile, setEmployeeFile] = useState<File | null>(null);
+  const [employeeResult, setEmployeeResult] = useState<EmployeeBulkResponse | null>(null);
+  const [employeeLoading, setEmployeeLoading] = useState(false);
+  const [selectedWorkforceEmployee, setSelectedWorkforceEmployee] = useState<EmployeePrediction | null>(null);
   const toast = useToast();
 
   const handleInputChange = (field: keyof CompanyFinancialData, value: string | number) => {
@@ -163,6 +173,39 @@ export default function InsolvencyAnalysis() {
     setBulkResult(null);
     setSelectedFile(null);
     setError(null);
+    setEmployeeFile(null);
+    setEmployeeResult(null);
+    setSelectedWorkforceEmployee(null);
+  };
+
+  // Derived company health score from insolvency result
+  const companyHealthScore = singleResult
+    ? Math.round(100 * (1 - singleResult.prediction.probability_of_distress) * 100) / 100
+    : null;
+
+  const handleWorkforceAnalysis = async () => {
+    if (!employeeFile || companyHealthScore === null) return;
+    setEmployeeLoading(true);
+    try {
+      const result = await uploadEmployeeWithHealth(employeeFile, companyHealthScore);
+      setEmployeeResult(result);
+      // Store health context for Employee Scoring page
+      localStorage.setItem('solvency-insight-health-context', JSON.stringify({
+        company_health_score: companyHealthScore,
+        company_name: singleResult?.prediction.company_name || 'Unknown',
+        timestamp: Date.now(),
+      }));
+      toast.success(
+        'Workforce Impact Complete',
+        `Analyzed ${result.total_employees} employees with company health score ${companyHealthScore.toFixed(1)}`
+      );
+    } catch (err: any) {
+      const msg = err.response?.data?.detail || err.message || 'Workforce analysis failed';
+      setError(msg);
+      toast.error('Workforce Analysis Failed', msg);
+    } finally {
+      setEmployeeLoading(false);
+    }
   };
 
   return (
@@ -592,6 +635,250 @@ export default function InsolvencyAnalysis() {
         </div>
       )}
 
+      {/* ================================================================ */}
+      {/* Workforce Impact Analysis — bridges insolvency → employee models */}
+      {/* ================================================================ */}
+      {singleResult && !loading && companyHealthScore !== null && (
+        <div className="space-y-4 animate-fade-in">
+          <div className="bg-dark-900 border border-dark-700 rounded-xl p-6 shadow-lg">
+            {/* Header with health score badge */}
+            <div className="flex items-center justify-between flex-wrap gap-4 mb-4">
+              <div className="flex items-center gap-4">
+                <div className="w-12 h-12 bg-purple-500/20 rounded-xl flex items-center justify-center">
+                  <Users className="w-6 h-6 text-purple-400" />
+                </div>
+                <div>
+                  <h2 className="text-xl font-bold text-white flex items-center gap-2">
+                    Workforce Impact Analysis
+                    <ArrowRight className="w-5 h-5 text-dark-500" />
+                    <span className={`text-sm font-medium px-2.5 py-1 rounded-full border ${
+                      companyHealthScore >= 70
+                        ? 'bg-green-500/20 text-green-400 border-green-500/30'
+                        : companyHealthScore >= 40
+                        ? 'bg-yellow-500/20 text-yellow-400 border-yellow-500/30'
+                        : 'bg-red-500/20 text-red-400 border-red-500/30'
+                    }`}>
+                      Health: {companyHealthScore.toFixed(1)}
+                    </span>
+                  </h2>
+                  <p className="text-dark-400 mt-1">
+                    Upload employee data to see how{' '}
+                    {singleResult.prediction.company_name || 'this company'}&apos;s financial{' '}
+                    {singleResult.prediction.risk_category === 'High' ? 'distress' :
+                     singleResult.prediction.risk_category === 'Medium' ? 'uncertainty' : 'health'}{' '}
+                    affects employee attrition predictions
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            {/* Connection explanation */}
+            <div className={`rounded-lg p-3 mb-4 border ${
+              companyHealthScore < 40
+                ? 'bg-red-500/10 border-red-500/20'
+                : companyHealthScore < 70
+                ? 'bg-yellow-500/10 border-yellow-500/20'
+                : 'bg-green-500/10 border-green-500/20'
+            }`}>
+              <p className="text-sm text-dark-300">
+                <span className="font-semibold text-white">Model Integration: </span>
+                The insolvency model computed a distress probability of{' '}
+                <span className="font-medium text-white">
+                  {(singleResult.prediction.probability_of_distress * 100).toFixed(1)}%
+                </span>
+                , which translates to a company health score of{' '}
+                <span className="font-medium text-white">{companyHealthScore.toFixed(1)}/100</span>.
+                {companyHealthScore < 40
+                  ? ' This score will be injected into every employee record, significantly increasing predicted attrition due to pay uncertainty, potential layoffs, and reduced morale.'
+                  : companyHealthScore < 70
+                  ? ' This moderate score will influence employee attrition predictions, reflecting some financial uncertainty.'
+                  : ' This healthy score will positively influence employee retention predictions.'}
+              </p>
+            </div>
+
+            {/* Employee file upload */}
+            <FileUpload
+              onFileSelect={setEmployeeFile}
+              selectedFile={employeeFile}
+              onClear={() => { setEmployeeFile(null); setEmployeeResult(null); }}
+              disabled={employeeLoading}
+            />
+            <div className="flex flex-wrap gap-2 mt-4">
+              <button
+                onClick={handleWorkforceAnalysis}
+                disabled={!employeeFile || employeeLoading}
+                className="btn btn-primary"
+              >
+                {employeeLoading ? 'Analyzing Workforce...' : 'Analyze Workforce Impact'}
+              </button>
+            </div>
+          </div>
+
+          {/* Employee Loading */}
+          {employeeLoading && <LoadingSpinner message="Analyzing workforce with company health context..." />}
+
+          {/* Employee Results */}
+          {employeeResult && !employeeLoading && (
+            <div className="space-y-4 animate-fade-in">
+              {/* Impact banner */}
+              <div className="bg-purple-500/10 border border-purple-500/20 rounded-xl p-4">
+                <p className="text-purple-300 text-sm font-medium">
+                  Company Health Score of {companyHealthScore.toFixed(1)} applied to all{' '}
+                  {employeeResult.total_employees} employees from{' '}
+                  {singleResult.prediction.company_name || 'the analyzed company'}
+                </p>
+              </div>
+
+              {/* Summary stats */}
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                <div className="bg-dark-900 border border-dark-700 rounded-xl p-4">
+                  <div className="flex items-center gap-2 mb-1">
+                    <Users className="w-4 h-4 text-cyan-400" />
+                    <span className="text-xs text-dark-400">Total Employees</span>
+                  </div>
+                  <p className="text-2xl font-bold text-white">{employeeResult.total_employees}</p>
+                </div>
+                <div className="bg-dark-900 border border-red-500/20 rounded-xl p-4">
+                  <div className="flex items-center gap-2 mb-1">
+                    <UserX className="w-4 h-4 text-red-400" />
+                    <span className="text-xs text-dark-400">High Attrition Risk</span>
+                  </div>
+                  <p className="text-2xl font-bold text-red-400">{employeeResult.summary.high_attrition_risk_count}</p>
+                </div>
+                <div className="bg-dark-900 border border-yellow-500/20 rounded-xl p-4">
+                  <div className="flex items-center gap-2 mb-1">
+                    <AlertTriangle className="w-4 h-4 text-yellow-400" />
+                    <span className="text-xs text-dark-400">Medium Risk</span>
+                  </div>
+                  <p className="text-2xl font-bold text-yellow-400">{employeeResult.summary.medium_attrition_risk_count}</p>
+                </div>
+                <div className="bg-dark-900 border border-green-500/20 rounded-xl p-4">
+                  <div className="flex items-center gap-2 mb-1">
+                    <UserCheck className="w-4 h-4 text-green-400" />
+                    <span className="text-xs text-dark-400">Low Risk</span>
+                  </div>
+                  <p className="text-2xl font-bold text-green-400">{employeeResult.summary.low_attrition_risk_count}</p>
+                </div>
+              </div>
+
+              {/* Key metrics */}
+              <div className="grid grid-cols-2 gap-4">
+                <div className="bg-dark-900 border border-dark-700 rounded-xl p-4">
+                  <p className="text-xs text-dark-400 mb-1">Avg. Retention Score</p>
+                  <p className={`text-3xl font-bold ${
+                    employeeResult.summary.avg_retention_score >= 70 ? 'text-green-400' :
+                    employeeResult.summary.avg_retention_score >= 40 ? 'text-yellow-400' : 'text-red-400'
+                  }`}>
+                    {employeeResult.summary.avg_retention_score.toFixed(1)}
+                  </p>
+                </div>
+                <div className="bg-dark-900 border border-dark-700 rounded-xl p-4">
+                  <p className="text-xs text-dark-400 mb-1">Avg. Attrition Probability</p>
+                  <p className={`text-3xl font-bold ${
+                    employeeResult.summary.avg_attrition_probability < 0.3 ? 'text-green-400' :
+                    employeeResult.summary.avg_attrition_probability < 0.6 ? 'text-yellow-400' : 'text-red-400'
+                  }`}>
+                    {(employeeResult.summary.avg_attrition_probability * 100).toFixed(1)}%
+                  </p>
+                </div>
+              </div>
+
+              {/* Employee table */}
+              <div className="bg-dark-900 border border-dark-700 rounded-xl p-6">
+                <h3 className="text-lg font-semibold text-white mb-4">
+                  Employee Risk Breakdown ({employeeResult.total_employees} employees)
+                  <span className="text-dark-400 text-sm font-normal ml-2">Click a row for details</span>
+                </h3>
+                <div className="overflow-x-auto max-h-96">
+                  <table className="w-full">
+                    <thead className="sticky top-0 bg-dark-900">
+                      <tr className="border-b border-dark-700">
+                        <th className="text-left py-3 px-4 text-xs font-semibold text-dark-400 uppercase">ID</th>
+                        <th className="text-left py-3 px-4 text-xs font-semibold text-dark-400 uppercase">Name</th>
+                        <th className="text-left py-3 px-4 text-xs font-semibold text-dark-400 uppercase">Department</th>
+                        <th className="text-left py-3 px-4 text-xs font-semibold text-dark-400 uppercase">Retention</th>
+                        <th className="text-left py-3 px-4 text-xs font-semibold text-dark-400 uppercase">Attrition Risk</th>
+                        <th className="text-left py-3 px-4 text-xs font-semibold text-dark-400 uppercase">Co. Health</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {employeeResult.predictions.slice(0, 50).map((emp, i) => (
+                        <tr key={emp.employee_id || i} className="border-b border-dark-800 hover:bg-dark-800/50 cursor-pointer" onClick={() => setSelectedWorkforceEmployee(emp)}>
+                          <td className="py-2 px-4 text-dark-300 text-sm">{emp.employee_id || '-'}</td>
+                          <td className="py-2 px-4 text-white text-sm font-medium">{emp.name || 'Unknown'}</td>
+                          <td className="py-2 px-4 text-dark-300 text-sm">{emp.department || '-'}</td>
+                          <td className="py-2 px-4">
+                            <div className="flex items-center gap-2">
+                              <div className="w-12 h-1.5 bg-dark-700 rounded-full overflow-hidden">
+                                <div
+                                  className={`h-full rounded-full ${
+                                    emp.retention_score >= 70 ? 'bg-green-500' :
+                                    emp.retention_score >= 40 ? 'bg-yellow-500' : 'bg-red-500'
+                                  }`}
+                                  style={{ width: `${emp.retention_score}%` }}
+                                />
+                              </div>
+                              <span className="text-white text-sm">{emp.retention_score.toFixed(1)}</span>
+                            </div>
+                          </td>
+                          <td className="py-2 px-4">
+                            <span className={`inline-flex items-center rounded-full border px-2 py-0.5 text-xs font-medium ${
+                              emp.attrition_risk === 'High' ? 'bg-red-500/20 text-red-400 border-red-500/30' :
+                              emp.attrition_risk === 'Medium' ? 'bg-yellow-500/20 text-yellow-400 border-yellow-500/30' :
+                              'bg-green-500/20 text-green-400 border-green-500/30'
+                            }`}>
+                              {emp.attrition_risk}
+                            </span>
+                          </td>
+                          <td className="py-2 px-4">
+                            <span className={`text-sm font-medium ${
+                              (emp.company_health_score ?? 50) >= 70 ? 'text-green-400' :
+                              (emp.company_health_score ?? 50) >= 40 ? 'text-yellow-400' : 'text-red-400'
+                            }`}>
+                              {(emp.company_health_score ?? 50).toFixed(0)}
+                            </span>
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                  {employeeResult.predictions.length > 50 && (
+                    <p className="text-dark-500 text-sm text-center mt-3">
+                      Showing first 50 of {employeeResult.predictions.length} employees.{' '}
+                      <a
+                        href="/employees"
+                        onClick={(e) => {
+                          e.preventDefault();
+                          // Pass health score context to Employee Scoring page
+                          localStorage.setItem('solvency-insight-health-context', JSON.stringify({
+                            company_health_score: companyHealthScore,
+                            company_name: singleResult?.prediction.company_name || 'Unknown',
+                            timestamp: Date.now(),
+                          }));
+                          window.location.href = '/employees';
+                        }}
+                        className="text-primary-400 hover:text-primary-300 underline"
+                      >
+                        Open full Employee Scoring
+                      </a>{' '}
+                      with health score pre-applied.
+                    </p>
+                  )}
+                </div>
+              </div>
+            </div>
+          )}
+        </div>
+      )}
+
+      {/* Workforce Employee Detail Modal */}
+      {selectedWorkforceEmployee && (
+        <WorkforceEmployeeModal
+          employee={selectedWorkforceEmployee}
+          onClose={() => setSelectedWorkforceEmployee(null)}
+        />
+      )}
+
       {/* Bulk Result Display */}
       {bulkResult && !loading && (
         <div className="space-y-6 animate-fade-in">
@@ -820,6 +1107,152 @@ function SummaryCard({ label, value, color }: SummaryCardProps) {
     >
       <p className="text-sm text-dark-400">{label}</p>
       <p className="text-2xl font-bold text-white mt-1">{value}</p>
+    </div>
+  );
+}
+
+function WorkforceEmployeeModal({ employee, onClose }: { employee: EmployeePrediction; onClose: () => void }) {
+  const healthScore = employee.company_health_score ?? 50;
+
+  return (
+    <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 p-4">
+      <div className="bg-dark-900 border border-dark-700 rounded-xl shadow-2xl max-w-3xl w-full max-h-[90vh] overflow-hidden">
+        {/* Header */}
+        <div className="flex items-center justify-between p-6 border-b border-dark-700">
+          <div>
+            <h2 className="text-xl font-semibold text-white">
+              {employee.name || 'Employee Details'}
+            </h2>
+            <p className="text-dark-400 text-sm">
+              {employee.employee_id} &bull; {employee.department}
+            </p>
+          </div>
+          <button onClick={onClose} className="p-2 hover:bg-dark-800 rounded-lg transition-colors">
+            <X className="w-5 h-5 text-dark-400" />
+          </button>
+        </div>
+
+        {/* Content */}
+        <div className="p-6 overflow-y-auto max-h-[calc(90vh-80px)]">
+          <div className="space-y-6">
+            {/* Key Metrics */}
+            <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
+              <div className="bg-dark-800/50 rounded-lg p-4 border border-dark-700">
+                <p className="text-xs text-dark-400 mb-1">Retention Score</p>
+                <p className={`text-2xl font-bold ${
+                  employee.retention_score >= 70 ? 'text-green-400' :
+                  employee.retention_score >= 40 ? 'text-yellow-400' : 'text-red-400'
+                }`}>
+                  {employee.retention_score.toFixed(1)}
+                </p>
+              </div>
+              <div className="bg-dark-800/50 rounded-lg p-4 border border-dark-700">
+                <p className="text-xs text-dark-400 mb-1">Attrition Probability</p>
+                <p className="text-2xl font-bold text-white">
+                  {(employee.attrition_probability * 100).toFixed(1)}%
+                </p>
+              </div>
+              <div className="bg-dark-800/50 rounded-lg p-4 border border-dark-700">
+                <p className="text-xs text-dark-400 mb-1">Attrition Risk</p>
+                <RiskBadge risk={employee.attrition_risk} large />
+              </div>
+              <div className="bg-dark-800/50 rounded-lg p-4 border border-dark-700">
+                <p className="text-xs text-dark-400 mb-1">Layoff Priority</p>
+                <RiskBadge risk={employee.layoff_priority} large />
+              </div>
+              <div className="bg-dark-800/50 rounded-lg p-4 border border-dark-700">
+                <p className="text-xs text-dark-400 mb-1">Company Health</p>
+                <p className={`text-2xl font-bold ${
+                  healthScore >= 70 ? 'text-green-400' :
+                  healthScore >= 40 ? 'text-yellow-400' : 'text-red-400'
+                }`}>
+                  {healthScore.toFixed(1)}
+                </p>
+                <p className="text-[10px] text-dark-500 mt-0.5">
+                  {healthScore >= 70 ? 'Healthy' : healthScore >= 40 ? 'At Risk' : 'Distressed'}
+                </p>
+              </div>
+            </div>
+
+            {/* Company Health Impact */}
+            {healthScore !== 50 && (
+              <div className={`rounded-lg p-3 border ${
+                healthScore < 40 ? 'bg-red-500/10 border-red-500/20' :
+                healthScore < 70 ? 'bg-yellow-500/10 border-yellow-500/20' :
+                'bg-green-500/10 border-green-500/20'
+              }`}>
+                <p className="text-sm text-dark-300">
+                  <span className="font-medium text-white">Company Health Factor: </span>
+                  {healthScore < 40
+                    ? 'This employee\'s company is in financial distress, which significantly increases predicted attrition risk due to pay uncertainty, potential layoffs, and reduced morale.'
+                    : healthScore < 70
+                    ? 'The company shows moderate financial health. Some financial uncertainty may be contributing to this employee\'s attrition risk.'
+                    : 'The company is financially healthy, which contributes positively to employee retention.'}
+                </p>
+              </div>
+            )}
+
+            {/* Retention Gauge */}
+            <div className="flex justify-center py-4">
+              <RiskGauge
+                value={employee.retention_score}
+                label="Retention Score"
+                size="lg"
+                showPercentage={true}
+                riskCategory={
+                  employee.retention_score >= 70 ? 'Low' :
+                  employee.retention_score >= 40 ? 'Medium' : 'High'
+                }
+              />
+            </div>
+
+            {/* Recommendations */}
+            <div className="bg-dark-800/30 rounded-lg p-4 border border-dark-700">
+              <h3 className="text-lg font-semibold text-white mb-3">Recommendations</h3>
+              <div className="space-y-2">
+                {employee.attrition_risk === 'High' && (
+                  <>
+                    <RecommendationItem text="Schedule one-on-one meeting to discuss career goals and concerns" priority="high" />
+                    <RecommendationItem text="Review compensation package against market rates" priority="high" />
+                    <RecommendationItem text="Explore opportunities for role expansion or project leadership" priority="medium" />
+                    {healthScore < 40 && (
+                      <RecommendationItem text="Provide transparent communication about company financial recovery plans to reduce uncertainty" priority="high" />
+                    )}
+                  </>
+                )}
+                {employee.attrition_risk === 'Medium' && (
+                  <>
+                    <RecommendationItem text="Check in regularly to monitor job satisfaction" priority="medium" />
+                    <RecommendationItem text="Consider professional development opportunities" priority="medium" />
+                    {healthScore < 40 && (
+                      <RecommendationItem text="Address financial uncertainty concerns proactively to prevent escalation" priority="high" />
+                    )}
+                  </>
+                )}
+                {employee.attrition_risk === 'Low' && (
+                  <>
+                    <RecommendationItem text="Continue current engagement strategies" priority="low" />
+                    <RecommendationItem text="Consider for mentorship or leadership roles" priority="low" />
+                  </>
+                )}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function RecommendationItem({ text, priority }: { text: string; priority: 'high' | 'medium' | 'low' }) {
+  const colors = {
+    high: 'border-red-500/30 bg-red-500/10',
+    medium: 'border-yellow-500/30 bg-yellow-500/10',
+    low: 'border-green-500/30 bg-green-500/10',
+  };
+  return (
+    <div className={`p-3 rounded-lg border ${colors[priority]}`}>
+      <p className="text-dark-200 text-sm">{text}</p>
     </div>
   );
 }

@@ -426,7 +426,7 @@ async def get_recent_analyses(limit: int = 10):
 
 # CSV templates for uploads
 COMPANY_CSV_HEADER = "company_id,company_name,industry,working_capital_to_total_assets,retained_earnings_to_total_assets,ebit_to_total_assets,market_value_equity_to_total_liabilities,sales_to_total_assets,current_ratio,quick_ratio,debt_to_equity,interest_coverage,net_profit_margin,return_on_assets,return_on_equity"
-EMPLOYEE_CSV_HEADER = "employee_id,name,gender,age,department,job_role,job_level,performance_rating,job_satisfaction,job_involvement,environment_satisfaction,monthly_income,percent_salary_hike,stock_option_level,years_at_company,years_in_current_role,total_working_years,distance_from_home,business_travel,over_time"
+EMPLOYEE_CSV_HEADER = "employee_id,name,gender,age,department,job_role,job_level,performance_rating,job_satisfaction,job_involvement,environment_satisfaction,monthly_income,percent_salary_hike,stock_option_level,years_at_company,years_in_current_role,total_working_years,distance_from_home,business_travel,over_time,company_health_score"
 
 
 @app.get("/api/templates/company")
@@ -447,6 +447,118 @@ async def get_employee_csv_template():
         media_type="text/csv",
         headers={"Content-Disposition": "attachment; filename=employee_data_template.csv"},
     )
+
+
+# ============================================================================
+# Model Bridge: Company Health Score
+# ============================================================================
+
+@app.post("/api/bridge/company-health-score")
+async def compute_company_health_score(data: CompanyFinancialData):
+    """
+    Compute a company_health_score (0-100) from financial data.
+
+    This bridges the insolvency and employee models: the insolvency model's
+    distress probability is converted to a health score that can be fed into
+    employee attrition predictions. Formula: health = 100 * (1 - P(distress)).
+
+    Returns:
+        company_health_score: float (0-100)
+        probability_of_distress: float (0-1)
+        risk_category: str
+        z_score: float
+        z_score_zone: str
+    """
+    if not insolvency_model or not insolvency_model.is_fitted:
+        raise HTTPException(status_code=503, detail="Insolvency model not loaded")
+
+    try:
+        data_dict = data.model_dump()
+        # Remove non-feature fields
+        for key in ("company_id", "company_name"):
+            data_dict.pop(key, None)
+
+        df = pd.DataFrame([data_dict])
+        predictions = insolvency_model.predict(df)
+        z_scores = insolvency_model.calculate_altman_zscore(df)
+
+        prob_distress = float(predictions["probability_of_distress"].iloc[0])
+        health_score = round(100.0 * (1.0 - prob_distress), 2)
+
+        return {
+            "company_health_score": health_score,
+            "probability_of_distress": prob_distress,
+            "risk_category": str(predictions["risk_category"].iloc[0]),
+            "z_score": float(z_scores["z_score"].iloc[0]),
+            "z_score_zone": str(z_scores["z_score_zone"].iloc[0]),
+        }
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Health score computation failed: {str(e)}")
+
+
+@app.post("/api/employee/upload-with-health", response_model=EmployeeBulkResponse)
+async def upload_employee_with_health(
+    company_health_score: float,
+    file: UploadFile = File(...),
+):
+    """
+    Upload employee CSV with a company_health_score injected into every row.
+
+    This bridges insolvency analysis to employee scoring: the caller provides
+    the company_health_score (derived from insolvency model), and this endpoint
+    injects it before running predictions. Any existing company_health_score
+    column in the CSV is overwritten.
+    """
+    if not employee_model or not employee_model.is_fitted:
+        raise HTTPException(status_code=503, detail="Employee model not loaded")
+    if not file.filename.endswith(".csv"):
+        raise HTTPException(status_code=400, detail="File must be a CSV")
+
+    try:
+        contents = await file.read()
+        df = pd.read_csv(io.BytesIO(contents))
+        df["company_health_score"] = float(company_health_score)
+
+        raw = await asyncio.to_thread(_sync_upload_employee_bulk, df)
+        predictions = raw["predictions"]
+        df = raw["df"]
+
+        results = []
+        for i in range(len(df)):
+            pred = EmployeePrediction(
+                employee_id=df["employee_id"].iloc[i] if "employee_id" in df.columns else f"Employee_{i+1}",
+                name=df["name"].iloc[i] if "name" in df.columns else None,
+                department=df["department"].iloc[i] if "department" in df.columns else None,
+                retention_score=float(predictions["retention_score"].iloc[i]),
+                attrition_probability=float(predictions["attrition_probability"].iloc[i]),
+                attrition_risk=predictions["attrition_risk"].iloc[i],
+                layoff_priority=predictions["layoff_priority"].iloc[i],
+                company_health_score=float(company_health_score),
+            )
+            results.append(pred)
+
+        summary = {
+            "high_attrition_risk_count": len([r for r in results if r.attrition_risk == "High"]),
+            "medium_attrition_risk_count": len([r for r in results if r.attrition_risk == "Medium"]),
+            "low_attrition_risk_count": len([r for r in results if r.attrition_risk == "Low"]),
+            "avg_retention_score": float(predictions["retention_score"].mean()),
+            "avg_attrition_probability": float(predictions["attrition_probability"].mean()),
+            "high_layoff_priority_count": len([r for r in results if r.layoff_priority == "High"]),
+        }
+
+        _append_analysis(
+            "Employee Scoring",
+            f"Workforce Impact ({len(results)} employees, health={company_health_score:.0f})",
+            f"{summary['high_attrition_risk_count']} High / {summary['low_attrition_risk_count']} Low Risk",
+            f"Avg retention {summary['avg_retention_score']:.1f}",
+            {"total_employees": len(results), "company_health_score": company_health_score},
+        )
+        return EmployeeBulkResponse(total_employees=len(results), predictions=results, summary=summary)
+
+    except HTTPException:
+        raise
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Upload with health score failed: {str(e)}")
 
 
 # ============================================================================
@@ -759,6 +871,7 @@ async def analyze_employee(data: EmployeeData):
             attrition_probability=float(predictions["attrition_probability"].iloc[0]),
             attrition_risk=str(predictions["attrition_risk"].iloc[0]),
             layoff_priority=str(predictions["layoff_priority"].iloc[0]),
+            company_health_score=data.company_health_score,
         )
         explanation_response = EmployeeExplanation(
             shap_values=convert_numpy_types(explanation["shap_values"]),
@@ -794,6 +907,7 @@ async def upload_employee_data(file: UploadFile = File(...)):
         df = raw["df"]
 
         # Build response
+        health_scores = df["company_health_score"] if "company_health_score" in df.columns else pd.Series([50.0] * len(df))
         results = []
         for i in range(len(df)):
             pred = EmployeePrediction(
@@ -804,6 +918,7 @@ async def upload_employee_data(file: UploadFile = File(...)):
                 attrition_probability=float(predictions["attrition_probability"].iloc[i]),
                 attrition_risk=predictions["attrition_risk"].iloc[i],
                 layoff_priority=predictions["layoff_priority"].iloc[i],
+                company_health_score=float(health_scores.iloc[i]),
             )
             results.append(pred)
 
@@ -974,6 +1089,7 @@ async def explain_employee_row(
         predictions = raw["predictions"]
         explanation = convert_numpy_types(raw["explanation"])
         row_df = raw["row_df"]
+        health_score = float(row_df["company_health_score"].iloc[0]) if "company_health_score" in row_df.columns else 50.0
         prediction = EmployeePrediction(
             employee_id=row_df["employee_id"].iloc[0] if "employee_id" in row_df.columns else "Unknown",
             name=row_df["name"].iloc[0] if "name" in row_df.columns else None,
@@ -982,6 +1098,7 @@ async def explain_employee_row(
             attrition_probability=float(predictions["attrition_probability"].iloc[0]),
             attrition_risk=str(predictions["attrition_risk"].iloc[0]),
             layoff_priority=str(predictions["layoff_priority"].iloc[0]),
+            company_health_score=health_score,
         )
         explanation_response = EmployeeExplanation(
             shap_values=convert_numpy_types(explanation["shap_values"]),

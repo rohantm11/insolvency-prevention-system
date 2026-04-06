@@ -1,11 +1,12 @@
 import { Link, useLocation } from 'react-router-dom';
-import { AnimatePresence, motion } from 'framer-motion';
+import { motion } from 'framer-motion';
 import { Player } from '@remotion/player';
-import { Activity, Sun, Moon } from 'lucide-react';
+import { Activity, Sun, Moon, LogOut, User } from 'lucide-react';
 import AnimatedBackground from './AnimatedBackground';
 import CustomCursor from './CustomCursor';
 import FloatingNav from './FloatingNav';
 import { useTheme } from '../context/ThemeContext';
+import { useAuth } from '../context/AuthContext';
 import { preloadRoute } from '../routes';
 import { BackgroundVideo } from '../remotion';
 
@@ -25,23 +26,10 @@ const navItems = [
 
 const cinematicEase = [0.22, 1, 0.36, 1] as const;
 
-const pageVariants = {
-  initial: { opacity: 0, y: 16 },
-  animate: {
-    opacity: 1,
-    y: 0,
-    transition: { duration: 0.35, ease: cinematicEase },
-  },
-  exit: {
-    opacity: 0,
-    y: -8,
-    transition: { duration: 0.15, ease: cinematicEase },
-  },
-};
-
 export default function Layout({ children }: LayoutProps) {
   const location = useLocation();
   const { theme, toggleTheme } = useTheme();
+  const { user, logout } = useAuth();
   const isHome = location.pathname === '/';
 
   return (
@@ -113,7 +101,13 @@ export default function Layout({ children }: LayoutProps) {
             </h1>
           </div>
 
-          <div className="flex items-center gap-4">
+          <div className="flex items-center gap-3">
+            {user && (
+              <div className="hidden md:flex items-center gap-2 px-3 py-1.5 bg-primary-500/10 border border-primary-500/20 rounded-lg">
+                <User className="w-3.5 h-3.5 text-primary-400" />
+                <span className="text-xs font-medium text-primary-300 max-w-[120px] truncate">{user.name}</span>
+              </div>
+            )}
             <button
               type="button"
               onClick={toggleTheme}
@@ -122,7 +116,18 @@ export default function Layout({ children }: LayoutProps) {
             >
               {theme === 'dark' ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />}
             </button>
-            <div className="flex items-center gap-2">
+            {user && (
+              <button
+                type="button"
+                onClick={logout}
+                className="p-2 rounded-lg text-dark-400 hover:text-red-400 hover:bg-red-500/10 transition-colors"
+                aria-label="Log out"
+                title="Log out"
+              >
+                <LogOut className="w-4 h-4" />
+              </button>
+            )}
+            <div className="hidden sm:flex items-center gap-2">
               <motion.div
                 className="w-2 h-2 rounded-full bg-green-500"
                 animate={{ opacity: [1, 0.55, 1] }}
@@ -134,28 +139,24 @@ export default function Layout({ children }: LayoutProps) {
         </header>
 
         {/* Page content — smooth flow transition between routes */}
-        <main className={`flex-1 min-h-0 pb-28 overflow-auto relative pt-2 ${isHome ? 'px-0 pb-6' : 'px-6 pb-6'}`} style={{ willChange: 'scroll-position', WebkitOverflowScrolling: 'touch' }}>
+        <main className={`flex-1 min-h-0 pb-28 overflow-auto relative ${isHome ? 'px-0 pb-6 pt-2' : 'px-6 pb-6'}`} style={{ willChange: 'scroll-position', WebkitOverflowScrolling: 'touch' }}>
           <div className={isHome ? 'min-h-full w-full' : 'max-w-7xl mx-auto min-h-full'}>
-            <AnimatePresence mode="sync" initial={false}>
-              <motion.div
-                key={location.pathname}
-                variants={pageVariants}
-                initial="initial"
-                animate="animate"
-                exit="exit"
-                className="min-h-full"
-              >
-                {children}
-                {/* Footer at very end of page */}
-                <footer className="mt-16 pt-8 border-t border-slate-200 dark:border-dark-800 text-center">
-                  <div className="text-xs text-slate-500 dark:text-dark-500">
-                    SolvencyInsight
-                    <br />
-                    v1.0.0
-                  </div>
-                </footer>
-              </motion.div>
-            </AnimatePresence>
+            <motion.div
+              key={location.pathname}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 0.25, ease: cinematicEase }}
+              className="min-h-full"
+            >
+              {children}
+              <footer className="mt-16 pt-8 border-t border-slate-200 dark:border-dark-800 text-center">
+                <div className="text-xs text-slate-500 dark:text-dark-500">
+                  SolvencyInsight
+                  <br />
+                  v1.0.0
+                </div>
+              </footer>
+            </motion.div>
           </div>
         </main>
 

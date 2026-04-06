@@ -3,7 +3,7 @@
  * Provides bulk CSV analysis for employee attrition risk and retention scoring.
  */
 
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useEffect } from 'react';
 import {
   Users,
   AlertTriangle,
@@ -29,7 +29,7 @@ import {
   PieChart,
   Pie,
 } from 'recharts';
-import { uploadEmployeeData, downloadEmployeeTemplate } from '../services/api';
+import { uploadEmployeeData, uploadEmployeeWithHealth, downloadEmployeeTemplate } from '../services/api';
 import type { EmployeeBulkResponse, EmployeePrediction } from '../types';
 import { RiskGauge, FileUpload, LoadingSpinner } from '../components';
 import { useToast } from '../context/ToastContext';
@@ -48,18 +48,40 @@ export default function EmployeeScoring() {
   const [error, setError] = useState<string | null>(null);
   const [selectedEmployee, setSelectedEmployee] = useState<EmployeePrediction | null>(null);
   const [loadingDetail, setLoadingDetail] = useState(false);
+  const [healthContext, setHealthContext] = useState<{ company_health_score: number; company_name: string } | null>(null);
   const toast = useToast();
+
+  // Read company health context from Insolvency Analysis (if available)
+  useEffect(() => {
+    try {
+      const raw = localStorage.getItem('solvency-insight-health-context');
+      if (raw) {
+        const ctx = JSON.parse(raw);
+        // Only use if less than 1 hour old
+        if (ctx.timestamp && Date.now() - ctx.timestamp < 3600000) {
+          setHealthContext({ company_health_score: ctx.company_health_score, company_name: ctx.company_name });
+        }
+      }
+    } catch { /* ignore */ }
+  }, []);
+
+  const clearHealthContext = () => {
+    setHealthContext(null);
+    localStorage.removeItem('solvency-insight-health-context');
+  };
 
   const handleBulkAnalysis = async () => {
     if (!selectedFile) return;
     setLoading(true);
     setError(null);
     try {
-      const result = await uploadEmployeeData(selectedFile);
+      const result = healthContext
+        ? await uploadEmployeeWithHealth(selectedFile, healthContext.company_health_score)
+        : await uploadEmployeeData(selectedFile);
       setBulkResult(result);
       toast.success(
         'Bulk Analysis Complete',
-        `Analyzed ${result.total_employees} employees - Avg retention: ${result.summary.avg_retention_score.toFixed(1)}`
+        `Analyzed ${result.total_employees} employees${healthContext ? ` with health score ${healthContext.company_health_score.toFixed(1)}` : ''} - Avg retention: ${result.summary.avg_retention_score.toFixed(1)}`
       );
     } catch (err: any) {
       const errorMessage = err.response?.data?.detail || err.message || 'Upload failed';
@@ -143,6 +165,38 @@ export default function EmployeeScoring() {
         </div>
       )}
 
+      {/* Company Health Context Banner */}
+      {healthContext && (
+        <div className={`rounded-xl p-4 border flex items-center justify-between flex-wrap gap-3 ${
+          healthContext.company_health_score < 40
+            ? 'bg-red-500/10 border-red-500/20'
+            : healthContext.company_health_score < 70
+            ? 'bg-yellow-500/10 border-yellow-500/20'
+            : 'bg-green-500/10 border-green-500/20'
+        }`}>
+          <div className="flex items-center gap-3">
+            <Building className="w-5 h-5 text-purple-400 flex-shrink-0" />
+            <div>
+              <p className="text-white text-sm font-medium">
+                Company Health Score: {healthContext.company_health_score.toFixed(1)}/100
+                <span className="ml-2 text-dark-400">from {healthContext.company_name}</span>
+              </p>
+              <p className="text-dark-400 text-xs">
+                This score will be auto-injected into all employee predictions.
+                {healthContext.company_health_score < 40
+                  ? ' Employees will show elevated attrition risk due to company financial distress.'
+                  : healthContext.company_health_score < 70
+                  ? ' Moderate company health will influence attrition predictions.'
+                  : ' Healthy company finances will positively influence retention.'}
+              </p>
+            </div>
+          </div>
+          <button onClick={clearHealthContext} className="btn btn-ghost btn-sm text-dark-400 hover:text-white">
+            Clear
+          </button>
+        </div>
+      )}
+
       {/* Upload Section */}
       <div className="card">
         <h3 className="card-header">Upload Employee Data</h3>
@@ -156,7 +210,8 @@ export default function EmployeeScoring() {
           CSV must contain columns: employee_id, name, department, age, gender, job_role, job_level,
           performance_rating, job_satisfaction, job_involvement, environment_satisfaction, monthly_income,
           percent_salary_hike, stock_option_level, years_at_company, years_in_current_role,
-          total_working_years, distance_from_home, business_travel, over_time
+          total_working_years, distance_from_home, business_travel, over_time.
+          <span className="text-primary-400"> Optional: company_health_score</span> (0-100, from insolvency analysis) — links company financial health to attrition predictions.
         </p>
         <div className="flex flex-wrap gap-2 mt-4">
           <button
@@ -499,6 +554,14 @@ function EmployeeDataTable({ data, onRowClick }: EmployeeDataTableProps) {
                   Layoff Priority <SortIcon column="layoff_priority" />
                 </div>
               </th>
+              <th
+                className="text-left py-3 px-4 text-xs font-semibold text-dark-400 uppercase tracking-wider cursor-pointer hover:text-white"
+                onClick={() => handleSort('company_health_score')}
+              >
+                <div className="flex items-center gap-1">
+                  Co. Health <SortIcon column="company_health_score" />
+                </div>
+              </th>
             </tr>
           </thead>
           <tbody>
@@ -541,6 +604,17 @@ function EmployeeDataTable({ data, onRowClick }: EmployeeDataTableProps) {
                 </td>
                 <td className="py-3 px-4">
                   <RiskBadge risk={employee.layoff_priority} />
+                </td>
+                <td className="py-3 px-4">
+                  <span className={`text-sm font-medium ${
+                    ((employee.company_health_score ?? 50) ?? 50) >= 70
+                      ? 'text-green-400'
+                      : ((employee.company_health_score ?? 50) ?? 50) >= 40
+                      ? 'text-yellow-400'
+                      : 'text-red-400'
+                  }`}>
+                    {((employee.company_health_score ?? 50) ?? 50).toFixed(0)}
+                  </span>
                 </td>
               </tr>
             ))}
@@ -639,7 +713,7 @@ function EmployeeDetailModal({ employee, loading, onClose }: EmployeeDetailModal
           ) : (
             <div className="space-y-6">
               {/* Key Metrics */}
-              <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+              <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
                 <div className="bg-dark-800/50 rounded-lg p-4 border border-dark-700">
                   <p className="text-xs text-dark-400 mb-1">Retention Score</p>
                   <p className={`text-2xl font-bold ${
@@ -666,7 +740,42 @@ function EmployeeDetailModal({ employee, loading, onClose }: EmployeeDetailModal
                   <p className="text-xs text-dark-400 mb-1">Layoff Priority</p>
                   <RiskBadge risk={employee.layoff_priority} large />
                 </div>
+                <div className="bg-dark-800/50 rounded-lg p-4 border border-dark-700">
+                  <p className="text-xs text-dark-400 mb-1">Company Health</p>
+                  <p className={`text-2xl font-bold ${
+                    (employee.company_health_score ?? 50) >= 70
+                      ? 'text-green-400'
+                      : (employee.company_health_score ?? 50) >= 40
+                      ? 'text-yellow-400'
+                      : 'text-red-400'
+                  }`}>
+                    {(employee.company_health_score ?? 50).toFixed(1)}
+                  </p>
+                  <p className="text-[10px] text-dark-500 mt-0.5">
+                    {(employee.company_health_score ?? 50) >= 70 ? 'Healthy' : (employee.company_health_score ?? 50) >= 40 ? 'At Risk' : 'Distressed'}
+                  </p>
+                </div>
               </div>
+
+              {/* Company Health Integration Notice */}
+              {(employee.company_health_score ?? 50) !== 50 && (
+                <div className={`rounded-lg p-3 border ${
+                  (employee.company_health_score ?? 50) < 40
+                    ? 'bg-red-500/10 border-red-500/20'
+                    : (employee.company_health_score ?? 50) < 70
+                    ? 'bg-yellow-500/10 border-yellow-500/20'
+                    : 'bg-green-500/10 border-green-500/20'
+                }`}>
+                  <p className="text-sm text-dark-300">
+                    <span className="font-medium text-white">Company Health Factor: </span>
+                    {(employee.company_health_score ?? 50) < 40
+                      ? 'This employee\'s company is in financial distress, which significantly increases predicted attrition risk due to pay uncertainty, potential layoffs, and reduced morale.'
+                      : (employee.company_health_score ?? 50) < 70
+                      ? 'The company shows moderate financial health. Some financial uncertainty may be contributing to this employee\'s attrition risk.'
+                      : 'The company is financially healthy, which contributes positively to employee retention.'}
+                  </p>
+                </div>
+              )}
 
               {/* Retention Score Gauge */}
               <div className="flex justify-center py-4">
